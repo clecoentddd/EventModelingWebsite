@@ -1,0 +1,249 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  background-color: #fff;
+  color: #2b2b2b;
+  font-size: 15px;
+}
+
+/* Header */
+header {
+  background: linear-gradient(135deg, #96b8f3, #f6f68b); /* blue-gray to brown-gray */
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-bottom: 3px solid #8c7b6b; /* subtle brown underline */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding-bottom: 0.2rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover {
+  color: #3a4b63;           /* navy-blue accent */
+  border-bottom: 2px solid #3a4b63;
+}
+
+/* Main */
+main {
+  max-width: 860px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+
+/* Sections */
+section {
+  margin-bottom: 1.8rem;
+}
+
+section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: #3a4b63; /* blue-gray headings */
+}
+
+p, li {
+  margin-bottom: 0.6rem;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+/* Lists */
+ul {
+  padding-left: 1.2rem;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+/* Buttons */
+button {
+  padding: 0.45rem 1rem;
+  background-color: #3a4b63; /* dark blue-gray */
+  color: #fff;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background-color: #2a3747;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.8rem;
+  color: #666;
+  border-top: 1px solid #e6e6e6;
+  margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  section h2 {
+    font-size: 1.05rem;
+  }
+}
+
+/* --- Sidebar specific styles --- */
+
+/* Container to hold main content + optional sidebar */
+.main-with-sidebar {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Only applies to pages with sidebar */
+.main-with-sidebar {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Keep existing sections vertical */
+.main-with-sidebar .main-content {
+  flex: 1;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 250px;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-left: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  color: #3a4b63;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 0.5rem 0;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #007acc;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 800px) {
+  .main-with-sidebar {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    margin-top: 1rem;
+  }
+}
+
+
+.steps-list {
+  margin-left: 1.2rem;
+  padding-left: 1rem;
+  list-style: decimal inside;
+  color: #2b2b2b;
+  line-height: 1.5;
+}
+
+.steps-list li {
+  margin-bottom: 0.8rem;
+  padding: 0.2rem 0;
+  border-left: 3px solid #daa1cb;  /* subtle left accent line */
+  padding-left: 0.6rem;
+  background-color: #f9f9f9;        /* optional subtle background */
+  border-radius: 3px;               /* soft corners */
+}
+
+
+.event-features {
+  list-style: disc inside;
+  margin-left: 1rem;
+  padding-left: 0;
+  line-height: 1.5;
+}
+
+.event-features > li {
+  margin-bottom: 1rem;
+  font-weight: 600; /* makes main point stand out */
+}
+
+.event-features li ul {
+  list-style: circle inside;
+  margin-top: 0.3rem;
+  margin-left: 1rem;
+  font-weight: 400;
+}
+
+.cropped-image {
+  width: 100%; /* Ou toute autre largeur désirée */
+  height: 300px; /* Exemple: Définissez une hauteur fixe pour afficher les 2/3 */
+                 /* Vous devrez ajuster cette valeur pour qu'elle corresponde aux 2/3 de votre image */
+  object-fit: cover; /* Recadre l'image pour remplir le conteneur tout en conservant les proportions */
+  object-position: top; /* Positionne le haut de l'image dans le conteneur */
+}

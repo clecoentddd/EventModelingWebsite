@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 10 Steps</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+    <section>
+      <h2>Overview</h2>
+      <p>
+        ToDo List Pattern est simple... Mais j'ai mis du temps à le comprendre et à l'appliquer.
+        Et c'est un pattern très puissant: à la fois pour éviter de perdre des messages à traiter mais également pour construire des workflows (sagas).
+      </p>
+    </section>
+
+    <section>
+      <h2>Quelques explications</h2>
+
+      <!-- Sequential slides -->
+      <img src="images/ToDoList/Slide2.JPG" alt="Step 2">
+      <img src="images/ToDoList/Slide3.JPG" alt="Step 3">
+      <img src="images/ToDoList/Slide4.JPG" alt="Step 4">
+      <img src="images/ToDoList/Slide5.JPG" alt="Step 5">
+      <img src="images/ToDoList/Slide6.JPG" alt="Step 6">
+   </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etat versus Evements: richesse de l'information, pour le future et le passé</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+    <section>
+      <h2>Vue d'ensemble</h2>
+      <p>
+        Ci-dessous, rappelons le modèle relationnel et comparons avec Event Sourcing. 
+        Dans la 1er cas, la source des données sont des tables relationnelles avec les opérations CRUD: créer de nouvelles données, les lire, les mettre à jour et les supprimer. 
+        En event sourcing, les données sont des évènements immuables (vous ne pouvez pas les modifier) et s'ajoutent les uns après les autres ("append").
+      </p>
+    </section>
+
+    <section>
+      <h2>Etats vs Evènements: la quantité d'information en fait sa qualité</h2>
+
+      <!-- Sequential slides -->
+      <img src="images/EtatsVersusEvenements/Slide1.JPG" alt="Données relationnelles">
+      <img src="images/EtatsVersusEvenements/Slide2.JPG" alt="Evènements">
+       <img class="cropped-image" src="images/EtatsVersusEvenements/Slide3.JPG" alt="Historique des états">
+    </section>
+
+    <section>
+<ul class="event-features">
+  <li>
+    Les données ont du contexte: «il habite à Genève car il a changé d’adresse»
+    <ul>
+      <li>En termes de données analytiques (BI, IA, Auditing, etc.), force est de constater que nous avons (+) plus de «données»; et également, nous ne supprimons ou ne remplaçons aucun donnée: on n’ajoute que des évènements.</li>
+    </ul>
+  </li>
+  <li>
+    Permettent de reconstituer l’état
+    <ul>
+      <li>Simplement, «rejouer» les évènements dans l’ordre chronologique</li>
+    </ul>
+  </li>
+  <li>
+    Permettent de revenir dans le passé
+    <ul>
+      <li>Connaitre quelle était l’état de la personne à un instant T</li>
+    </ul>
+  </li>
+  <li>
+    Ce sont également des logs et de l’audit
+    <ul>
+      <li>Tous les évènements sont tracés</li>
+    </ul>
+  </li>
+  <li>
+    Pas de notion de modèle de données
+    <ul>
+      <li>Une notion de «stream» d’évènements appartenant à la personne, son id.</li>
+    </ul>
+  </li>
+</ul>
+</section>
+  </main>
+
+
+
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>

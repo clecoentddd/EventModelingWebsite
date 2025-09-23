@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etat versus Evements: richesse de l'information, pour le future et le passé</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+    <section>
+      <h2>Le premier modèle</h2>
+      <p>
+        Il s'agit de faire un simple espresso avec une machine automatique.
+        L'utilisateur sélectionne sa boisson - pour ce chapitre, cette histoire-là, on a choisit un espresso.
+        Café, Latte, Capuccino, etc. sont d'autres chapitres car ce sont ces processus différents.
+        L'espresso est préparé. 
+    </p>
+    </section>
+
+    <section>
+      <h2>Le chapitre - Préparation d'un espresso</h2>
+
+      <!-- Sequential slides -->
+      <img src="images/5_elements/Slide2.JPG" alt="Un processus simple">
+    </section>
+
+        <section>
+      <h2>Regardons de plus près</h2>
+
+      <!-- Sequential slides -->
+      <img src="images/5_elements/Slide3.JPG" alt="Un processus simple">
+
+      <h2>Analysons</h2>
+      <p>Nous avons 4 pas: le terme est "slices" :</p>
+<ol class="steps-list">
+  <li>C'est un changement d'état du système - un espresso est commandé à 10h53 - C'est un fait</li>
+  <li>C'est l'état du système - un espresso a été commandé; la décision à prendre est de la préparer</li>
+  <li>C'est un changement d'état du système via une automatisation - l'espresso a été préparé à 10h54 - C'est un fait</li>
+  <li>C'est l'état du système - un espresso peut être maintenant consommé</li>
+</ol>
+<h2>Nous avons utilisé 3 des 4 patterns d'Event Modeling (Changement d'état, vue de l'état, automatisation)</h2>
+<p>Pour en savoir plus sur les 4 patterns, consultez la page 
+   <a href="4-patterns.html">4-patterns</a>.
+</p>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rôle d'un Business Analyste</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+    <div id="header"></div>
+    <div id="nav"></div>
+
+  <main>
+    <section>
+      <h1>Rôle d'un Business Analyste</h1>
+      <h2>Introduction</h2>
+      <p>
+        Un Business Analyste (BA) joue un rôle clé dans la réussite d'un projet. Il agit comme le lien entre les parties prenantes et l'équipe technique, 
+        recueillant les besoins, les analysant et les traduisant en solutions concrètes.
+      </p>
+      <img src="images/Role BA.JPG" alt="Rôle d'un Business Analyste">
+    </section>
+
+    <section>
+      <h2>Responsabilités principales</h2>
+      <ul>
+        <li>Recueillir et analyser les besoins des utilisateurs et des parties prenantes.</li>
+        <li>Documenter les exigences fonctionnelles et techniques.</li>
+        <li>Collaborer avec les équipes de développement pour s'assurer que la solution correspond aux besoins.</li>
+        <li>Assurer la qualité et la conformité des livrables.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Compétences clés</h2>
+      <p>
+        Un BA efficace possède de solides compétences en communication, en analyse, en résolution de problèmes et une bonne compréhension du domaine 
+        métier dans lequel il travaille.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 My Independent Website
+  </footer>
+
+  <script>
+  ["header","nav"].forEach(id => {
+    fetch(id + ".html")
+      .then(res => res.text())
+      .then(data => document.getElementById(id).innerHTML = data)
+      .catch(err => console.error(`Could not load ${id}.html:`, err));
+  });
+</script>
+
+</body>
+</html>

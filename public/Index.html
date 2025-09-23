@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site français dédié à Event Modeling - Event Sourcing (CQRS) - Vertical Slice Architecture</title>
+  <link rel="stylesheet" href="global.css">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <div id="header"></div>
+  <div id="nav"></div>
+
+<main>
+  <div class="main-with-sidebar">
+    <div class="main-content">
+      <section id="Home">
+        <h2>ET Maison... De l'Event Modeling FR</h2>
+        <p>L'objectif de ce site est de vous aider dans votre chemin vers Event Sourcing et Event Modeling</p>
+        <img src="images/EM.jpg" alt="Key Visual" class="hero-image">
+      </section>
+
+      <section id="VotrePremierModèle">
+        <h2>Premier Modèle</h2>
+        <p>Une modèle très simple pour présenter l'idée d'Event Modeling: commander votre espresso avec une machine automatique</p>
+        <img src="images/5_elements/Slide1.JPG" alt="Les 5 éléments de base">
+        <img src="images/5_elements/Slide2.JPG" alt="Un processus simple">
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>christophe.lecoent@eventmodeling.ch</p>
+      </section>
+    </div>
+
+    <aside class="sidebar">
+      <h3>Learn the basics</h3>
+      <ul>
+        <li><a href="que-sont-les-evenements.html">Que sont les évènements</a></li>
+        <li><a href="premier-model.html">Un premier modèle</a></li>
+        <li><a href="role-ba.html">Analyse Métier autrement</a></li>
+      </ul>
+    </aside>
+  </div>
+</main>
+
+
+
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+
+    // Example interactivity
+    document.addEventListener("DOMContentLoaded", () => {
+      const button = document.getElementById('clickMe');
+      if (button) {
+        button.addEventListener('click', () => {
+          alert('Hello! Your site is fully independent.');
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

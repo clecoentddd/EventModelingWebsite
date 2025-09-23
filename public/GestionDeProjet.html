@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion de Projet</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+    <section id="intro">
+    <h1>Gestion de Projet - Slice: nouvelle unité de mesure</h1>
+
+      <h2>Introduction</h2>
+      <p>
+        La gestion de projet avec Event Modeling va devenir bien plus simple: l'unité de mesure devient la slice.
+        Par design, une slice est petite, livrable, testable et elle apporte de la valeur métier. Une estimation d'effort est entre 1 et 2 days, qualité production.
+      </p>
+      <img src="images/GestionDeProjet.jpg" alt="Gestion de Projet" class="hero-image">
+    </section>
+
+    <section id="methode">
+      <h2>Slice: la nouvelle unité de mesure de progrès</h2>
+      <ul>
+        <li>Simple calcul: estimer le nombre de slices grâce aux ateliers d'Event Modeling</li>
+        <li>Si vous avez découvert 100 slices, une première estimation en fonction des ateliers serait de 200 slices</li>
+        <li>200 slices x 2 jours = 400 jours</li>
+        <li>Dès que le premier processus (châpitre) est défini, implémentez</li>
+        <li>Comme l'architecture logicielle est basée sur Vertical Slice Architecture, il n'y a pas de phase de design importante pour la plupart de vos projets</li>
+        <li>Les tests: incluent dans les slices - les GWT, Given When Then tests - Spécification par l'exemple</li>
+        <li>NB: une slice est toujours une user story and couvre les 3C: Carte, Conversations, Confirmation (GWT tests)</li>
+      </ul>
+    </section>
+
+    <section id="etapes">
+      <h2>Étapes Clés</h2>
+      <ol>
+        <li>Modéliser les premiers processus (chapitres)</li>
+        <li>Implémenter un premier chapitre</li>
+        <li>Intégrer les retours des métiers</li>
+        <li>Répéter</li>
+      </ol>
+    </section>
+
+    <section id="outils">
+      <h2>Outils Recommandés</h2>
+      <ul>
+        <li>Miro / Mural / etc.</li>
+        <li>Avancement: marquer les slices en cours et implémentées</li>
+        <li>JIRA: pas nécessaire</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 My Independent Website
+  </footer>
+
+    <script>
+          // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>

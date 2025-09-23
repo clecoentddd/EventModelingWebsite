@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ Clients</title>
+<link rel="stylesheet" href="global.css">
+<link rel="stylesheet" href="faq.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<!-- Reusable parts -->
+<div id="header"></div>
+<div id="nav"></div>
+
+<titlePage>FAQ</titlePage>
+
+<!-- Search input -->
+<input type="text" id="faq-search" placeholder="Rechercher dans les questions...">
+
+<div id="faq-content"></div>
+
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  // Load header, nav, and footer
+  ["header","nav","footer"].forEach(id => {
+    fetch(id + ".html")
+      .then(res => res.text())
+      .then(data => document.getElementById(id).innerHTML = data)
+      .catch(err => console.error(`Could not load ${id}.html:`, err));
+  });
+
+  // Load Markdown FAQ
+  fetch("faq.md")
+    .then(res => res.text())
+    .then(md => {
+      const container = document.getElementById("faq-content");
+      const parts = md.split(/^###/m).filter(p => p.trim());
+
+      parts.forEach(part => {
+        const lines = part.trim().split("\n");
+        const question = lines.shift().replace(/^#+\s*/, "").trim();
+        const answer = marked.parse(lines.join("\n").trim());
+
+        const item = document.createElement("div");
+        item.className = "faq-item";
+        item.innerHTML = `
+          <div class="faq-question">${question}</div>
+          <div class="faq-answer">${answer}</div>
+        `;
+        container.appendChild(item);
+      });
+
+      // Expand/collapse
+      document.querySelectorAll(".faq-question").forEach(q => {
+        q.addEventListener("click", () => {
+          const ans = q.nextElementSibling;
+          ans.style.display = ans.style.display === "block" ? "none" : "block";
+        });
+      });
+
+      // Search filter
+      const searchInput = document.getElementById("faq-search");
+      searchInput.addEventListener("input", () => {
+        const term = searchInput.value.toLowerCase();
+        document.querySelectorAll(".faq-item").forEach(item => {
+          const text = item.innerText.toLowerCase();
+          item.style.display = text.includes(term) ? "block" : "none";
+        });
+      });
+    })
+    .catch(err => {
+      document.getElementById("faq-content").innerHTML = "Impossible de charger le FAQ.";
+      console.error("Error loading faq.md:", err);
+    });
+</script>
+
+</body>
+</html>

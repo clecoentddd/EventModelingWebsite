@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site français dédié à Event Modeling - Event Sourcing (CQRS) - Vertical Slice Architecture</title>
+  <link rel="stylesheet" href="global.css">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <div id="header"></div>
+  <div id="nav"></div>
+
+<main>
+  <div class="main-with-sidebar">
+    <div class="main-content">
+      <section id="Home">
+        <h2>Under Construction</h2>
+    </section>
+
+  </div>
+</main>
+
+
+
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+
+  </script>
+
+</body>
+</html>

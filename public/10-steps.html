@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 10 Steps</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+    <section>
+      <h2>Overview</h2>
+      <p>
+        Below are the 10 steps illustrated through a series of slides.  
+        You can scroll through them sequentially to follow the process.
+      </p>
+    </section>
+
+    <section>
+      <h2>Les 10 étapes du processus de modélisation</h2>
+
+      <!-- Sequential slides -->
+      <img src="images/10_steps/Slide1.JPG" alt="Step 1">
+      <img src="images/10_steps/Slide2.JPG" alt="Step 2">
+      <img src="images/10_steps/Slide3.JPG" alt="Step 3">
+      <img src="images/10_steps/Slide4.JPG" alt="Step 4">
+      <img src="images/10_steps/Slide5.JPG" alt="Step 5">
+      <img src="images/10_steps/Slide6.JPG" alt="Step 6">
+      <img src="images/10_steps/Slide7.JPG" alt="Step 7">
+      <img src="images/10_steps/Slide8.JPG" alt="Step 8">
+      <img src="images/10_steps/Slide9.JPG" alt="Step 9">
+      <img src="images/10_steps/Slide10.JPG" alt="Step 10">
+      <img src="images/10_steps/Slide11.JPG" alt="Step 11">
+      <img src="images/10_steps/Slide12.JPG" alt="Step 12">
+      <img src="images/10_steps/Slide13.JPG" alt="Step 13">
+      <img src="images/10_steps/Slide14.JPG" alt="Step 14">
+
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>
