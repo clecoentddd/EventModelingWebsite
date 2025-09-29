@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etat versus Evements: richesse de l'information, pour le future et le passé</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+    <section>
+      <h2>Basé sur le premier modèle, allons plus loin avec les 4 patterns</h2>
+      <p>
+        Nous allons inclure les alertes: dans notre cas, elles proviennent d'n système externe donc nous devons les traduire: translation pattern
+      </p>
+    </section>
+
+<section>
+  <h2>Le chapitre - Préparation d'un espresso</h2>
+  <br>
+  <div class="slide">
+   <img src="images/cours_1/Slide2.JPG" alt="Slide 2">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide3.JPG" alt="Slide 3">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide4.JPG" alt="Slide 4">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide5.JPG" alt="Slide 5">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide6.JPG" alt="Slide 6">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide7.JPG" alt="Slide 7">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide8.JPG" alt="Slide 8">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">Enrichissons notre évènement avec une intervention manuelle</h3>
+    <img src="images/cours_1/Slide9.JPG" alt="Slide 9">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide10.JPG" alt="Slide 10">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">Enrichissons notre évènement avec une intervention automatisée (un processeur)</h3>
+    <img src="images/cours_1/Slide11.JPG" alt="Slide 11">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide12.JPG" alt="Slide 12">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">Enrichissons avec les informations nécessaires à prendre une décision</h3>
+    <img src="images/cours_1/Slide13.JPG" alt="Slide 13">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide14.JPG" alt="Slide 14">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">Continuons</h3>
+    <img src="images/cours_1/Slide15.JPG" alt="Slide 15">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">Et encore</h3>
+    <img src="images/cours_1/Slide16.JPG" alt="Slide 16">
+  </div>
+
+  <div class="slide">
+    <img src="images/cours_1/Slide17.JPG" alt="Slide 17">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">Traduction (translation): imaginez un copier/coller - c'est vraiement la traduction d'une évènement externe dans le language de mon système</h3>
+    <img src="images/cours_1/Slide18.JPG" alt="Slide 18">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">Nous rajoutons les couloirs pour différences les cafés d'alertes et de systèmes externes</h3>
+    <img src="images/cours_1/Slide19.JPG" alt="Slide 19">
+  </div>
+
+  <div class="slide">
+    <h3 class="slide_title">On retrouve bien les 4 patterns avec les 5 élements sous forme de slices</h3>
+    <img src="images/cours_1/Slide20.JPG" alt="Slide 20">
+  </div>
+</section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>

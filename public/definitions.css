@@ -1,0 +1,20 @@
+#searchBox {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#definitionsList {
+  list-style: none;
+  padding-left: 0;
+}
+
+#definitionsList li {
+  margin-bottom: 0.8rem;
+  padding: 0.5rem;
+  background: #f9f9f9;
+  border-left: 3px solid #3a4b63;
+  border-radius: 3px;
+}

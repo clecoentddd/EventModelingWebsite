@@ -17,35 +17,71 @@
   <div class="main-with-sidebar">
     <div class="main-content">
       <section id="Home">
-        <h2>ET Maison... De l'Event Modeling FR</h2>
+        <h1>Bienvenue sur le site Event Modeling en Français</h1>
+        <p> </p>
+        <h2>Event modeling créé par Adam Dymitruk et évangilisé par Martin Dilger</h2>
         <p>L'objectif de ce site est de vous aider dans votre chemin vers Event Sourcing et Event Modeling</p>
-        <img src="images/EM.jpg" alt="Key Visual" class="hero-image">
-      </section>
+         <p>
+            <br>
+            <h2>Event Modeling (EM) est une approche de modélisation d'un système d'information (au sens large) qui se bâtit processus par processus 
+              (processu ou chapître)</h2>
+          <br>
+            <img src="images/EM.jpg" alt="Key Visual" class="hero-image center-img">
+            <br>
+          </p>
+        
+      <div class="em-description">      
+  <ul class="em-bullets">
+    <li>La toute première activité est un storming autour des évènements métier</li>
+    <li>Puis un premier processus est choisi: un processus en EM est une succession d'étapes atomiques (pas à pas) ne prenant qu'une seule direction pour atteindre l'étape finale du processus choisi (focus!)</li>
+    <li>Contrairement à BPMN, un processus EM n'a pas de branchement (si... alors... sinon...)</li>
+    <li>Un processus EM est fait de 4 patterns: changement d'état, vue de l'état, automatisation et traduction</li>
+    <li>Chaque étape est appelée slice (tranche). Une slice est petite, livrable, testable et apporte de la valeur métier</li>
+    <li>Une slice est toujours une user story et couvre les 3C: Carte, Conversations, Confirmation (car on ajoute les GWT tests ou tests BDD)</li>
+    <li>Ensuite on itère par processus</li>
+  </ul>
+  
+  <p>Les forces de l'EM vont au-delà du modèle et grâce au modèle :</p>
 
-      <section id="VotrePremierModèle">
-        <h2>Premier Modèle</h2>
-        <p>Une modèle très simple pour présenter l'idée d'Event Modeling: commander votre espresso avec une machine automatique</p>
-        <img src="images/5_elements/Slide1.JPG" alt="Les 5 éléments de base">
-        <img src="images/5_elements/Slide2.JPG" alt="Un processus simple">
-      </section>
+  <ul class="em-bullets">
+    <li>Permet une implémentation utilisant Event Sourcing (CQRS) et Vertical Slice Architecture</li>
+    <li>Permet une gestion de projet simple: l'unité de mesure devient la slice</li>
+    <li>Permet une documentation vivante</li>
+    <li>Permet d'utiliser le pattern "Vertical Slice Architecture" pour l'implémentation</li>
+  </ul>
 
-      <section id="contact">
-        <h2>Contact</h2>
-        <p>christophe.lecoent@eventmodeling.ch</p>
-      </section>
-    </div>
+  <p>Et en bonus, car l'EM donne beaucoup de contexte, riche, explicite et détaillée, l'IA est extrêmement efficiente.</p>
+</div>
 
-    <aside class="sidebar">
-      <h3>Learn the basics</h3>
-      <ul>
-        <li><a href="que-sont-les-evenements.html">Que sont les évènements</a></li>
-        <li><a href="premier-model.html">Un premier modèle</a></li>
-        <li><a href="role-ba.html">Analyse Métier autrement</a></li>
-      </ul>
-    </aside>
+    </section>
+
+    <section id="VotrePremierModèle">
+      <h2>Premier Modèle</h2>
+      <p>Une modèle très simple pour présenter l'idée d'Event Modeling: commander votre espresso avec une machine automatique</p>
+      <img src="images/5_elements/Slide1.JPG" alt="Les 5 éléments de base" class="center-img">
+      <img src="images/5_elements/Slide2.JPG" alt="Un processus simple" class="center-img">
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>christophe.lecoent@eventmodeling.ch</p>
+    </section>
   </div>
-</main>
 
+  <aside class="sidebar">
+    <h3>Learn the basics</h3>
+    <ul>
+      <li><a href="que-sont-les-evenements.html">Que sont les évènements</a></li>
+      <li><a href="premier-model.html">Un premier modèle</a></li>
+      <li><a href="role-ba.html">Analyse Métier: Faciliteur</a></li>
+    </ul>
+    <br>
+    <h3>Allons un peu plus loin</h3>
+    <ul>
+      <li><a href="cours1.html">Complétons le modèle</a></li>
+    </ul>
+  </aside>
+</main>
 
 
 

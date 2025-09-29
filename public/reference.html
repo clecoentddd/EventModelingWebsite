@@ -14,52 +14,137 @@
   <div id="header"></div>
   <div id="nav"></div>
 
+  <!-- Tab Menu -->
+  <section id="overview" class="tab-menu">
+    <button class="tab-button active" data-tab="references">Références</button>
+    <button class="tab-button" data-tab="tools">Outils</button>
+    <button class="tab-button" data-tab="websites">Sites Web</button>
+    <button class="tab-button" data-tab="books">Books</button>
+  </section>
+
   <main>
-    <section id="references">
-      <h2>Des personnes qui m'ont aidé</h2>
+    <!-- References Section -->
+    <section id="references" class="tab-section">
+      <h2>Des personnes à suivre sur LinkedIn :</h2>
       <div class="references-container">
-        
-        <!-- LinkedIn Card -->
         <div class="reference-card">
           <h3>Martin Dilger</h3>
           <p>Auteur du livre EventSourcing & EventModeling</p>
-           <a href="https://www.linkedin.com/in/martindilger/" target="_blank" rel="noopener noreferrer">View LinkedIn</a>
-           <a href="https://www.nebulit.de/" target="_blank" rel="noopener noreferrer">Nebulit</a>
+          <a href="https://www.linkedin.com/in/martindilger/" target="_blank" rel="noopener noreferrer">View LinkedIn</a>
+          <a href="https://www.nebulit.de/" target="_blank" rel="noopener noreferrer">Nebulit</a>
         </div>
-
         <div class="reference-card">
           <h3>Adam Dymitruk</h3>
           <p>Créateur d'Event Modeling</p>
           <a href="https://www.linkedin.com/in/eventmodeling/?originalSubdomain=ca">View LinkedIn</a>
           <a href="https://eventmodeling.org/">EventModeling</a>
         </div>
-
-        <!-- Book Card -->
         <div class="reference-card">
           <h3>Greg Young</h3>
           <p>Tout ce que vous voulez savoir sur Event Sourcing & CQRS</p>
           <a href="https://www.linkedin.com/in/gregory-young-a28b011">View LinkedIn</a>
           <a href="https://www.youtube.com/watch?v=JHGkaShoyNs">A great video</a>
         </div>
-
-                <!-- Book Card -->
         <div class="reference-card">
           <h3>Oskar Dudycz</h3>
           <p>Vous trouverez sur son site quelques patterns bien expliqués</p>
           <a href="https://www.linkedin.com/in/oskardudycz/">View LinkedIn</a>
-          <a href=" https://event-driven.io/">A great website</a>
+          <a href="https://event-driven.io/">A great website</a>
         </div>
-       
-
-        <!-- Website Card -->
         <div class="reference-card">
           <h3>Yves Goeleven</h3>
           <p>Manière simple d'expliquer Event Modeling & Event Sourcing</p>
           <a href="https://www.linkedin.com/in/goeleven/">View LinkedIn</a>
         </div>
-
+        <div class="reference-card">
+          <h3>Sam Hatoum</h3>
+          <p>Créateur d'Auto - générateur de code avec DSL Event Modeling</p>
+          <a href="https://www.linkedin.com/in/samhatoum/">View LinkedIn</a>
+          <a href="https://on.auto/">Auto</a>
+        </div>
       </div>
     </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="tab-section" style="display:none;">
+      <h2>Outils Utiles</h2>
+      <div class="references-container">
+        <div class="reference-card">
+          <h3>Miro avec Event Modeling Extension by Martin Dilger</h3>
+          <p>Version gratuite limitée mais permet de construire vos modèles</p>
+          <a href="https://www.miro.com/" target="_blank" rel="noopener noreferrer">Visiter Miro</a>
+        </div>
+        <div class="reference-card">
+          <h3>prooph board</h3>
+          <p>Outil web - peut-être plus pour développeurs?</p>
+          <a href="https://prooph-board.com/" target="_blank" rel="noopener noreferrer">Visiter prooph-board</a>
+        </div>
+        <div class="reference-card">
+          <h3>Auto</h3>
+          <p>Le bazouka - startup basée aux USA</p>
+          <a href="https://on.auto/event-modeling" target="_blank" rel="noopener noreferrer">Visiter Auto</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Websites Section -->
+    <section id="websites" class="tab-section" style="display:none;">
+      <h2>Sites Web Recommandés</h2>
+      <div class="references-container">
+        <div class="reference-card">
+          <h3>Event Modeling</h3>
+          <p>Site officiel d’Event Modeling avec ressources et exemples.</p>
+          <a href="https://eventmodeling.org/" target="_blank" rel="noopener noreferrer">Visiter Event Modeling</a>
+        </div>
+        <div class="reference-card">
+          <h3>Martin Dilger</h3>
+          <p>Premier cours officiel complet par Martin Dilger</p>
+          <a href="https://www.eventsourcingcourse.com/" target="_blank" rel="noopener noreferrer">Visiter Formation Event Modeling</a>
+        </div>
+        <div class="reference-card">
+          <h3>Formation (video) par Confluent ***</h3>
+          <p>Video sur Event Modeling - rapide, simple - par Confluent</p>
+          <a href="https://youtu.be/tpcgUstqECU/" target="_blank" rel="noopener noreferrer">Visiter Video</a>
+        </div>
+      </div>
+    </section>
+
+<!-- Books Section -->
+<section id="books" class="tab-section" style="display:none;">
+  <h2>Books Recommandés</h2>
+  <div class="references-container">
+
+    <div class="reference-card">
+      <img src="images/books/dilger-eventsourcing.jpg" alt="Couverture du livre Event Sourcing & Event Modeling de Martin Dilger" class="book-cover">
+      <div class="book-info">
+        <h3>Martin Dilger</h3>
+        <p><em>Event Sourcing & Event Modeling</em> – Introduction complète et pratique.</p>
+        <a href="https://leanpub.com/eventmodeling-and-eventsourcing/" target="_blank" rel="noopener noreferrer">Nebulit</a>
+      </div>
+    </div>
+
+    <div class="reference-card">
+      <img src="images/books/GregYoung-versioning.jpg" alt="Illustration des écrits de Greg Young sur CQRS et Event Sourcing" class="book-cover">
+      <div class="book-info">
+        <h3>Greg Young</h3>
+        <p>Écrits et conférences sur Event Sourcing, CQRS et la gestion du versioning.</p>
+        <a href="https://leanpub.com/esversioning" target="_blank" rel="noopener noreferrer">CQRS Documents</a>
+      </div>
+    </div>
+
+    <div class="reference-card">
+      <img src="images/books/GregYoung-patterns.jpg" alt="Illustration des écrits de Greg Young sur CQRS et Event Sourcing" class="book-cover">
+      <div class="book-info">
+        <h3>Greg Young</h3>
+        <p>Patterns of Event Sourced Systems</p>
+        <a href="https://leanpub.com/patternsofeventsourcedsystems" target="_blank" rel="noopener noreferrer">CQRS Documents</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
   </main>
 
   <div id="footer"></div>
@@ -79,6 +164,18 @@
     fetch("footer.html")
       .then(res => res.text())
       .then(data => document.getElementById("footer").innerHTML = data);
+
+    // Tab switching
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-section').forEach(sec => sec.style.display = 'none');
+          document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+          document.getElementById(btn.dataset.tab).style.display = 'block';
+          btn.classList.add('active');
+        });
+      });
+    });
   </script>
 
 </body>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votre Chemin - Services</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="services.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+    <section id="services">
+      <h2>Nos Offres</h2>
+      <div class="services-container">
+
+        <!-- Séance gratuite -->
+        <div class="service-card">
+          <h3>Séance de 45 minutes gratuite</h3>
+          <p>
+            Une première rencontre pour comprendre vos besoins, vos objectifs et votre contexte.  
+            Cette séance permet de poser les bases, répondre à vos questions et voir si notre approche vous correspond.
+          </p>
+        </div>
+
+        <!-- Coaching -->
+        <div class="service-card">
+          <h3>Coaching</h3>
+          <p>
+            Un accompagnement personnalisé pour vous aider à structurer vos projets et à avancer efficacement.
+          </p>
+          <ul class="sub-services">
+            <li>
+              <strong>Phase amont :</strong> clarification des besoins, cadrage, identification des blocages et mise en place d’une vision claire.
+            </li>
+            <li>
+              <strong>Phase d’implémentation :</strong> mise en pratique, ateliers concrets, itérations et suivi rapproché pour assurer la réussite.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Formations -->
+        <div class="service-card">
+          <h3>Formations</h3>
+          <p>
+            Des sessions de formation interactives pour apprendre à utiliser des approches modernes comme  
+            <em>Event Modeling</em>, <em>Event Storming</em> ou encore la <em>Vertical Slice Architecture</em>.  
+            L’objectif : rendre vos équipes autonomes et efficaces.
+          </p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header, nav, footer
+    fetch("header.html").then(res => res.text()).then(data => document.getElementById("header").innerHTML = data);
+    fetch("nav.html").then(res => res.text()).then(data => document.getElementById("nav").innerHTML = data);
+    fetch("footer.html").then(res => res.text()).then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>

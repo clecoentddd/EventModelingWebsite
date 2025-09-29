@@ -1,63 +1,117 @@
-/* Référence Section */
-#references {
-  padding: 3rem 1rem;
-  background-color: #f9f9f9;
-  text-align: center;
+/* ===========================
+   Books Section
+=========================== */
+#books .book-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#references h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #3a4b63; /* navy-blue heading */
+#books .book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
+#books .book-cover {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+#books .book-info {
+  flex: 1;
+  text-align: right; /* <-- texte aligné à droite */
+}
+
+#books .book-info h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  color: #111;
+}
+
+#books .book-info p {
+  margin-bottom: 0.8rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+#books .book-info a {
+  color: #f59e0b;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#books .book-info a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive pour Books */
+@media (max-width: 600px) {
+  #books .book-card {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  #books .book-info {
+    text-align: center; /* sur mobile, centré */
+  }
+
+  #books .book-cover {
+    width: 150px;
+    margin-bottom: 1rem;
+  }
+}
+
+/* ===========================
+   Other Sections (Articles, etc.)
+=========================== */
+
+/* Conteneur qui aligne les cards côte à côte */
 .references-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+  flex-wrap: wrap;         /* retour à la ligne si pas assez de place */
+  gap: 1rem;               /* espace entre les cards */
+  justify-content: flex-start;
 }
 
 .reference-card {
-  background-color: #ffffff;
-  border: 1px solid #ccc; /* subtle gray border */
-  border-radius: 12px;
+  flex: 1 1 calc(33% - 1rem); /* 3 cards par ligne en desktop */
+  min-width: 250px;           /* largeur mini pour garder la lisibilité */
+  background: #fff;
   padding: 1rem;
-  width: 220px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s ease;
 }
 
-.reference-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+.reference-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .reference-card h3 {
-  margin: 0.5rem 0;
-  color: #7a6f5a; /* brownish */
+  margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
 
 .reference-card p {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+  color: #444;
 }
 
 .reference-card a {
-  display: inline-block;
+  color: #007BFF;
   text-decoration: none;
-  color: #5c5146; /* muted brown */
-  font-weight: bold;
-  margin-top: 0.5rem;
+  margin-right: 10px;
 }
 
-.reference-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0,0,0,0.12);
+.reference-card a:hover {
+  text-decoration: underline;
 }
