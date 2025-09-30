@@ -115,3 +115,45 @@
 .reference-card a:hover {
   text-decoration: underline;
 }
+
+
+/* ===========================
+   Tab Menu Styling
+=========================== */
+.tab-menu {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* espace entre les boutons */
+  background-color: #e6f0fa; /* bleu clair doux */
+  padding: 10px;
+  border-bottom: 2px solid #cbd5e1;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Boutons arrondis */
+.tab-button {
+  background: #d0e6f9; /* bleu pastel */
+  border: none;
+  border-radius: 999px; /* arrondi max → pill shape */
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1e3a8a; /* bleu foncé lisible */
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover */
+.tab-button:hover {
+  background-color: #bfdbfe; /* bleu un peu plus fort */
+}
+
+/* Actif (onglet sélectionné) */
+.tab-button.active {
+  background-color: #3b82f6; /* bleu vif */
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}

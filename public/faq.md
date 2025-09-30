@@ -8,7 +8,7 @@ A priori, si... Mais en expérimentant, nous rendons l'implicit explicit... et c
 ###  Comment s'assurer que nous couvrons bien l'ensemble du système d'information? 
 Parce que les histoires (chapitres, workflow, processus) appellent d'autres histoires, nous couvrons aisément l'ensemble des fonctionnalités du système d'information, surtout en prenant les bonnes priorités
 
-### Cmmbien de slices pour mon système d'information? 
+### Combien de slices pour mon système d'information? 
 Difficile à dire... Sauf que les premières histoires seront les plus longues en terme de slices. Chaque nouvelle histoire est souvent qu'une "branche" des histoires déjà discutées. Donc, au fur et à mesure, les histoires sont plus courte.
 
 ### Qui peut faciliter les séances d'Event Modeling?

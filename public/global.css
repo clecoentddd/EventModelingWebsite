@@ -15,7 +15,7 @@ body {
 
 /* Header */
 header {
-  background: linear-gradient(135deg, #96b8f3, #80cfce); /* blue-gray to brown-gray */
+  background: linear-gradient(135deg, #8c7b6b, #78888f); /* blue-gray to brown-gray */
   color: #ffffff;
   text-align: center;
   padding: 2rem 1rem;
@@ -289,4 +289,123 @@ footer {
   color: #0F9ED5; /* orange ambré */
   font-weight: 600;
   text-align: left;
+}
+
+/* --- Dropdown Menu Styles --- */
+
+/* Dropdown container */
+nav .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button styling — match nav links */
+nav .dropbtn {
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+nav .dropbtn:hover {
+  color: #3a4b63;
+  border-bottom: 2px solid #3a4b63;
+}
+
+/* Dropdown content container */
+nav .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f9f9f9;
+  min-width: 220px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  z-index: 1000;
+  padding: 0.5rem 0;
+}
+
+/* Dropdown links */
+nav .dropdown-content a {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+nav .dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show dropdown on hover */
+nav .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Submenu dropdown */
+nav .dropdown-content .submenu {
+  position: relative;
+}
+
+nav .dropdown-content .submenu .submenu-content {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  padding: 0.5rem 0;
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+}
+
+nav .dropdown-content .submenu:hover .submenu-content {
+  display: block;
+}
+
+/* Submenu links */
+nav .dropdown-content .submenu-content a {
+  padding: 0.6rem 1rem;
+}
+
+/* Add small arrow for dropdowns */
+nav .dropbtn::after {
+  content: " ▾";
+  font-size: 0.7rem;
+  margin-left: 0.2rem;
+}
+
+/* Add arrow for submenu items */
+nav .dropdown-content .submenu > a::after {
+  content: " ▶";
+  float: right;
+  font-size: 0.7rem;
+}
+
+/* Responsive dropdown adjustments */
+@media (max-width: 800px) {
+  nav {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  nav .dropdown-content,
+  nav .dropdown-content .submenu-content {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    box-shadow: none;
+  }
+
+  nav .dropbtn::after,
+  nav .dropdown-content .submenu > a::after {
+    content: "";
+  }
 }
