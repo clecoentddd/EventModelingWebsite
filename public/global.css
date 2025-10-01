@@ -13,45 +13,113 @@ body {
   font-size: 15px;
 }
 
-/* Header */
+/* --- Updated Header: Black + Blue --- */
 header {
-  background: linear-gradient(135deg, #8c7b6b, #78888f); /* blue-gray to brown-gray */
+  display: flex;
+  align-items: center;       /* aligne verticalement */
+  justify-content: center;   /* centre le contenu horizontalement */
+  gap: 0.5rem;               /* espace entre logo et titre */
+  background: linear-gradient(135deg, #c9e6f2, #000);
   color: #ffffff;
-  text-align: center;
-  padding: 2rem 1rem;
-  border-bottom: 3px solid #8c7b6b; /* subtle brown underline */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 2.5rem 1rem;
+  border-bottom: 4px solid rgba(15, 158, 213, 0.5);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
 }
 
+.header-logo {
+  width: 96px;
+  height: 96px;
+  padding-right: 20px;
+  object-fit: contain;
+}
+
+
+
 header h1 {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   line-height: 1.3;
   margin: 0;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
-/* Navigation */
+/* --- Navigation with black/blue theme --- */
 nav {
   display: flex;
   justify-content: center;
-  gap: 1.2rem;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #e6e6e6;
+  gap: 1.5rem;
+  padding: 0.9rem 0;
+  background: #111; /* deep black nav bar */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
-nav a {
-  color: #333;
-  text-decoration: none;
+/* Unify nav links + dropdown button */
+nav a,
+nav .dropbtn {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+  border: none;
+  color: #e0e0e0;
   font-size: 0.95rem;
   font-weight: 500;
-  padding-bottom: 0.2rem;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  line-height: 1.5;
+  text-decoration: none;
 }
 
-nav a:hover {
-  color: #3a4b63;           /* navy-blue accent */
-  border-bottom: 2px solid #3a4b63;
+/* Dropdown arrow aligned + inherits color */
+nav .dropbtn::after {
+  content: " ▾";
+  font-size: 0.7rem;
+  color: inherit;
+  margin-left: 0.2rem;
+}
+
+/* Hover state same for both */
+nav a:hover,
+nav .dropbtn:hover {
+  color: #0F9ED5;
+  background: rgba(15, 158, 213, 0.15);
+}
+
+/* --- Dropdown Content --- */
+nav .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #111;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+nav .dropdown-content a {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+}
+
+nav .dropdown-content a:hover {
+  background: rgba(15, 158, 213, 0.25);
+  color: #0F9ED5;
+}
+
+nav .dropdown:hover .dropdown-content {
+  display: block;
 }
 
 /* Main */
@@ -70,7 +138,7 @@ section h2 {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.6rem;
-  color: #3a4b63; /* blue-gray headings */
+  color: #0F9ED5; /* updated for consistency */
 }
 
 p, li {
@@ -92,20 +160,10 @@ img {
   border-radius: 4px;
 }
 
-/* Buttons */
-button {
-  padding: 0.45rem 1rem;
-  background-color: #3a4b63; /* dark blue-gray */
-  color: #fff;
-  border: none;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border-radius: 3px;
-  transition: background 0.2s ease;
-}
-
-button:hover {
-  background-color: #2a3747;
+/* --- Accent Titles --- */
+section h2,
+.sidebar h3 {
+  color: #0F9ED5;
 }
 
 /* Footer */
@@ -299,21 +357,31 @@ nav .dropdown {
   display: inline-block;
 }
 
-/* Dropdown button styling — match nav links */
+/* Dropdown button styling — inherits from nav links */
 nav .dropbtn {
   background: none;
   border: none;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #333;
-  padding: 0.2rem 0.5rem;
+  color: #e0e0e0;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition: all 0.3s ease;
 }
 
+/* Add small arrow for dropdowns */
+nav .dropbtn::after {
+  content: " ▾";
+  font-size: 0.7rem;
+  margin-left: 0.2rem;
+  color: inherit;
+}
+
+/* Hover state */
 nav .dropbtn:hover {
-  color: #3a4b63;
-  border-bottom: 2px solid #3a4b63;
+  color: #0F9ED5;
+  background: rgba(15, 158, 213, 0.15);
 }
 
 /* Dropdown content container */
@@ -322,11 +390,11 @@ nav .dropdown-content {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #f9f9f9;
-  min-width: 220px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  background-color: #111;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
   border-radius: 4px;
-  z-index: 1000;
+  z-index: 2000;
   padding: 0.5rem 0;
 }
 
@@ -334,13 +402,15 @@ nav .dropdown-content {
 nav .dropdown-content a {
   display: block;
   padding: 0.6rem 1rem;
-  color: #333;
+  color: #e0e0e0;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
 }
 
 nav .dropdown-content a:hover {
-  background-color: #f1f1f1;
+  background-color: rgba(15, 158, 213, 0.25);
+  color: #0F9ED5;
 }
 
 /* Show dropdown on hover */
@@ -353,39 +423,28 @@ nav .dropdown-content .submenu {
   position: relative;
 }
 
+nav .dropdown-content .submenu > a::after {
+  content: " ▶";
+  float: right;
+  font-size: 0.7rem;
+  color: inherit;
+}
+
+/* Submenu content */
 nav .dropdown-content .submenu .submenu-content {
   display: none;
   position: absolute;
   top: 0;
   left: 100%;
-  background-color: #f9f9f9;
+  background-color: #111;
   min-width: 200px;
   padding: 0.5rem 0;
   border-radius: 4px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
 }
 
 nav .dropdown-content .submenu:hover .submenu-content {
   display: block;
-}
-
-/* Submenu links */
-nav .dropdown-content .submenu-content a {
-  padding: 0.6rem 1rem;
-}
-
-/* Add small arrow for dropdowns */
-nav .dropbtn::after {
-  content: " ▾";
-  font-size: 0.7rem;
-  margin-left: 0.2rem;
-}
-
-/* Add arrow for submenu items */
-nav .dropdown-content .submenu > a::after {
-  content: " ▶";
-  float: right;
-  font-size: 0.7rem;
 }
 
 /* Responsive dropdown adjustments */

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etat versus Evements: richesse de l'information, pour le future et le passé</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main>
+<section>
+  <h1>(En construction, je teste avec bolt.new) Une fois le modèle prêt:</h1>
+  <p>
+    Donner à l'IA (lovable, bolt.new) le contexte d'architecture :  
+       Pour mon application, front end UI et back end, je veux utiliser :  
+    <br>1. Event Sourcing & CQRS : chaque changement d'état est un évènement immuable, stocké dans Event Store DB pour garantir l'auditabilité, la traçabilité et la reconstruction complète de l'état.  
+    <br>2. Slice architecture : chaque slice du modèle correspond à un répertoire dédié dans le code, encapsulant ses commandes, évènements, projections et handlers.  
+    <br>3. Slice de changement d'état (automation) : elle se fera avec une Command et un Command Handler pour appliquer les règles métier et générer les évènements associés.  
+    <br>4. Slice de vue d'état : elle se fera avec une Query et un Query Handler, via un mécanisme publish & subscribe, afin de fournir des vues réactives de l'état.  
+    <br>5. Projection : chaque slice de vue d'état doit posséder deux icônes de contrôle — "Empty Projection" pour supprimer la projection actuelle et "Rebuild Projection" pour reconstruire la projection à partir de l'historique des évènements.  
+    <br>6. Automate (automation) : il applique le principe du Todo Pattern List ; il se déclenche via une subscription aux évènements et un scheduler qui exécute un cycle toutes les 2 secondes.  
+    <br>7. Logique du Todo Pattern : l'automate lit les évènements souscrits ainsi que les évènements publiés. Si un évènement souscrit existe sans évènement publié correspondant pour un même aggregateId, alors l'automate traite cet évènement.  
+    <br>8. Translation (adapter pattern) : la traduction se fera par un copier/coller des données pertinentes avec un nouvel aggregateId pour créer un nouvel agrégat et l’évènement correspondant.  
+    <br>9. Event Store DB : tous les évènements sont stockés dans Event Store DB pour garantir immutabilité et reconstruction complète.  
+    <br>10. Organisation : les évènements sont centralisés dans un répertoire commun nommé "Events" afin d’assurer cohérence et réutilisation.
+  </p>
+</section>
+
+<section>
+  <h1>Explication du modèle JSON :</h1>
+  <p>
+    Ce JSON représente la structure de données utilisée pour décrire l’architecture et les éléments clés de l’application.  
+    Il sert de base à l’IA pour comprendre la configuration, les relations et les processus.  
+    <br>1. `slices` : liste des différentes slices du modèle, chacune correspondant à une partie fonctionnelle de l’application.  
+    <br>2. `commands` : liste des commandes associées à chaque slice pour déclencher des changements d’état.  
+    <br>3. `events` : définition des évènements immuables générés par les commandes et stockés dans Event Store DB.  
+    <br>4. `queries` : liste des requêtes permettant de consulter l’état via les projections.  
+    <br>5. `projections` : vues construites à partir des évènements, représentant l’état actuel d’une slice.  
+    <br>6. `automations` : logique métier déclenchée par des évènements, définie dans les slices de changement d’état.  
+    <br>7. `settings` : configuration générale incluant scheduler, fréquence d’exécution et règles spécifiques.  
+    <br>8. `metadata` : informations supplémentaires pour contextualiser les données (version, date, auteur, etc.).
+  </p>
+</section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("header").innerHTML = data);
+
+    // Load nav
+    fetch("nav.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("nav").innerHTML = data);
+
+    // Load footer
+    fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>
