@@ -1,4 +1,48 @@
 <header>
   <img src="favicon.png" alt="Logo" class="header-logo">
-  <h1 class="titlePageHeader">Event Modeling: accélérer votre transformation digitale, et à moindre coûts</h1>
+  <h1 class="titlePageHeader">
+    Event Modeling<br>
+    <span class="subtitle">Accélérer votre transformation digitale, à moindre coûts</span>
+  </h1>
+
+  <style>
+    header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 10px;
+      background-color: #333; /* optional: dark background so white text stands out */
+    }
+
+    .header-logo {
+      width: 70px; /* slightly bigger logo */
+      height: auto;
+    }
+
+    .titlePageHeader {
+      font-size: 2.2em;
+      font-weight: bold;
+      margin: 0;
+      line-height: 1.2;
+      color: white; /* white font */
+    }
+
+    .subtitle {
+      font-size: 0.8em;
+      font-weight: normal;
+      display: block;
+      margin-top: 4px;
+      color: white; /* white subtitle */
+    }
+
+    @media screen and (max-width: 600px) {
+      .titlePageHeader {
+        font-size: 1.4em;
+      }
+
+      .subtitle {
+        font-size: 0.8em;
+      }
+    }
+  </style>
 </header>

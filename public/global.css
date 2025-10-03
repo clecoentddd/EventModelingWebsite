@@ -159,7 +159,7 @@ section {
 }
 
 section h2 {
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 600;
   text-align: center;
   color: #3a4b63;
@@ -178,7 +178,7 @@ h2::after {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
   text-align: center;
   color: #2b2b2b;
@@ -375,14 +375,7 @@ footer {
   }
 }
 
-/* Title page header */
-h1.titlePageHeader {
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: center;
-  color: #ffffff;
-  margin-bottom: 1rem;
-}
+
 .news-cards {
   width: 100%;
   padding: 10px;
