@@ -260,6 +260,13 @@ h3 {
   font-weight: 400;
 }
 
+section img {
+  max-width: 70%;  /* shrink to 80% of container width */
+  height: auto;    /* preserve aspect ratio */
+  display: block;
+  margin: 1rem auto; /* center the image */
+}
+
 .cropped-image {
   width: 100%;
   height: 300px;
