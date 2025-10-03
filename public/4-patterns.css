@@ -20,13 +20,6 @@ main {
   padding: 0 1rem;
 }
 
-/* Patterns section */
-#patterns h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #3a4b63;
-}
 
 .patterns-container {
   display: grid;

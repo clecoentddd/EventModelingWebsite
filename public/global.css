@@ -16,9 +16,9 @@ body {
 /* --- Updated Header: Black + Blue --- */
 header {
   display: flex;
-  align-items: center;       /* aligne verticalement */
-  justify-content: center;   /* centre le contenu horizontalement */
-  gap: 0.5rem;               /* espace entre logo et titre */
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background: linear-gradient(135deg, #c9e6f2, #000);
   color: #ffffff;
   padding: 2.5rem 1rem;
@@ -36,16 +36,15 @@ header {
   object-fit: contain;
 }
 
-
-
 header h1 {
-  font-size: 2.4rem;
+  font-size: 3rem;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.2;
   margin: 0;
   position: relative;
   z-index: 1;
   text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  text-align: center;
 }
 
 /* --- Navigation with black/blue theme --- */
@@ -54,16 +53,12 @@ nav {
   justify-content: center;
   gap: 1.5rem;
   padding: 0.9rem 0;
-  background: #111; /* deep black nav bar */
+  background: #111;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
-/* Unify nav links + dropdown button */
 nav a,
 nav .dropbtn {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   background: none;
   border: none;
   color: #e0e0e0;
@@ -78,7 +73,6 @@ nav .dropbtn {
   text-decoration: none;
 }
 
-/* Dropdown arrow aligned + inherits color */
 nav .dropbtn::after {
   content: " ▾";
   font-size: 0.7rem;
@@ -86,14 +80,12 @@ nav .dropbtn::after {
   margin-left: 0.2rem;
 }
 
-/* Hover state same for both */
 nav a:hover,
 nav .dropbtn:hover {
   color: #0F9ED5;
   background: rgba(15, 158, 213, 0.15);
 }
 
-/* --- Dropdown Content --- */
 nav .dropdown-content {
   display: none;
   position: absolute;
@@ -122,6 +114,37 @@ nav .dropdown:hover .dropdown-content {
   display: block;
 }
 
+/* Submenu dropdown */
+nav .dropdown-content .submenu {
+  position: relative;
+}
+
+nav .dropdown-content .submenu .submenu-content {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: #111;
+  min-width: 200px;
+  padding: 0.5rem 0;
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
+}
+
+nav .dropdown-content .submenu:hover .submenu-content {
+  display: block;
+}
+
+nav .dropdown-content .submenu-content a {
+  padding: 0.6rem 1rem;
+}
+
+nav .dropdown-content .submenu > a::after {
+  content: " ▶";
+  float: right;
+  font-size: 0.7rem;
+}
+
 /* Main */
 main {
   max-width: 1200px;
@@ -132,127 +155,75 @@ main {
 /* Sections */
 section {
   margin-bottom: 1.8rem;
+  padding-top: 2rem;
 }
 
 section h2 {
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 0.6rem;
-  color: #0F9ED5; /* updated for consistency */
-}
-
-p, li {
-  margin-bottom: 0.6rem;
-  color: #444;
-  font-size: 0.95rem;
-}
-
-/* Lists */
-ul {
-  padding-left: 1.2rem;
-}
-
-/* Images */
-img {
-  max-width: 100%;
-  height: auto;
-  margin: 1rem 0;
-  border-radius: 4px;
-}
-
-/* --- Accent Titles --- */
-section h2,
-.sidebar h3 {
-  color: #0F9ED5;
-}
-
-/* Footer */
-footer {
   text-align: center;
-  padding: 0.8rem;
-  font-size: 0.8rem;
-  color: #666;
-  border-top: 1px solid #e6e6e6;
-  margin-top: 2rem;
+  color: #3a4b63;
+  margin-bottom: 1.5rem;
+  position: relative;
 }
 
-/* Responsive basics */
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  header h1 {
-    font-size: 1.3rem;
-  }
-
-  section h2 {
-    font-size: 1.05rem;
-  }
+h2::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #0F9ED5;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
 }
 
-/* --- Sidebar layout --- */
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  color: #2b2b2b;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+  color: #2b2b2b;
+  margin-bottom: 1rem;
+}
+
+/* Sidebar layout */
 .main-with-sidebar {
   display: flex;
-  align-items: flex-start;   /* sidebar aligns at the top */
+  align-items: flex-start;
   gap: 2rem;
 }
 
 .main-content {
-  flex: 1;                   /* take up remaining space */
+  flex: 1;
   min-width: 0;
+  text-align: center;
 }
 
-.sidebar {
-  flex: 0 0 250px;           /* fixed width sidebar */
-  background: #f9f9f9;
-  padding: 15px;
-  border-left: 1px solid #ddd;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+.main-content section {
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
 }
 
-.sidebar h3 {
-  margin-top: 0;
-  margin-bottom: 0.8rem;
-  color: #3a4b63;
+.main-content ul,
+.main-content ol {
+  text-align: left;
+  display: inline-block;
+  margin: 0 auto 1rem auto;
 }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
+.em-description {
+  text-align: left;
+  margin: 0 auto;
+  max-width: 800px;
 }
 
-.sidebar li {
-  margin: 0.5rem 0;
-}
-
-.sidebar a {
-  text-decoration: none;
-  color: #007acc;
-}
-
-.sidebar a:hover {
-  text-decoration: underline;
-}
-
-/* Responsive for sidebar */
-@media (max-width: 800px) {
-  .main-with-sidebar {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    flex: none;
-    width: 100%;
-    border-left: none;
-    border-top: 1px solid #ddd;
-    margin-top: 1rem;
-    box-shadow: none;
-  }
-}
-
-/* --- Custom lists --- */
 .steps-list {
   margin-left: 1.2rem;
   padding-left: 1rem;
@@ -289,48 +260,11 @@ footer {
   font-weight: 400;
 }
 
-/* --- Images --- */
 .cropped-image {
   width: 100%;
   height: 300px;
   object-fit: cover;
   object-position: top;
-}
-
-/* Center everything inside main content */
-.main-content {
-  flex: 1;
-  min-width: 0;
-  text-align: center; /* centers text, inline-blocks, and images */
-}
-
-/* For block elements like sections: limit width and center them */
-.main-content section {
-  max-width: 800px;
-  margin: 0 auto 2rem auto;
-}
-
-/* Lists: keep bullets aligned left but center the list block itself */
-.main-content ul,
-.main-content ol {
-  text-align: left;
-  display: inline-block; /* centers list as a block */
-  margin: 0 auto 1rem auto;
-}
-
-/* Force left alignment for EM description */
-.em-description {
-  text-align: left;   /* override the global center */
-  margin: 0 auto;     /* keep it centered as a block */
-  max-width: 800px;
-}
-
-/* Optional: style the bullet list */
-.em-bullets {
-  padding-left: 1.2rem;
-  margin: 1rem 0;
-  list-style: disc;
-  line-height: 1.5;
 }
 
 .center-img {
@@ -340,115 +274,62 @@ footer {
   height: auto;
 }
 
-/* Titre de slide */
 .slide_title {
   font-size: 2rem;
   margin-bottom: 0.8rem;
-  color: #0F9ED5; /* orange ambré */
+  color: #0F9ED5;
   font-weight: 600;
   text-align: left;
 }
 
-/* --- Dropdown Menu Styles --- */
-
-/* Dropdown container */
-nav .dropdown {
-  position: relative;
-  display: inline-block;
+/* Sidebar styles */
+.sidebar {
+  flex: 0 0 250px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-left: 1px solid #ddd;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.05);
 }
 
-/* Dropdown button styling — inherits from nav links */
-nav .dropbtn {
-  background: none;
-  border: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #e0e0e0;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  color: #3a4b63;
 }
 
-/* Add small arrow for dropdowns */
-nav .dropbtn::after {
-  content: " ▾";
-  font-size: 0.7rem;
-  margin-left: 0.2rem;
-  color: inherit;
+.sidebar ul {
+  list-style: none;
+  padding: 0;
 }
 
-/* Hover state */
-nav .dropbtn:hover {
-  color: #0F9ED5;
-  background: rgba(15, 158, 213, 0.15);
+.sidebar li {
+  margin: 0.5rem 0;
 }
 
-/* Dropdown content container */
-nav .dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #111;
-  min-width: 200px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
-  border-radius: 4px;
-  z-index: 2000;
-  padding: 0.5rem 0;
-}
-
-/* Dropdown links */
-nav .dropdown-content a {
-  display: block;
-  padding: 0.6rem 1rem;
-  color: #e0e0e0;
+.sidebar a {
   text-decoration: none;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
+  color: #007acc;
 }
 
-nav .dropdown-content a:hover {
-  background-color: rgba(15, 158, 213, 0.25);
-  color: #0F9ED5;
+.sidebar a:hover {
+  text-decoration: underline;
 }
 
-/* Show dropdown on hover */
-nav .dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Submenu dropdown */
-nav .dropdown-content .submenu {
-  position: relative;
-}
-
-nav .dropdown-content .submenu > a::after {
-  content: " ▶";
-  float: right;
-  font-size: 0.7rem;
-  color: inherit;
-}
-
-/* Submenu content */
-nav .dropdown-content .submenu .submenu-content {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  background-color: #111;
-  min-width: 200px;
-  padding: 0.5rem 0;
-  border-radius: 4px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
-}
-
-nav .dropdown-content .submenu:hover .submenu-content {
-  display: block;
-}
-
-/* Responsive dropdown adjustments */
+/* Responsive sidebar */
 @media (max-width: 800px) {
+  .main-with-sidebar {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex: none;
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    margin-top: 1rem;
+    box-shadow: none;
+  }
+
   nav {
     flex-direction: column;
     gap: 0.6rem;
@@ -467,4 +348,38 @@ nav .dropdown-content .submenu:hover .submenu-content {
   nav .dropdown-content .submenu > a::after {
     content: "";
   }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.8rem;
+  color: #666;
+  border-top: 1px solid #e6e6e6;
+  margin-top: 2rem;
+}
+
+/* Responsive basics */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Title page header */
+h1.titlePageHeader {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 1rem;
 }

@@ -15,21 +15,42 @@
 
   <main>
 <section>
-  <h1>(En construction, je teste avec bolt.new) Une fois le modèle prêt:</h1>
-  <p>
-    Donner à l'IA (lovable, bolt.new) le contexte d'architecture :  
-       Pour mon application, front end UI et back end, je veux utiliser :  
-    <br>1. Event Sourcing & CQRS : chaque changement d'état est un évènement immuable, stocké dans Event Store DB pour garantir l'auditabilité, la traçabilité et la reconstruction complète de l'état.  
-    <br>2. Slice architecture : chaque slice du modèle correspond à un répertoire dédié dans le code, encapsulant ses commandes, évènements, projections et handlers.  
-    <br>3. Slice de changement d'état (automation) : elle se fera avec une Command et un Command Handler pour appliquer les règles métier et générer les évènements associés.  
-    <br>4. Slice de vue d'état : elle se fera avec une Query et un Query Handler, via un mécanisme publish & subscribe, afin de fournir des vues réactives de l'état.  
-    <br>5. Projection : chaque slice de vue d'état doit posséder deux icônes de contrôle — "Empty Projection" pour supprimer la projection actuelle et "Rebuild Projection" pour reconstruire la projection à partir de l'historique des évènements.  
-    <br>6. Automate (automation) : il applique le principe du Todo Pattern List ; il se déclenche via une subscription aux évènements et un scheduler qui exécute un cycle toutes les 2 secondes.  
-    <br>7. Logique du Todo Pattern : l'automate lit les évènements souscrits ainsi que les évènements publiés. Si un évènement souscrit existe sans évènement publié correspondant pour un même aggregateId, alors l'automate traite cet évènement.  
-    <br>8. Translation (adapter pattern) : la traduction se fera par un copier/coller des données pertinentes avec un nouvel aggregateId pour créer un nouvel agrégat et l’évènement correspondant.  
-    <br>9. Event Store DB : tous les évènements sont stockés dans Event Store DB pour garantir immutabilité et reconstruction complète.  
-    <br>10. Organisation : les évènements sont centralisés dans un répertoire commun nommé "Events" afin d’assurer cohérence et réutilisation.
-  </p>
+<h1>(En construction, je teste avec bolt.new) Une fois le modèle prêt:</h1>
+<p>
+  Donner à l'IA (lovable, bolt.new) le contexte d'architecture :  
+  COnstruire une application, sur une page, front end UI et back end, je veux utiliser :  
+  <br>1. Event Sourcing & CQRS : chaque changement d'état est un évènement immuable, stocké dans Event Store DB pour garantir l'auditabilité, la traçabilité et la reconstruction complète de l'état.  
+  <br>2. Slice architecture : chaque slice du modèle correspond à un répertoire dédié dans le code, encapsulant ses commandes, évènements, projections et handlers.  
+  <br>3. Slice de changement d'état (automation) : elle se fera avec une Command et un Command Handler pour appliquer les règles métier et générer les évènements associés.  
+  <br>4. Slice de vue d'état : elle se fera avec une Query et un Query Handler, via un mécanisme publish & subscribe, afin de fournir des vues réactives de l'état.  
+  <br>5. Projection : chaque slice de vue d'état doit posséder deux icônes de contrôle — "Empty Projection" pour supprimer la projection actuelle et "Rebuild Projection" pour reconstruire la projection à partir de l'historique des évènements.  
+  <br>6. Automate (automation) : il applique le principe du Todo Pattern List ; il se déclenche via une subscription aux évènements et un scheduler qui exécute un cycle toutes les 2 secondes.  
+  <br>7. Logique du Todo Pattern : l'automate lit les évènements souscrits ainsi que les évènements publiés. Si un évènement souscrit existe sans évènement publié correspondant pour un même aggregateId, alors l'automate traite cet évènement.  
+  <br>8. Translation (adapter pattern) : la traduction se fera par un copier/coller des données pertinentes avec un nouvel aggregateId pour créer un nouvel agrégat et l’évènement correspondant.  
+  <br>9. Event Store DB : tous les évènements sont stockés dans Event Store DB pour garantir immutabilité et reconstruction complète.  
+  <br>10. Organisation : les évènements sont centralisés dans un répertoire commun nommé "Events" afin d’assurer cohérence et réutilisation.
+  <br>11. Les évènements seront affichés en bas de la page, chronoligiquement du plus récent au plus ancien.
+</p>
+
+<h2>Changement d’état</h2>
+Correspond aux <i>commandes</i> et à leurs <i>gestionnaires</i> (command / commandHandler).<br>
+Une action de l’utilisateur ou du système modifie l’état, et génère des événements stockés dans Event Store DB.<br><br>
+
+<h2>Vue de l’état</h2>
+Correspond aux <i>projections</i> et aux <i>queries</i>.<br>
+Elles peuvent être vidées et reconstruites à partir de l’historique des événements.<br>
+On peut utilisant un mécanisme publish/subscribe pour fournir ces projections: eventHandler (pub/sub).<br>
+Chaque projection a deux contrôles : « Empty Projection » et « Rebuild Projection » qui rejouent les évènements auquel la projection a souscrit. <br><br>
+
+<h2>Automatisation</h2>
+Correspond aux mécanismes <i>pub/sub</i> et au <i>Todo Pattern List</i>.<br>
+Un automate lit les événements souscrits et déclenche des actions via un scheduler (toutes les 2 secondes).<br>
+Si un évènement attendu n’a pas encore produit de sortie correspondante (même aggregateId), l’automate le traite.<br><br>
+
+<h2>Traduction</h2>
+Quand un événement externe est <i>traduit</i> en événement interne via un <i>adapter pattern</i>.<br>
+Cela consiste à copier/coller les données pertinentes, créer un nouvel aggregateId, puis publier le nouvel évènement.<br><br>
+
 </section>
 
 <section>

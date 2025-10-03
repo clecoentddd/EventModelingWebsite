@@ -1,0 +1,7 @@
+[eventmodelingch]
+shortcode = eveo05
+phpversion = 8.3
+phpextensions = imagick
+nodeversion = 22
+mailfrom = eventmodelingch@tb-hosting.com
+
