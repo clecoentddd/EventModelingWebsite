@@ -1,4 +1,6 @@
-/* Reset */
+/* ===== GLOBAL.CSS ===== */
+
+/* --- Reset --- */
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +15,7 @@ body {
   font-size: 15px;
 }
 
-/* --- Updated Header: Black + Blue --- */
+/* --- Header: Black + Blue --- */
 header {
   display: flex;
   align-items: center;
@@ -47,7 +49,7 @@ header h1 {
   text-align: center;
 }
 
-/* --- Navigation with black/blue theme --- */
+/* ===== NAVIGATION ===== */
 nav {
   display: flex;
   justify-content: center;
@@ -55,6 +57,7 @@ nav {
   padding: 0.9rem 0;
   background: #111;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  position: relative;
 }
 
 nav a,
@@ -84,6 +87,10 @@ nav a:hover,
 nav .dropbtn:hover {
   color: #0F9ED5;
   background: rgba(15, 158, 213, 0.15);
+}
+
+nav .dropdown {
+  position: relative;
 }
 
 nav .dropdown-content {
@@ -119,6 +126,12 @@ nav .dropdown-content .submenu {
   position: relative;
 }
 
+nav .dropdown-content .submenu > a::after {
+  content: " ▶";
+  float: right;
+  font-size: 0.7rem;
+}
+
 nav .dropdown-content .submenu .submenu-content {
   display: none;
   position: absolute;
@@ -135,24 +148,13 @@ nav .dropdown-content .submenu:hover .submenu-content {
   display: block;
 }
 
-nav .dropdown-content .submenu-content a {
-  padding: 0.6rem 1rem;
-}
-
-nav .dropdown-content .submenu > a::after {
-  content: " ▶";
-  float: right;
-  font-size: 0.7rem;
-}
-
-/* Main */
+/* ===== MAIN CONTENT ===== */
 main {
   max-width: 1200px;
   margin: 1.5rem auto;
   padding: 0 1rem;
 }
 
-/* Sections */
 section {
   margin-bottom: 1.8rem;
   padding-top: 2rem;
@@ -261,10 +263,10 @@ h3 {
 }
 
 section img {
-  max-width: 70%;  /* shrink to 80% of container width */
-  height: auto;    /* preserve aspect ratio */
+  max-width: 70%;
+  height: auto;
   display: block;
-  margin: 1rem auto; /* center the image */
+  margin: 1rem auto;
 }
 
 .cropped-image {
@@ -289,10 +291,8 @@ section img {
   text-align: left;
 }
 
-
-/* Responsive sidebar */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 800px) {
-
   nav {
     flex-direction: column;
     gap: 0.6rem;
@@ -313,17 +313,6 @@ section img {
   }
 }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 0.8rem;
-  font-size: 0.8rem;
-  color: #666;
-  border-top: 1px solid #e6e6e6;
-  margin-top: 2rem;
-}
-
-/* Responsive basics */
 @media (max-width: 600px) {
   header h1 {
     font-size: 2rem;
@@ -338,7 +327,17 @@ footer {
   }
 }
 
-/* Business-like EM bullets */
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.8rem;
+  color: #666;
+  border-top: 1px solid #e6e6e6;
+  margin-top: 2rem;
+}
+
+/* ===== BULLETS ===== */
 .em-bullets {
   list-style: none;
   padding-left: 0;
@@ -378,7 +377,6 @@ footer {
   color: #0F9ED5;
 }
 
-/* Sub-lists */
 .em-bullets li ul {
   list-style: disc inside;
   margin-top: 0.5rem;
