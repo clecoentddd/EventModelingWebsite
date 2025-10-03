@@ -289,53 +289,9 @@ section img {
   text-align: left;
 }
 
-/* Sidebar styles */
-.sidebar {
-  flex: 0 0 250px;
-  background: #f9f9f9;
-  padding: 15px;
-  border-left: 1px solid #ddd;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.05);
-}
-
-.sidebar h3 {
-  margin-top: 0;
-  margin-bottom: 0.8rem;
-  color: #3a4b63;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li {
-  margin: 0.5rem 0;
-}
-
-.sidebar a {
-  text-decoration: none;
-  color: #007acc;
-}
-
-.sidebar a:hover {
-  text-decoration: underline;
-}
 
 /* Responsive sidebar */
 @media (max-width: 800px) {
-  .main-with-sidebar {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    flex: none;
-    width: 100%;
-    border-left: none;
-    border-top: 1px solid #ddd;
-    margin-top: 1rem;
-    box-shadow: none;
-  }
 
   nav {
     flex-direction: column;
@@ -382,66 +338,55 @@ footer {
   }
 }
 
-
-.news-cards {
-  width: 100%;
-  padding: 10px;
-  background-color: #f9f9f9;
-}
-
-.news-grid {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 10px;
-  justify-content: center; /* center cards horizontally */
-}
-
-/* existing styles for .news-card */
-.news-card {
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-  flex: 0 0 auto;
-  width: 180px;
+/* Business-like EM bullets */
+.em-bullets {
+  list-style: none;
+  padding-left: 0;
+  max-width: 800px;
+  margin: 1rem auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.2s ease;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-.news-card:hover {
-  transform: translateY(-3px);
-}
-
-.news-card img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-}
-
-.news-card h4 {
-  margin: 8px;
-  font-size: 1em;
-  color: #333;
-}
-
-.news-card::-webkit-scrollbar {
-  height: 8px;
-}
-
-.news-card::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
+.em-bullets li {
+  position: relative;
+  padding: 10px 16px;
+  border-left: 3px solid #0F9ED5;
+  background: #ffffff;
   border-radius: 4px;
+  transition: background 0.2s ease;
 }
 
-/* For smaller screens */
-@media screen and (max-width: 600px) {
-  .news-card {
-    width: 140px;
-  }
+.em-bullets li:hover {
+  background: #f7f9fb;
+}
+
+.em-bullets li::before {
+  content: "•";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #0F9ED5;
+}
+
+.em-bullets li strong {
+  color: #0F9ED5;
+}
+
+/* Sub-lists */
+.em-bullets li ul {
+  list-style: disc inside;
+  margin-top: 0.5rem;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: #4a4a4a;
+}
+
+.em-bullets li ul li {
+  padding: 2px 0;
 }
