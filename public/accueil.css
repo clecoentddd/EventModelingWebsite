@@ -1,0 +1,78 @@
+/* accueil.css — layout & sidebar adjustments */
+
+/* Remove all unwanted margins/padding */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* NEWS SECTION centered on top */
+.news-section {
+  text-align: center;
+  padding: 1rem;
+  background: #f4f4f4;
+}
+.news-items {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.news-item {
+  max-width: 300px;
+  text-align: left;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+}
+
+/* MAIN THREE-COLUMNS LAYOUT */
+main.layout-three-columns {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+main {
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  padding: 0 1.5rem; /* Added padding left and right */
+  text-align: center; /* Ensure text is centered */
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding-left: 15px; /* Padding on the left */
+  padding-right: 15px; /* Optional: some padding on the right too */
+  margin: 0 auto; /* Center horizontally */
+}
+
+.main-content section {
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+
+/* RIGHT SIDEBAR */
+.sidebar {
+  flex: 0 0 250px;
+  background: #f9f9f9;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  main.layout-three-columns {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+  }
+}
