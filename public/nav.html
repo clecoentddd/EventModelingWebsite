@@ -1,13 +1,20 @@
 <nav>
   <a href="index.html">Accueil</a>
-  <a href="10-steps.html">10 étapes simples</a>
-  <a href="4-patterns.html">4 patterns + GWT</a>
-  <a href="GestionDeProjet.html">Gestion de projet</a>
-  <a href="reference.html">Ressources</a>
-  
-  <!-- Dropdown menu for Patterns -->
+
   <div class="dropdown">
-    <button class="dropbtn">Patterns ▾</button>
+    <button class="dropbtn">Comprendre</button>
+    <div class="dropdown-content">
+      <a href="10-steps.html">10 étapes simples</a>
+      <a href="4-patterns.html">4 patterns + GWT</a>
+    </div>
+  </div>
+
+  <a href="GestionDeProjet.html">Gestion de projet</a>
+
+  <a href="reference.html">Ressources</a>
+
+  <div class="dropdown">
+    <button class="dropbtn">Patterns</button>
     <div class="dropdown-content">
       <a href="patterns.html#todo">ToDo List</a>
       <a href="patterns.html#passage">Passage of Time</a>
@@ -16,9 +23,19 @@
     </div>
   </div>
 
-  <a href="faq.html">FAQ</a>
-  <a href="definitions.html">Glossaire</a>
-  <a href="contact.html">Contact</a>
-  <a href="services.html">Services</a>
-</nav>
+  <div class="dropdown">
+    <button class="dropbtn">Aide</button>
+    <div class="dropdown-content">
+        <a href="faq.html">FAQ</a>
+        <a href="definitions.html">Glossaire</a>
+    </div>
+  </div>
 
+  <div class="dropdown">
+    <button class="dropbtn">Contacts</button>
+    <div class="dropdown-content">
+      <a href="contact.html">Contact</a>
+      <a href="services.html">Services</a>
+    </div>
+  </div>
+</nav>

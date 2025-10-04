@@ -1,5 +1,66 @@
 /* ===========================
-   Books Section
+    Tab Menu Styling (Light Grey & Mobile Friendly)
+=========================== */
+.tab-menu {
+  display: flex;
+  justify-content: center; /* Align left for scrollable items */
+  gap: 0.5rem; /* Reduced gap for mobile space efficiency */
+  
+  /* NEW COLORS */
+  background-color: #f0f0f0; /* Light Grey background */
+  padding: 10px;
+  border-bottom: 2px solid #ccc; /* Slightly darker grey border */
+  
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  
+  /* MOBILE FRIENDLY SCROLLING */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent buttons from wrapping */
+  /* Hide scrollbar for a cleaner look (optional, but common) */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/* Hide scrollbar for WebKit browsers */
+.tab-menu::-webkit-scrollbar {
+  display: none;
+}
+
+/* Boutons arrondis */
+.tab-button {
+  /* NEW COLORS */
+  background: #ffffff; /* White background for buttons */
+  border: 1px solid #ddd; /* Light border for separation */
+  
+  border-radius: 999px; /* arrondi max → pill shape */
+  padding: 10px 20px; /* Adjusted padding for mobile */
+  font-size: 0.95rem; /* Slightly smaller font for mobile */
+  font-weight: 500; /* Lighter font weight */
+  cursor: pointer;
+  color: #333; /* Darker text for contrast */
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* Important: Prevents buttons from shrinking on mobile */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+}
+
+/* Hover */
+.tab-button:hover {
+  background-color: #e0e0e0; /* Slightly darker grey on hover */
+  border-color: #c0c0c0;
+}
+
+/* Actif (onglet sélectionné) */
+.tab-button.active {
+  /* NEW COLORS */
+  background-color: #333; /* Dark grey/black for active state */
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-color: #333;
+}
+
+/* ===========================
+    Books Section (No Changes)
 =========================== */
 #books .book-card {
   display: flex;
@@ -11,7 +72,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+/* ... rest of the Books Section CSS ... */
 #books .book-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.12);
@@ -26,7 +87,7 @@
 
 #books .book-info {
   flex: 1;
-  text-align: right; /* <-- texte aligné à droite */
+  text-align: right;
 }
 
 #books .book-info h3 {
@@ -60,7 +121,7 @@
   }
 
   #books .book-info {
-    text-align: center; /* sur mobile, centré */
+    text-align: center;
   }
 
   #books .book-cover {
@@ -70,20 +131,20 @@
 }
 
 /* ===========================
-   Other Sections (Articles, etc.)
+    Other Sections (Articles, etc.) (No Changes)
 =========================== */
 
 /* Conteneur qui aligne les cards côte à côte */
 .references-container {
   display: flex;
-  flex-wrap: wrap;         /* retour à la ligne si pas assez de place */
-  gap: 1rem;               /* espace entre les cards */
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: flex-start;
 }
 
 .reference-card {
-  flex: 1 1 calc(33% - 1rem); /* 3 cards par ligne en desktop */
-  min-width: 250px;           /* largeur mini pour garder la lisibilité */
+  flex: 1 1 calc(33% - 1rem);
+  min-width: 250px;
   background: #fff;
   padding: 1rem;
   border-radius: 10px;
@@ -114,46 +175,4 @@
 
 .reference-card a:hover {
   text-decoration: underline;
-}
-
-
-/* ===========================
-   Tab Menu Styling
-=========================== */
-.tab-menu {
-  display: flex;
-  justify-content: center;
-  gap: 1rem; /* espace entre les boutons */
-  background-color: #e6f0fa; /* bleu clair doux */
-  padding: 10px;
-  border-bottom: 2px solid #cbd5e1;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-/* Boutons arrondis */
-.tab-button {
-  background: #d0e6f9; /* bleu pastel */
-  border: none;
-  border-radius: 999px; /* arrondi max → pill shape */
-  padding: 12px 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  color: #1e3a8a; /* bleu foncé lisible */
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-/* Hover */
-.tab-button:hover {
-  background-color: #bfdbfe; /* bleu un peu plus fort */
-}
-
-/* Actif (onglet sélectionné) */
-.tab-button.active {
-  background-color: #3b82f6; /* bleu vif */
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
