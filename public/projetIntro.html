@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'IA en stéroïde — Contexte, Modèle et Architecture</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="projetIntro.css">
+</head>
+<body>
+
+  <div id="header"></div>
+  <div id="nav"></div>
+
+  <main class="main ai-page">
+
+    <section class="intro">
+      <h1>L'IA en stéroïde</h1>
+      <p>
+        L’IA devient réellement puissante quand elle comprend le <strong>contexte</strong>,
+        les <strong>intentions métier</strong> et les <strong>structures logicielles</strong> qui donnent sens aux données.  
+        Avec <strong>Event Modeling</strong>, <strong>Event Sourcing</strong> et la <strong>Vertical Slice Architecture</strong>,  
+        toutes les pièces s’alignent.
+      </p>
+    </section>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>L’IA a besoin de contexte</h2>
+        <p>
+          Les modèles d’IA sont efficaces lorsqu’ils reçoivent des signaux explicites : les acteurs, les actions, les conséquences.  
+          Plus le contexte est clair, plus l’IA comprend, apprend et propose des décisions cohérentes.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Event Modeling donne le contexte métier</h2>
+        <p>
+          Event Modeling décrit le système à travers les événements, les intentions des utilisateurs et les résultats attendus.  
+          C’est une représentation explicite du <strong>pourquoi</strong> et du <strong>comment</strong> : une base de compréhension idéale pour l’IA.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Event Sourcing capture les faits</h2>
+        <p>
+          Les événements ne sont pas que du contexte : ce sont aussi des <strong>données riches et temporelles</strong>.  
+          Ils racontent l’histoire du système, et constituent une source d’apprentissage continue pour l’IA.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Vertical Slice Architecture donne vie au modèle</h2>
+        <p>
+          Chaque <em>slice</em> relie un scénario métier à sa mise en œuvre technique.  
+          Cette approche favorise la cohérence entre le modèle et le code, et fournit des repères explicites que l’IA peut exploiter.
+        </p>
+      </article>
+
+      <article class="card highlight">
+        <h2>Tout s’aligne parfaitement</h2>
+        <p>
+          <strong>Event Modeling</strong> structure le contexte métier.  
+          <strong>Event Sourcing</strong> conserve les faits.  
+          <strong>Vertical Slice Architecture</strong> donne une forme claire au système.  
+          Ensemble, ils forment un terrain idéal pour une <strong>IA vraiment efficace</strong>.
+        </p>
+      </article>
+    </section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("header.html").then(r => r.text()).then(d => document.getElementById("header").innerHTML = d);
+    fetch("nav.html").then(r => r.text()).then(d => document.getElementById("nav").innerHTML = d);
+    fetch("footer.html").then(r => r.text()).then(d => document.getElementById("footer").innerHTML = d);
+  </script>
+
+</body>
+</html>

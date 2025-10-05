@@ -1,5 +1,6 @@
 /* ===== GLOBAL.CSS ===== */
 @import url("nav.css");
+@import url("ptt.css");
 
 /* --- Reset --- */
 * {
