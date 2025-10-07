@@ -1,0 +1,188 @@
+:root {
+  --color-success: #2ecc71;
+  --color-danger: #e74c3c;
+  --color-accent: #3498db;
+}
+
+body {
+  font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+  margin: 16px;
+  background: #f6f7fb;
+  color: #222;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 10px auto;
+  max-width: 1000px;
+  box-shadow: 0 6px 18px rgba(20, 20, 40, 0.06);
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+button {
+  background: var(--color-accent);
+  color: #fff;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button.danger {
+  background: var(--color-danger);
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.form-row > * {
+  min-width: 120px;
+}
+
+label {
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+th,
+td {
+  border: 1px solid #eee;
+  padding: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+th {
+  background: #fafafa;
+}
+
+.git-container .branch {
+  padding: 8px;
+  border-left: 4px solid var(--color-accent);
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: #fafcff;
+}
+
+.branch.validated {
+  border-color: var(--color-success);
+}
+
+.branch.cancelled {
+  border-color: var(--color-danger);
+}
+
+.branch.active {
+  border-color: #f1c40f;
+}
+
+.event-list {
+  list-style: none;
+  padding-left: 18px;
+  margin: 6px 0;
+}
+
+.event-dot {
+  margin-right: 6px;
+  color: var(--color-accent);
+}
+
+.change-info {
+  margin-left: 8px;
+  font-style: italic;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 999;
+}
+
+.modal {
+  background: #fff;
+  width: 560px;
+  max-width: 94%;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.16);
+}
+
+.modal h3 {
+  margin: 0 0 8px 0;
+}
+
+.modal pre {
+  background: #f6f7fb;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 8px;
+  max-height: 240px;
+  overflow: auto;
+  white-space: pre-wrap;
+  user-select: text;
+}
+
+.modal .modal-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Test output */
+.test-results {
+  background: #0b0b0b;
+  color: #b6f2a2;
+  font-family: monospace;
+  padding: 12px;
+  border-radius: 8px;
+  height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.test-pass {
+  color: #b6f2a2;
+}
+
+.test-fail {
+  color: #ff6b6b;
+}

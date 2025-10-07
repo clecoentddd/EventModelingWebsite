@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Event-Sourced Accounting Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Event-Sourced Accounting Demo</h1>
+
+  <section class="card control-panel">
+    <h2>Change Set</h2>
+    <div class="button-row">
+      <button id="btnStart" onclick="startChange()">Start Change</button>
+      <button id="btnValidate" onclick="validateChange()">Validate</button>
+      <button class="danger" id="btnCancel" onclick="cancelChange()">Cancel</button>
+      <span id="currentChange" class="change-info">No active change</span>
+      <span id="latestEventInfo" style="margin-left:12px; font-size:0.9rem; color:#666"></span>
+    </div>
+  </section>
+
+  <section class="card input-panel">
+    <h2>Add Entry</h2>
+    <div class="form-row">
+      <label for="type">Type:</label>
+      <select id="type" onchange="populateEntries()">
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+
+      <label for="entryCode">Entry:</label>
+      <select id="entryCode"></select>
+
+      <label for="amount">Amount:</label>
+      <input id="amount" type="number" placeholder="Amount">
+
+      <label for="startMonth">Start Month:</label>
+      <input id="startMonth" type="month">
+
+      <label for="endMonth">End Month:</label>
+      <input id="endMonth" type="month">
+
+      <button onclick="addEntry()">Add</button>
+    </div>
+  </section>
+
+  <section class="card projection-panel">
+    <h2>Projection (Current State)</h2>
+    <div style="overflow-x:auto;">
+      <table id="projectionTable">
+        <thead>
+          <tr id="projectionHeader">
+            <th>Code</th><th>Label</th><th>Type</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="projectionBody"></tbody>
+        <tfoot>
+          <tr class="totals" id="projectionFooter">
+            <td colspan="4">Totals</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <section class="card git-view">
+    <h2>Change Graph</h2>
+    <div id="gitGraph" class="git-container"></div>
+  </section>
+
+  <section class="card event-log">
+    <h2>Event Log</h2>
+    <pre id="events" style="white-space:pre-wrap; max-height:240px; overflow:auto; font-family:monospace"></pre>
+  </section>
+
+  <!-- Test screen -->
+  <section class="card test-panel">
+    <h2>Business Rule Tests</h2>
+    <div class="button-row" style="margin-bottom:10px">
+      <button onclick="runBDDTests()">Run Tests</button>
+      <button onclick="showEventsSnapshot()">Show Current Events</button>
+    </div>
+    <pre id="testResults" class="test-results"></pre>
+  </section>
+
+  <!-- Selectable alert modal -->
+  <div id="customAlert" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal" role="document">
+      <h3>Message</h3>
+      <pre id="modalMessage" class="modal-text" tabindex="0"></pre>
+      <div class="modal-actions">
+        <button onclick="closeAlert()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load scripts -->
+  <script src="engine.js"></script>
+  <script src="bdd-tests.js"></script>
+  <script src="ui.js"></script>
+
+</body>
+</html>

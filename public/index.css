@@ -1,176 +1,95 @@
-/* Sidebar styles */
-.sidebar {
-  flex: 0 0 260px;
-  background: #ffffff; /* clean business white */
-  padding: 20px;
-  border-left: 1px solid #e0e0e0;
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-/* Sidebar title */
-.sidebar h3 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: #1f2937;
-  font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid #0F9ED5;
-  padding-bottom: 5px;
-}
-
-/* Sidebar list */
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar li {
-  margin: 0.5rem 0;
-}
-
-/* Sidebar links */
-.sidebar a {
-  text-decoration: none;
-  color: #1f2937;
-  padding: 12px 15px;
+/* ===== Layout principal ===== */
+.main-with-cards {
   display: flex;
-  align-items: center;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.sidebar a:hover {
-  background: #0F9ED5;
-  color: white;
-  box-shadow: 0 2px 8px rgba(15, 158, 213, 0.3);
-}
-
-.sidebar a.active {
-  background: #0F9ED5;
-  color: white;
-  font-weight: 600;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-}
-
-.sidebar a i {
-  margin-right: 10px;
-  font-size: 1.1rem;
-}
-
-/* Responsive sidebar */
-@media (max-width: 800px) {
-  .main-with-sidebar {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    flex: none;
-    width: 100%;
-    border-left: none;
-    border-top: 1px solid #ddd;
-    margin-top: 1rem;
-    box-shadow: none;
-    border-radius: 0;
-  }
-}
-
-/* NEWS section */
-.news-cards {
-  width: 100%;
-  padding: 15px;
-  background-color: #f5f7fa; /* subtle light gray background */
-  border-radius: 8px;
-}
-
-.news-grid {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 15px;
-  padding: 10px;
-  justify-content: flex-start;
-}
-
-/* Individual news card *//* NEWS section — compact “news feed” style */
-.news-cards {
-  width: 100%;
-  padding: 10px;
-  background-color: #f5f7fa;
-  border-radius: 8px;
-}
-
-.news-grid {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 8px;
-  padding: 5px;
-  justify-content: flex-start;
-}
-
-/* Compact news card */
-.news-card {
-  background: white;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  flex: 0 0 auto;
-  width: 140px;
-  display: flex;
-  flex-direction: column;
+  gap: 2rem;
   align-items: flex-start;
-  text-align: left;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  padding: 8px;
+  max-width: 1400px;
+  margin: auto;
+  padding: 1rem;
 }
 
-.news-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+.main-content {
+  flex: 2;
 }
 
-.news-card img {
-  width: 100%;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 4px;
+.vertical-cards {
+  flex: 0.8;
 }
 
-.news-card h4 {
-  margin: 6px 0 0 0;
-  font-size: 0.85rem;
-  color: #1f2937;
-  font-weight: 500;
-  line-height: 1.2;
+/* ===== Styles des cartes ===== */
+.vertical-cards .card {
+  padding: 1rem;
+  font-size: 0.95rem;
 }
 
-.news-card p {
-  font-size: 0.75rem;
-  color: #555;
-  margin: 4px 0 0 0;
-  line-height: 1.2;
+.vertical-cards .card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
 }
 
-/* Scrollbar styling */
-.news-grid::-webkit-scrollbar {
-  height: 6px;
+.vertical-cards .card ul {
+  padding-left: 1rem;
 }
 
-.news-grid::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.15);
-  border-radius: 3px;
+.vertical-cards .card ul li {
+  margin-bottom: 0.4rem;
 }
 
-/* Responsive news cards */
-@media screen and (max-width: 600px) {
-  .news-card {
-    width: 120px;
+/* ===== Version mobile ===== */
+@media (max-width: 900px) {
+  .main-with-cards {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .main-content,
+  .vertical-cards {
+    flex: 1 1 100%;
+  }
+
+  .vertical-cards .card {
+    font-size: 1rem;
+    padding: 1.2rem;
+  }
+
+  .vertical-cards .card h2 {
+    font-size: 1.2rem;
+  }
+
+  .hero-image,
+  .zoomable,
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  main {
+    padding: 0 1rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* ===== Version très petite (téléphone) ===== */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  p, li {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .main-with-cards {
+    padding: 0.5rem;
   }
 }

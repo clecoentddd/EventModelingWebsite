@@ -17,17 +17,21 @@
   font-weight: bold;
   font-family: "Segoe UI", Arial, sans-serif;
   color: #0F9ED5;
-  text-transform: uppercase;  /* optional PPT-style */
   letter-spacing: 1px;        /* optional for modern look */
 }
 
 .zoomable {
+  position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: zoom-in;
   border-radius: 8px;
+  z-index: 0; /* base layer */
 }
+
 .zoomable:hover {
-  transform: scale(1.1);
+  transform: scale(1.5);
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  z-index: 2;
+  position: relative; /* ensures it creates a stacking context */
+  z-index: 9999;      /* above everything */
 }
+

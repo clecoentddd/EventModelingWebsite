@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Site français dédié à Event Modeling - Event Sourcing (CQRS) - Vertical Slice Architecture</title>
   <link rel="stylesheet" href="global.css">
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="projetIntro.css">
 
   <link rel="icon" type="image/png" href="favicon.png">
 </head>
@@ -14,135 +15,105 @@
   <div id="header"></div>
   <div id="nav"></div>
 
-<main>
-  <section class="news-cards">
-  <div class="news-grid">
-    <div class="news-card">
-      <img src="images/news/confMunichOct2025.jpg" alt="Premier Séminaire Event Modeling">
-      <h4>Event Modeling - Munich - Du 8 & 9 Octobre</h4>
+   <main>
+
+    <!-- MAIN CONTENT + SIDEBAR -->
+    <div class="main-with-cards">
+
+      <!-- Main content -->
+      <div class="main-content">
+        <section id="Home">
+          <h1>Bienvenue sur le site Event Modeling en Français</h1>
+          <h2>Event modeling créé par Adam Dymitruk et évangilisé par Martin Dilger</h2>
+          <h3>Event Modeling permet collaborativement avec les métiers et les équipes projet de modéliser un système d'information</h3>
+          <img src="images/intro.svg" alt="Key Visual" class="hero-image center-img zoomable">
+          <p>L'objectif de ce site est de vous aider dans votre chemin vers Event Sourcing et Event Modeling.</p>
+
+          <h2>Event Modeling (EM) est une approche de modélisation d'un système d'information...</h2>
+          <img src="images/EM.jpg" alt="Key Visual" class="hero-image center-img zoomable">
+
+          <div class="em-description">
+            <ul class="em-bullets">
+              <li>La toute première activité est un storming autour des évènements métier</li>
+              <li>Puis un premier processus est choisi - de bout en bout, sans chemin alternatif</li>
+              <li>5 éléments suffisent à décrire un système d'information</li>
+              <li>Un processus Event Modeling est transcrit à travers de 4 patterns fait de ces 5 éléments</li>
+              <li>Chaque étape du processus - représentation d'un des 4 patterns - est appelée slice...</li>
+              <li>Une slice est toujours une user story...</li>
+              <li>Ensuite on itère par processus, chaque processus ayant entre 3 à 30+ slices (étapes)</li>
+            </ul>
+
+            <p>Les forces de l'Event Modeling vont au-delà du modèle :</p>
+
+            <ul class="em-bullets">
+              <li>Permet une implémentation utilisant Event Sourcing...</li>
+              <li>Permet une gestion de projet simple...</li>
+              <li>Permet une documentation vivante</li>
+              <li>Permet d'utiliser le pattern Vertical Slice Architecture...</li>
+            </ul>
+
+            <p>Et en bonus, l'IA est extrêmement efficiente car Event Modeling lui donne le contexte nécessaire à générer une application.</p>
+          </div>
+        </section>
+
+        <section id="VotrePremierModèle">
+          <h2>Premier Modèle</h2>
+          <p>Un modèle très simple...</p>
+          <img src="images/5_elements/Slide1.JPG" alt="Les 5 éléments de base" class="zoomable">
+          <img src="images/5_elements/Slide4.JPG" alt="Les 5 éléments de base" class="zoomable">
+          <img src="images/5_elements/Slide2.JPG" alt="Un processus simple" class="img zoomable">
+          <img src="images/5_elements/Slide3.JPG" alt="Un processus simple avec 4 slices" class="zoomable">
+        </section>
+      </div>
+
+      <!-- Sidebar cards -->
+      <section class="vertical-cards">
+        <div class="card-grid">
+          <div class="card">
+            <h2>Prototypes avec AI</h2>
+            <ul>
+              <li><a href="https://new-chat-w8jr.bolt.host/">Bolt.new Machine Espresso</a></li>
+              <li><a href="https://alert-free-brew.lovable.app/">Lovable Machine Espresso</a></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h2>Learn the basics</h2>
+            <ul>
+              <li><a href="que-sont-les-evenements.html">Que sont les évènements</a></li>
+              <li><a href="premier-model.html">Un premier modèle</a></li>
+              <li><a href="role-ba.html">Analyse Métier</a></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h2>Allons plus loin</h2>
+            <ul>
+              <li><a href="10-steps.html#start">Un modèle complet</a></li>
+              <li><a href="prototyper.html">Créer un prototype</a></li>
+            </ul>
+          </div>
+
+          <div class="card highlight">
+            <h2>Event Modeling avec Martin Dilger</h2>
+            <ul>
+              <li><a href="https://eventsourcingbook.com/">Le livre</a></li>
+              <li><a href="https://www.eventsourcingcourse.com/">La formation</a></li>
+              <li><a href="https://miro.com/marketplace/eventmodeling/">Le Miro plugin</a></li>
+              <li><a href="https://github.com/dilgerma/course-implementing-eventsourcing">GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="news-card">
-      <img src="images/news/dilger-eventsourcing.jpg" alt="Book on Event Modeling">
-      <h4>Book on Event Modeling</h4>
-    </div>
-    <div class="news-card">
-      <img src="images/news/axon-oct-2025.jpg" alt="Nouveau projet">
-      <h4>Axon Conference - 1 & 2 Octobre</h4>
-    </div>
-
-  </div>
-</section>
-
-  <div class="main-with-sidebar">
-    <div class="main-content">
-      
-      <section id="Home">
-        <h1>Bienvenue sur le site Event Modeling en Français</h1>
-        <p> </p>
-        <h2>Event modeling créé par Adam Dymitruk et évangilisé par Martin Dilger</h2>
-        <br>
-        <h3>Event Modeling permet collaborativement avec les métiers et les équipes projet de modéliser un système d'information</h3>
-          <img src="images/intro.svg" alt="Key Visual" class="hero-image center-img">
-        
-        <p>L'objectif de ce site est de vous aider dans votre chemin vers Event Sourcing et Event Modeling</p>
-         <p>
-            <br>
-            <h2>Event Modeling (EM) est une approche de modélisation d'un système d'information (au sens large) qui se bâtit processus par processus 
-              (autre terme utilisé: chapître)</h2>
-          <br>
-            <img src="images/EM.jpg" alt="Key Visual" class="hero-image center-img">
-            <br>
-          </p>
-        
-      <div class="em-description">      
-  <ul class="em-bullets">
-    <li>La toute première activité est un storming autour des évènements métier</li>
-    <li>Puis un premier processus est choisi: un processus en EM est une succession d'étapes atomiques (pas à pas) ne prenant qu'une seule direction pour atteindre l'étape finale du processus choisi (focus!)</li>
-    <li>Contrairement à BPMN, un processus EM n'a pas de branchement (si... alors... sinon...)</li>
-    <li>Un processus EM est fait de 4 patterns: changement d'état, vue de l'état, automatisation et traduction</li>
-    <li>Chaque étape est appelée slice (tranche). Une slice est petite, livrable, testable et apporte de la valeur métier</li>
-    <li>Une slice est toujours une user story et couvre les 3C: Carte, Conversations, Confirmation (car on ajoute les GWT tests ou tests BDD)</li>
-    <li>Ensuite on itère par processus</li>
-  </ul>
-  
-  <p>Les forces de l'EM vont au-delà du modèle et grâce au modèle :</p>
-
-  <ul class="em-bullets">
-    <li>Permet une implémentation utilisant Event Sourcing (CQRS) et Vertical Slice Architecture</li>
-    <li>Permet une gestion de projet simple: l'unité de mesure devient la slice</li>
-    <li>Permet une documentation vivante</li>
-    <li>Permet d'utiliser le pattern "Vertical Slice Architecture" pour l'implémentation</li>
-  </ul>
-
-  <p>Et en bonus, car l'EM donne beaucoup de contexte, riche, explicite et détaillée, l'IA est extrêmement efficiente.</p>
-</div>
-
-    </section>
-
-    <section id="VotrePremierModèle">
-      <h2>Premier Modèle</h2>
-      <p>Une modèle très simple pour présenter l'idée d'Event Modeling: commander votre espresso avec une machine automatique</p>
-      <img src="images/5_elements/Slide1.JPG" alt="Les 5 éléments de base" class="center-img">
-      <img src="images/5_elements/Slide2.JPG" alt="Un processus simple" class="center-img">
-    </section>
-  </div>
-
-  <aside class="sidebar">
-    <h3>Prototype avec AI</h3>
-    <ul><a href="https://new-chat-w8jr.bolt.host/">Bolt.new Machine Espresso</a></ul>
-    <ul><a href="https://alert-free-brew.lovable.app/">Lovable Machine Espresso</a></ul>
-    <br>
-    <h3>Learn the basics</h3>
-    <ul>
-      <li><a href="que-sont-les-evenements.html">Que sont les évènements</a></li>
-      <li><a href="premier-model.html">Un premier modèle</a></li>
-      <li><a href="role-ba.html">Analyse Métier: Faciliteur</a></li>
-    </ul>
-    <br>
-    <h3>Allons un peu plus loin</h3>
-    <ul>
-            <li><a href="cours1.html">Complétons le modèle</a></li>
-      <li><a href="prototyper.html">Créer un prototype avec le modèle</a></li>
-    </ul>
-        <h3>Event Modeling avec Martin Dilger</h3>
-    <ul>            
-      <li><a href="https://eventsourcingbook.com/">Le livre de Martin Dilger</a></li>
-      <li><a href="https://www.eventsourcingcourse.com/">La formation</a></li>
-      <li><a href="https://miro.com/marketplace/eventmodeling/">Le Miro (plug in)</a></li>
-      <li><a href="https://github.com/dilgerma/course-implementing-eventsourcing">GitHub</a></li>
-    </ul>
-  </aside>
-</main>
-
-
+  </main>
 
   <div id="footer"></div>
 
   <script>
-    // Load header
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("header").innerHTML = data);
-
-    // Load nav
-    fetch("nav.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("nav").innerHTML = data);
-
-    // Load footer
-    fetch("footer.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("footer").innerHTML = data);
-
-    // Example interactivity
-    document.addEventListener("DOMContentLoaded", () => {
-      const button = document.getElementById('clickMe');
-      if (button) {
-        button.addEventListener('click', () => {
-          alert('Hello! Your site is fully independent.');
-        });
-      }
-    });
+    fetch("header.html").then(res => res.text()).then(data => document.getElementById("header").innerHTML = data);
+    fetch("nav.html").then(res => res.text()).then(data => document.getElementById("nav").innerHTML = data);
+    fetch("footer.html").then(res => res.text()).then(data => document.getElementById("footer").innerHTML = data);
   </script>
 
 </body>

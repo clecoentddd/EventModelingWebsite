@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site français dédié à Event Modeling - Event Sourcing (CQRS) - Vertical Slice Architecture</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="news.css">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+  <div id="header"></div>
+  <div id="nav"></div>
+
+   <main>
+    <!-- NEWS section -->
+    <section class="news-cards">
+      <h1>Some important news and links in Event Modeling Active Eco-System</h1>
+      <div class="news-grid">
+        <a href="https://www.nebulit.de/eventmodeling-conference-2025" class="news-card">
+          <img src="images/news/confMunichOct2025.jpg" alt="Premier Séminaire Event Modeling">
+          <h4>Event Modeling - Munich - Du 8 & 9 Octobre</h4>
+        </a>
+
+        <a href="https://leanpub.com/eventmodeling-and-eventsourcing" class="news-card">
+          <img src="images/news/dilger-eventsourcing.jpg" alt="Book on Event Modeling">
+          <h4>Book on Event Modeling</h4>
+        </a>
+
+        <a href="https://www.axoniq.io/axoniq-conference-2025/" class="news-card">
+          <img src="images/news/axon-oct-2025.jpg" alt="Axon Conference">
+          <h4>Axon Conference - 1 & 2 Octobre</h4>
+        </a>
+
+        <a href="https://www.youtube.com/watch?v=6DqaNKxjvko" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="news-card">
+          <img src="images/news/webinarMD.jpg" alt="Webinar Martin Dilger">
+          <h4>Excellente vidéo de Martin</h4>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("header.html").then(res => res.text()).then(data => document.getElementById("header").innerHTML = data);
+    fetch("nav.html").then(res => res.text()).then(data => document.getElementById("nav").innerHTML = data);
+    fetch("footer.html").then(res => res.text()).then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+
+</body>
+</html>
