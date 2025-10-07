@@ -8,21 +8,21 @@
 </head>
 <body>
 
-  <h1>Event-Sourced Accounting Demo</h1>
+  <h1>Gérer le versioning de données comme Git</h1>
 
   <section class="card control-panel">
-    <h2>Change Set</h2>
+    <h2>Créer, Valider ou Annuler des versions</h2>
     <div class="button-row">
-      <button id="btnStart" onclick="startChange()">Start Change</button>
-      <button id="btnValidate" onclick="validateChange()">Validate</button>
-      <button class="danger" id="btnCancel" onclick="cancelChange()">Cancel</button>
-      <span id="currentChange" class="change-info">No active change</span>
+      <button id="btnStart" onclick="startChange()">Créer une nouvelle version</button>
+      <button id="btnValidate" onclick="validateChange()">Valider les changements pour la version en cours</button>
+      <button class="danger" id="btnCancel" onclick="cancelChange()">Annuler le version en cours</button>
+      <span id="currentChange" class="change-info">Pas de version en cours</span>
       <span id="latestEventInfo" style="margin-left:12px; font-size:0.9rem; color:#666"></span>
     </div>
   </section>
 
   <section class="card input-panel">
-    <h2>Add Entry</h2>
+    <h2>Ajouter une nouvelle entrée</h2>
     <div class="form-row">
       <label for="type">Type:</label>
       <select id="type" onchange="populateEntries()">
@@ -30,29 +30,29 @@
         <option value="expense">Expense</option>
       </select>
 
-      <label for="entryCode">Entry:</label>
+      <label for="entryCode">Entrée:</label>
       <select id="entryCode"></select>
 
-      <label for="amount">Amount:</label>
+      <label for="amount">Montant:</label>
       <input id="amount" type="number" placeholder="Amount">
 
-      <label for="startMonth">Start Month:</label>
+      <label for="startMonth">De (mois):</label>
       <input id="startMonth" type="month">
 
-      <label for="endMonth">End Month:</label>
+      <label for="endMonth">A (mois):</label>
       <input id="endMonth" type="month">
 
-      <button onclick="addEntry()">Add</button>
+      <button onclick="addEntry()">Ajouter</button>
     </div>
   </section>
 
   <section class="card projection-panel">
-    <h2>Projection (Current State)</h2>
+    <h2>Version en cours (agrégation des versions non annulées) - Projection</h2>
     <div style="overflow-x:auto;">
       <table id="projectionTable">
         <thead>
           <tr id="projectionHeader">
-            <th>Code</th><th>Label</th><th>Type</th><th>Status</th>
+            <th>Code</th><th>Label</th><th>Type</th><th>Statut  </th>
           </tr>
         </thead>
         <tbody id="projectionBody"></tbody>
@@ -66,7 +66,7 @@
   </section>
 
   <section class="card git-view">
-    <h2>Change Graph</h2>
+    <h2>Versioning des changements (comme Git) - Projection</h2>
     <div id="gitGraph" class="git-container"></div>
   </section>
 
@@ -77,7 +77,7 @@
 
   <!-- Test screen -->
   <section class="card test-panel">
-    <h2>Business Rule Tests</h2>
+    <h2>Tests des règles Métier (Given, When, Then - BDD)</h2>
     <div class="button-row" style="margin-bottom:10px">
       <button onclick="runBDDTests()">Run Tests</button>
       <button onclick="showEventsSnapshot()">Show Current Events</button>

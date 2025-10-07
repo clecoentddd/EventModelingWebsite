@@ -64,19 +64,19 @@ const EXPENSES = [
    Seed data (no timestamps provided - we'll assign)
    ============================ */
 const seedEventsData = [
-  { type: "ChangeStarted", changeId: "C1001" },
-  { type: "IncomeAdded", changeId: "C1001", entryCode: 101, label: "Salary", amount: 2000, startMonth: "01-2025", endMonth: "03-2025" },
-  { type: "ExpenseAdded", changeId: "C1001", entryCode: 202, label: "Groceries", amount: 150, startMonth: "01-2025", endMonth: "02-2025" },
-  { type: "ChangeValidated", changeId: "C1001" },
+  { type: "VersionCreee", changeId: "C1001" },
+  { type: "RevenuAjoute", changeId: "C1001", entryCode: 101, label: "Salary", amount: 2000, startMonth: "01-2025", endMonth: "03-2025" },
+  { type: "DepenseAjoutee", changeId: "C1001", entryCode: 202, label: "Groceries", amount: 150, startMonth: "01-2025", endMonth: "02-2025" },
+  { type: "VersionValidee", changeId: "C1001" },
 
-  { type: "ChangeStarted", changeId: "C1002" },
-  { type: "IncomeAdded", changeId: "C1002", entryCode: 104, label: "Bonus", amount: 500, startMonth: "02-2025", endMonth: "04-2025" },
-  { type: "ExpenseAdded", changeId: "C1002", entryCode: 205, label: "Insurance", amount: 100, startMonth: "03-2025", endMonth: "03-2025" },
-  { type: "ChangeCancelled", changeId: "C1002" },
+  { type: "VersionCreee", changeId: "C1002" },
+  { type: "RevenuAjoute", changeId: "C1002", entryCode: 104, label: "Bonus", amount: 500, startMonth: "02-2025", endMonth: "04-2025" },
+  { type: "DepenseAjoutee", changeId: "C1002", entryCode: 205, label: "Insurance", amount: 100, startMonth: "03-2025", endMonth: "03-2025" },
+  { type: "VersionAnnulee", changeId: "C1002" },
 
   // incomplete change (intentionally open)
-  { type: "ChangeStarted", changeId: "C1003" },
-  { type: "ExpenseAdded", changeId: "C1003", entryCode: 206, label: "Entertainment", amount: 80, startMonth: "02-2025", endMonth: "04-2025" },
+  { type: "VersionCreee", changeId: "C1003" },
+  { type: "DepenseAjoutee", changeId: "C1003", entryCode: 206, label: "Entertainment", amount: 80, startMonth: "02-2025", endMonth: "04-2025" },
 ];
 
 /* When initializing, assign timestamps in chronological order */
@@ -127,7 +127,7 @@ function getOpenChangeId() {
     grouped[e.changeId] = e; // ends up storing most recent due to chronological iteration
   }
   const open = Object.entries(grouped)
-    .filter(([cid, lastEv]) => lastEv.type !== "ChangeValidated" && lastEv.type !== "ChangeCancelled")
+    .filter(([cid, lastEv]) => lastEv.type !== "VersionValidee" && lastEv.type !== "VersionAnnulee")
     .map(([cid, lastEv]) => ({ changeId: cid, lastEv }));
   if (open.length === 0) return null;
   // return the one with latest timestamp
@@ -155,34 +155,34 @@ function record(event) {
 
 function getLastChangeEventType(changeId) {
   // Get the last CHANGE-RELATED event type for a specific change
-  // Only looks at: ChangeStarted, ChangeValidated, ChangeCancelled
-  // Ignores: IncomeAdded, ExpenseAdded, etc.
+  // Only looks at: VersionCreee, VersionValidee, VersionAnnulee
+  // Ignores: RevenuAjoute, DepenseAjoutee, etc.
   const changeEvents = eventsChronological()
     .filter(e => e.changeId === changeId)
-    .filter(e => ["ChangeStarted", "ChangeValidated", "ChangeCancelled"].includes(e.type));
+    .filter(e => ["VersionCreee", "VersionValidee", "VersionAnnulee"].includes(e.type));
   
   return changeEvents.length > 0 ? changeEvents[changeEvents.length - 1].type : null;
 }
 
-function isChangeStarted(changeId) {
-  // A change is "started" if its last CHANGE event is ChangeStarted
+function isVersionCreee(changeId) {
+  // A change is "started" if its last CHANGE event is VersionCreee
   const lastChangeEventType = getLastChangeEventType(changeId);
-  return lastChangeEventType === "ChangeStarted";
+  return lastChangeEventType === "VersionCreee";
 }
 
 function canAddEntry(changeId) {
-  // User can add income/expense only if the last CHANGE event is ChangeStarted
-  return isChangeStarted(changeId);
+  // User can add income/expense only if the last CHANGE event is VersionCreee
+  return isVersionCreee(changeId);
 }
 
 function canValidateChange(changeId) {
-  // User can validate a change only if the last CHANGE event is ChangeStarted
-  return isChangeStarted(changeId);
+  // User can validate a change only if the last CHANGE event is VersionCreee
+  return isVersionCreee(changeId);
 }
 
 function canCancelChange(changeId) {
-  // User can cancel a change only if the last CHANGE event is ChangeStarted
-  return isChangeStarted(changeId);
+  // User can cancel a change only if the last CHANGE event is VersionCreee
+  return isVersionCreee(changeId);
 }
 
 /* ============================
@@ -193,42 +193,42 @@ function startChange() {
   // User can always start a new change
   const newId = "C" + Math.floor(1000 + Math.random() * 9000);
   currentChangeId = newId;
-  record({ type: "ChangeStarted", changeId: currentChangeId });
+  record({ type: "VersionCreee", changeId: currentChangeId });
   console.log("Started new change:", currentChangeId);
 }
 
 function validateChange() {
   if (!currentChangeId) {
-    alert("No active change to validate.");
+    alert("Pas de version en cours à valider.");
     return;
   }
   
-  // Check if the change can be validated (last CHANGE event must be ChangeStarted)
+  // Check if the change can be validated (last CHANGE event must be VersionCreee)
   if (!canValidateChange(currentChangeId)) {
     const lastChangeEventType = getLastChangeEventType(currentChangeId);
-    alert(`Cannot validate change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only validate a change if its last CHANGE event is "ChangeStarted".`);
+    alert(`Cannot validate change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only validate a change if its last CHANGE event is "VersionCreee".`);
     return;
   }
   
-  record({ type: "ChangeValidated", changeId: currentChangeId });
+  record({ type: "VersionValidee", changeId: currentChangeId });
   console.log("Validated change:", currentChangeId);
   currentChangeId = null;
 }
 
 function cancelChange() {
   if (!currentChangeId) {
-    alert("No active change to cancel.");
+    alert("Vous ne pouvez qu'annuler une version en cours.");
     return;
   }
   
-  // Check if the change can be cancelled (last CHANGE event must be ChangeStarted)
+  // Check if the change can be cancelled (last CHANGE event must be VersionCreee)
   if (!canCancelChange(currentChangeId)) {
     const lastChangeEventType = getLastChangeEventType(currentChangeId);
-    alert(`Cannot cancel change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only cancel a change if its last CHANGE event is "ChangeStarted".`);
+    alert(`Cannot cancel change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only cancel a change if its last CHANGE event is "VersionCreee".`);
     return;
   }
   
-  record({ type: "ChangeCancelled", changeId: currentChangeId });
+  record({ type: "VersionAnnulee", changeId: currentChangeId });
   console.log("Cancelled change:", currentChangeId);
   currentChangeId = null;
 }
@@ -239,14 +239,14 @@ function cancelChange() {
 
 function addEntry() {
   if (!currentChangeId) {
-    alert("Cannot add entry — no active change. Please start a change first.");
+    alert("Vous ne pouvez pas faire des saisies car il y a pas de version en cours — Créer une nouvelle version.");
     return;
   }
 
-  // Check if the change allows adding entries (last CHANGE event must be ChangeStarted)
+  // Check if the change allows adding entries (last CHANGE event must be VersionCreee)
   if (!canAddEntry(currentChangeId)) {
     const lastChangeEventType = getLastChangeEventType(currentChangeId);
-    alert(`Cannot add entry to change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only add entries if the change's last CHANGE event is "ChangeStarted".`);
+    alert(`Cannot add entry to change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only add entries if the change's last CHANGE event is "VersionCreee".`);
     return;
   }
 
@@ -270,7 +270,7 @@ function addEntry() {
   const startMonth = convertMonthFormat(startMonthInput);
   const endMonth = convertMonthFormat(endMonthInput);
 
-  const evType = type === "income" ? "IncomeAdded" : "ExpenseAdded";
+  const evType = type === "income" ? "RevenuAjoute" : "DepenseAjoutee";
   record({ type: evType, changeId: currentChangeId, entryCode: code, label, amount, startMonth, endMonth });
   
   // Clear form fields
@@ -332,23 +332,23 @@ function applyEvent(e) {
   if (!e || !e.type) return;
   const entryKey = e.changeId && e.entryCode ? `${e.changeId}-${e.entryCode}` : null;
   switch (e.type) {
-    case "IncomeAdded":
-    case "ExpenseAdded":
+    case "RevenuAjoute":
+    case "DepenseAjoutee":
       if (entryKey) projection[entryKey] = { ...e, status: "pending" };
       break;
-    case "ChangeValidated":
+    case "VersionValidee":
       // mark all entries in this change validated
       for (const k of Object.keys(projection)) {
         if (k.startsWith(e.changeId + '-')) projection[k].status = "validated";
       }
       break;
-    case "ChangeCancelled":
+    case "VersionAnnulee":
       // remove entries for this change
       for (const k of Object.keys(projection)) {
         if (k.startsWith(e.changeId + '-')) delete projection[k];
       }
       break;
-    case "ChangeStarted":
+    case "VersionCreee":
       // nothing to projection directly; used to identify open changes
       break;
   }
@@ -385,18 +385,18 @@ rebuildProjection();
 
 // On initialization, check if there's an open change and resume it
 (function resumeOpenChange() {
-  // Find all changes and check which ones are "started" (last CHANGE event is ChangeStarted)
+  // Find all changes and check which ones are "started" (last CHANGE event is VersionCreee)
   const allChanges = new Set(events.map(e => e.changeId).filter(Boolean));
   
   for (const changeId of allChanges) {
     const lastChangeEventType = (() => {
       const changeEvents = eventsChronological()
         .filter(e => e.changeId === changeId)
-        .filter(e => ["ChangeStarted", "ChangeValidated", "ChangeCancelled"].includes(e.type));
+        .filter(e => ["VersionCreee", "VersionValidee", "VersionAnnulee"].includes(e.type));
       return changeEvents.length > 0 ? changeEvents[changeEvents.length - 1].type : null;
     })();
     
-    if (lastChangeEventType === "ChangeStarted") {
+    if (lastChangeEventType === "VersionCreee") {
       // This change is open, resume it
       currentChangeId = changeId;
       console.log("Resumed open change on initialization:", currentChangeId);

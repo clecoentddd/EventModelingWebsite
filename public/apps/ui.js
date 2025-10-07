@@ -43,7 +43,7 @@ function renderProjection() {
 
   for (const key of sortedKeys) {
     const e = projection[key];
-    const typeLabel = e.type === "IncomeAdded" ? "Income" : "Expense";
+    const typeLabel = e.type === "RevenuAjoute" ? "Income" : "Expense";
     const multiplier = typeLabel === "Income" ? 1 : -1;
     let row = `<tr class="${typeLabel.toLowerCase()} ${e.status}">
       <td>${e.entryCode}</td>
@@ -82,10 +82,10 @@ function renderGitGraph() {
     const last = branchEvents[branchEvents.length - 1];
     let statusClass = "";
     let statusIcon = "●";
-    if (last?.type === "ChangeValidated") {
+    if (last?.type === "VersionValidee") {
       statusClass = "validated";
       statusIcon = "✓";
-    } else if (last?.type === "ChangeCancelled") {
+    } else if (last?.type === "VersionAnnulee") {
       statusClass = "cancelled";
       statusIcon = "✕";
     } else {
@@ -115,9 +115,9 @@ function renderEventsLog() {
 }
 
 function renderCurrentInfo() {
-  document.getElementById("currentChange").textContent = currentChangeId ? `Active Change: ${currentChangeId}` : "No active change";
+  document.getElementById("currentChange").textContent = currentChangeId ? `Version en cours: ${currentChangeId}` : "Pas de version en cours";
   const latest = getLatestGlobalEvent();
-  document.getElementById("latestEventInfo").textContent = latest ? `Latest: ${latest.type} (${latest.changeId || "no-changeId"}) @ ${latest.timestamp}` : '';
+  document.getElementById("latestEventInfo").textContent = latest ? `Dernier évènement reçu: ${latest.type} (${latest.changeId || "no-changeId"}) @ ${latest.timestamp}` : '';
 }
 
 function render() {

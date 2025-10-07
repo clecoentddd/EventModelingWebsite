@@ -1,5 +1,5 @@
 :root {
-  --color-success: #2ecc71;
+  --color-success: #000000;
   --color-danger: #e74c3c;
   --color-accent: #3498db;
 }
@@ -109,6 +109,26 @@ th {
   list-style: none;
   padding-left: 18px;
   margin: 6px 0;
+}
+
+.event-log {
+  background-color: #f2d45b;
+}
+
+.control-panel {
+  background-color: #a0d1f5;
+}
+
+.input-panel {
+  background-color: #a0d1f5;
+}
+
+.projection-panel {
+  background-color: rgb(160, 215, 160);
+}
+
+.git-view {
+  background-color: rgb(160, 215, 160);
 }
 
 .event-dot {
