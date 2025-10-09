@@ -16,6 +16,14 @@ h1 {
   margin-bottom: 18px;
 }
 
+h2 {
+  display: flex;
+  justify-content: space-between; /* puts title on left, icons on right */
+  align-items: center;            /* vertically center icons */
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
 .card {
   background: #fff;
   border-radius: 10px;
@@ -58,6 +66,7 @@ button.danger {
 
 label {
   font-size: 0.9rem;
+  text-align: right;
 }
 
 input,
@@ -206,3 +215,22 @@ th {
 .test-fail {
   color: #ff6b6b;
 }
+
+  .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      font-size: 18px;
+    }
+    .icon-btn:hover {
+      background: #f3f4f6;
+    }
+    .icon-btn.empty-btn:hover {
+      background: #fee2e2;
+    }
+    .icon-btn.rebuild-btn:hover {
+      background: #dbeafe;
+    }

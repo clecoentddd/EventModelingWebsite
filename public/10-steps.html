@@ -23,59 +23,66 @@
     <a href="#start" class="button">Directement sur la pratique →</a>
   </div>
       <!-- Sequential slides -->
-      <h2 class="pptTitle">Rappel</h2>
       <img src="images/10_steps/Slide1.JPG" alt="Step 1" class="zoomable">
-      <img src="images/10_steps/Slide2.JPG" alt="Step 2" class="zoomable">
+      <!-- <img src="images/10_steps/Slide2.JPG" alt="Step 2" class="zoomable"> -->
       <img src="images/10_steps/Slide3.JPG" alt="Step 3" class="zoomable">
       <img src="images/10_steps/Slide4.JPG" alt="Step 4" class="zoomable">
       <img src="images/10_steps/Slide5.JPG" alt="Step 5" class="zoomable">
+      <br>
+      <h2 class="pptTitle">Modélisons une machine espresso semi-automated: bien que simple, on peut couvrir tous les patterns d'Event Modeling</h2>
       <img id="start" src="images/10_steps/Slide6.JPG" alt="Step 6" class="zoomable">
       <br>
+       <h2 class="pptTitle">Event Modeling: c'est d'abord la communication entre les métiers et les développeurs !</h2>
+     
       <img src="images/10_steps/Slide7.JPG" alt="Step 7" class="zoomable">
       <br>
+      <h2 class="pptTitle">Avec tous les participants, nous essayons d'identifier les évènements: les faits, ce qui est arrivé dans le système vraiment. On utilise le "é(e)(s)" (-ed pour l'anglais) pour bien marqué que c'est du passé</h2>
       <img src="images/10_steps/Slide8.JPG" alt="Step 9" class="zoomable">
       <br>
+      <h2 class="pptTitle">Nous organisons les évènements selon la ligne de temps. Soyer léger: ne passer pas trop de temps.</h2>
       <img src="images/10_steps/Slide9.JPG" alt="Step 10" class="zoomable">
       <br>
+      <h2 class="pptTitle">Choississons un chapitre c'est à dire un processus, un workflow sans alternatives, de bout en bout. Tous les participants doivent se concentrer maintenant sur ce chapitre.</h2>
       <img src="images/10_steps/Slide10.JPG" alt="Step 11" class="zoomable">
       <br>
+      <h2 class="pptTitle">Changement d'état: c'est quand l'état du système change: un évènement, un fait, change l'état du système. Le changement d'état est initier par l'utilisateur</h2>
       <img src="images/10_steps/Slide11.JPG" alt="Step 12" class="zoomable">
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquons: pour nous, le changement d'état est initié par l'utilisateur qui veut un espresso. Remarquez que le sticker en bleu fait référence à l'espresso: "Commander" ou "Commander boisson" seraient trop génériques. Les mots sont super-importants.</h2>
       <img src="images/10_steps/Slide12.JPG" alt="Step 13" class="zoomable">
-      <br>
+      <h2 class="pptTitle">Automatisation: le changement d'état est déclenchée par un automate, un processeur. Attention: l'automate ne prend pas de décision</h2>
       <img src="images/10_steps/Slide13.JPG" alt="Step 14" class="zoomable">
       <br>
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquons: l'automatisation, c'est simplement un automate qui fait les espressos dès qu'ils sont commandés</h2>
       <img src="images/10_steps/Slide14.JPG" alt="Step 15" class="zoomable">
-      <br>
+      <h2 class="pptTitle">Vue de l'état: l'automate ci-dessus ne fait que des espressos si l'état du système lui indique qu'il y a des commandes d'espresso à traiter. Donc c'est l'information nécessaire pour passer à l'étape suivante.</h2>
       <img src="images/10_steps/Slide15.JPG" id="enrichissons" alt="Step 16" class="zoomable">
-      <br>
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquon: l'automate a besoin de connaitre les espressos commandées pour les préparer. Dans notre cas, il y a un seul mais c'est juste dans notre exemple.</h2>
       <img src="images/10_steps/Slide16.JPG" alt="Step 17" class="zoomable">
-      <br>
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquons: indiquons à l'utilisateur quand son espresso est préparé</h2>
       <img src="images/10_steps/Slide17.JPG" alt="Step 18" class="zoomable">
       <br>
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquons: quand une alerte est remontée, alors nous affichons l'état du système</h2>
       <img src="images/10_steps/Slide18.JPG" alt="Step 19" class="zoomable">
       <br>
+      <h2 class="pptTitle">Dernier pattern: traduction. Quand un évènement externe est reçu, nous le traduisons en un évènement interne. Le pattern porte son nom: c'est une traduction donc évitez d'ajouter de la logique métier autre que de la traduction</h2>
       <img src="images/10_steps/Slide19.JPG" alt="Step 20" class="zoomable">
       <br>
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquons: on traduit un évènement "Alerte: plus de café" venant du distributeur de grains. Nous le traduisions en une alerte interne avec par exemple un code d'erreur. C'est extrêment utile, notamment si les alertes externed changent de format, il faut juste traduire le nouveau format.</h2>
       <img src="images/10_steps/Slide20.JPG" alt="Step 21" class="zoomable">
-      <br>
+      <h2 class="pptTitle">Les agrégats et les couloirs: un agrégat est un ensemble de données qui ne peuvent vivre qu'ensemble. Votre nom, prénom, date de naissance et état civil permet de vous identifier: vous êtes un agrégat. Avec Event Modeling, il est plus facile de les identifier grâce aux évènements et langages utilisés</h2>
       <img src="images/10_steps/Slide21.JPG" alt="Step 22" class="zoomable">
-      <br>
+      <h2 class="pptTitle">Pour les identifier, tracez des couloirs - "swimlanes" - et classer en fonction des langage utilisé, généralement par métier</h2>
       <img src="images/10_steps/Slide22.JPG" alt="Step 23" class="zoomable">
       <br>
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquons: dans notre cas, il y a une notion d'espresso commandé et préparé. Il y a une notion différentes avec les alertes. Nous mettons les évènements externes dans leur(s) propre(s) couloir(s)</h2>
       <img src="images/10_steps/Slide23.JPG" alt="Step 24" class="zoomable">
-      <br>
+      <h2 class="pptTitle">Identifions les slices: c'est l'étape la plus simple car nous avons construit le modèle avec les slices. Rappel: l'unité de mesure est la slice</h2>
       <img src="images/10_steps/Slide24.JPG" alt="Step 25" class="zoomable">
       <br>
-      <h2 class="pptTitle">Pratiquons</h2>
+      <h2 class="pptTitle">Pratiquons: il suffit juste de repasser sur notre chapitre (processus, workflow)</h2>
       <img src="images/10_steps/Slide25.JPG" alt="Step 26" class="zoomable">
       <br>
+       <h2 class="pptTitle">Etape cruciale: les GWT, pour Given, When, Then (autrement appelé BDD tests). Il s'agit pour chaque slice, de spécifier les règles métier via des tests (le nom est égalemment connu sous Specification by Example")</h2>
       <img src="images/10_steps/Slide26.JPG" alt="Step 27" class="zoomable">
       <br>
       <img src="images/10_steps/Slide27.JPG" alt="Step 28" class="zoomable">

@@ -26,8 +26,8 @@
     <div class="form-row">
       <label for="type">Type:</label>
       <select id="type" onchange="populateEntries()">
-        <option value="income">Income</option>
-        <option value="expense">Expense</option>
+        <option value="income">Revenu</option>
+        <option value="expense">Dépense</option>
       </select>
 
       <label for="entryCode">Entrée:</label>
@@ -47,12 +47,18 @@
   </section>
 
   <section class="card projection-panel">
-    <h2>Version en cours (agrégation des versions non annulées) - Projection</h2>
+    <h2>
+      <span>Version en cours (agrégation des versions non annulées) - Projection</span>
+      <div class="projection-controls">
+        <button class="icon-btn empty-btn" onclick="emptyProjection()" title="Empty Projection">🗑️</button>
+        <button class="icon-btn rebuild-btn" onclick="rebuildProjection()" title="Rebuild Projection">🔄</button>
+      </div>
+    </h2>
     <div style="overflow-x:auto;">
       <table id="projectionTable">
         <thead>
           <tr id="projectionHeader">
-            <th>Code</th><th>Label</th><th>Type</th><th>Statut  </th>
+            <th>Code</th><th>Label</th><th>Type</th><th>Statut</th>
           </tr>
         </thead>
         <tbody id="projectionBody"></tbody>

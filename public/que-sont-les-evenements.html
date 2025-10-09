@@ -15,7 +15,7 @@
 
   <main>
     <section>
-      <h2>Vue d'ensemble</h2>
+      <h1>Vue d'ensemble</h1>
       <p>
         Ci-dessous, rappelons le modèle relationnel et comparons avec Event Sourcing. 
         Dans la 1er cas, la source des données sont des tables relationnelles avec les opérations CRUD: créer de nouvelles données, les lire, les mettre à jour et les supprimer. 
@@ -27,9 +27,15 @@
       <h2>Etats vs Evènements: la quantité d'information en fait sa qualité</h2>
 
       <!-- Sequential slides -->
-      <img src="images/EtatsVersusEvenements/Slide1.JPG" alt="Données relationnelles">
-      <img src="images/EtatsVersusEvenements/Slide2.JPG" alt="Evènements">
-       <img class="cropped-image" src="images/EtatsVersusEvenements/Slide3.JPG" alt="Historique des états">
+       <br>
+      <h2 class="pptTitle">Tout d'abord, à l'ancienne, on stocke l'état</h2>
+      <img src="images/EtatsVersusEvenements/Slide1.JPG" alt="Données relationnelles" class="zoomable">
+      <br>
+      <h2 class="pptTitle">Event sourcing: on stocke les évènments - les faits</h2>
+      <img src="images/EtatsVersusEvenements/Slide2.JPG" alt="Evènements" class="zoomable">
+      <br>
+      <h2 class="pptTitle">Il suffit de rejouer les évènements dans l'ordre (utilisant version ou timestamp) pour reconstituer l'état</h2>
+      <img class="cropped-image zoomable" src="images/EtatsVersusEvenements/Slide3.JPG" alt="Historique des états">
     </section>
 
     <section>

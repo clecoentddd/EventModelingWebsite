@@ -43,8 +43,8 @@ function renderProjection() {
 
   for (const key of sortedKeys) {
     const e = projection[key];
-    const typeLabel = e.type === "RevenuAjoute" ? "Income" : "Expense";
-    const multiplier = typeLabel === "Income" ? 1 : -1;
+    const typeLabel = e.type === "RevenuAjoute" ? "Revenu" : "Dépense";
+    const multiplier = typeLabel === "Revenu" ? 1 : -1;
     let row = `<tr class="${typeLabel.toLowerCase()} ${e.status}">
       <td>${e.entryCode}</td>
       <td>${e.label}</td>

@@ -33,31 +33,30 @@ const bus = {
 let events = [];
 let projection = {};
 let currentChangeId = null;
-
 const INCOMES = [
-  { code: 101, label: "Salary" },
-  { code: 102, label: "Dividends" },
-  { code: 103, label: "Freelance" },
-  { code: 104, label: "Bonus" },
-  { code: 105, label: "Gift" },
-  { code: 106, label: "Investment Return" },
-  { code: 107, label: "Rent Income" },
-  { code: 108, label: "Refund" },
-  { code: 109, label: "Interest" },
-  { code: 110, label: "Other Income" },
+  { code: 101, label: "Salaire" },
+  { code: 102, label: "Dividendes" },
+  { code: 103, label: "Travail indépendant" },
+  { code: 104, label: "Prime" },
+  { code: 105, label: "Cadeau" },
+  { code: 106, label: "Revenu d’investissement" },
+  { code: 107, label: "Revenu locatif" },
+  { code: 108, label: "Remboursement" },
+  { code: 109, label: "Intérêts" },
+  { code: 110, label: "Autre revenu" },
 ];
 
 const EXPENSES = [
-  { code: 201, label: "Rent" },
-  { code: 202, label: "Groceries" },
-  { code: 203, label: "Utilities" },
-  { code: 204, label: "Transportation" },
-  { code: 205, label: "Insurance" },
-  { code: 206, label: "Entertainment" },
-  { code: 207, label: "Healthcare" },
-  { code: 208, label: "Education" },
-  { code: 209, label: "Taxes" },
-  { code: 210, label: "Other Expense" },
+  { code: 201, label: "Loyer" },
+  { code: 202, label: "Courses" },
+  { code: 203, label: "Services publics" },
+  { code: 204, label: "Transport" },
+  { code: 205, label: "Assurance" },
+  { code: 206, label: "Divertissement" },
+  { code: 207, label: "Santé" },
+  { code: 208, label: "Éducation" },
+  { code: 209, label: "Impôts" },
+  { code: 210, label: "Autre dépense" },
 ];
 
 /* ============================
@@ -65,19 +64,60 @@ const EXPENSES = [
    ============================ */
 const seedEventsData = [
   { type: "VersionCreee", changeId: "C1001" },
-  { type: "RevenuAjoute", changeId: "C1001", entryCode: 101, label: "Salary", amount: 2000, startMonth: "01-2025", endMonth: "03-2025" },
-  { type: "DepenseAjoutee", changeId: "C1001", entryCode: 202, label: "Groceries", amount: 150, startMonth: "01-2025", endMonth: "02-2025" },
+  { 
+    type: "RevenuAjoute", 
+    changeId: "C1001", 
+    entryCode: 101, 
+    label: "Salaire", 
+    amount: 2000, 
+    startMonth: "01-2025", 
+    endMonth: "03-2025" 
+  },
+  { 
+    type: "DepenseAjoutee", 
+    changeId: "C1001", 
+    entryCode: 202, 
+    label: "Courses", 
+    amount: 150, 
+    startMonth: "01-2025", 
+    endMonth: "02-2025" 
+  },
   { type: "VersionValidee", changeId: "C1001" },
 
   { type: "VersionCreee", changeId: "C1002" },
-  { type: "RevenuAjoute", changeId: "C1002", entryCode: 104, label: "Bonus", amount: 500, startMonth: "02-2025", endMonth: "04-2025" },
-  { type: "DepenseAjoutee", changeId: "C1002", entryCode: 205, label: "Insurance", amount: 100, startMonth: "03-2025", endMonth: "03-2025" },
+  { 
+    type: "RevenuAjoute", 
+    changeId: "C1002", 
+    entryCode: 104, 
+    label: "Prime", 
+    amount: 500, 
+    startMonth: "02-2025", 
+    endMonth: "04-2025" 
+  },
+  { 
+    type: "DepenseAjoutee", 
+    changeId: "C1002", 
+    entryCode: 205, 
+    label: "Assurance", 
+    amount: 100, 
+    startMonth: "03-2025", 
+    endMonth: "03-2025" 
+  },
   { type: "VersionAnnulee", changeId: "C1002" },
 
-  // incomplete change (intentionally open)
+  // modification incomplète (intentionnellement ouverte)
   { type: "VersionCreee", changeId: "C1003" },
-  { type: "DepenseAjoutee", changeId: "C1003", entryCode: 206, label: "Entertainment", amount: 80, startMonth: "02-2025", endMonth: "04-2025" },
+  { 
+    type: "DepenseAjoutee", 
+    changeId: "C1003", 
+    entryCode: 206, 
+    label: "Divertissement", 
+    amount: 80, 
+    startMonth: "02-2025", 
+    endMonth: "04-2025" 
+  },
 ];
+
 
 /* When initializing, assign timestamps in chronological order */
 (function initSeed() {
@@ -321,6 +361,15 @@ function getMonthsBetween(start, end) {
 /* ============================
    Projection logic (replay chronologically)
    ============================ */
+
+function emptyProjection() {
+  if (confirm("Are you sure you want to empty the projection? This will clear all aggregated data but keep the event log intact.")) {
+    projection = {};
+    bus.emit("projectionUpdated");
+    console.log("Projection emptied");
+  }
+}
+
 function rebuildProjection() {
   projection = {};
   const byChrono = eventsChronological();
