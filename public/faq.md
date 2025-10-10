@@ -8,11 +8,17 @@ A priori, si... Mais en expérimentant, nous rendons l'implicit explicit... et c
 ###  Comment s'assurer que nous couvrons bien l'ensemble du système d'information? 
 Parce que les histoires (chapitres, workflow, processus) appellent d'autres histoires, nous couvrons aisément l'ensemble des fonctionnalités du système d'information, surtout en prenant les bonnes priorités
 
+### 4 patterns uniquement: puis-je ajouter de nouveaux patterns ?
+Discussion avec Adam Dymitruk lors de la conférence EM 2025 à Munich: les 4 patterns suffisent pour décrire un système d'information qui peut être compris à la fois par les métiers et les équipes projet. Initialement, ils avait plus de patterns mais c'était trop compliqué à comprendre. 4 patterns est le fruit de l'expérience.
+
 ### Combien de slices pour mon système d'information? 
 Difficile à dire... Sauf que les premières histoires seront les plus longues en terme de slices. Chaque nouvelle histoire est souvent qu'une "branche" des histoires déjà discutées. Donc, au fur et à mesure, les histoires sont plus courte.
 
 ### Qui peut faciliter les séances d'Event Modeling?
-Business analysts, architects, developers, and product owners use it to align understanding.
+Business analysts, architects, developers, et product owners. Cette approche n'appartient pas à un rôle mais à la personne qui sait faciliter.
+
+### En Event Modeling, combien de temps pour faire un écran ?
+2 minutes maximum. C'est juste pour visualiser. C'est "faible fidélité".
 
 ### Y-a-t-il des test unitaires, du TDD?
 Les Given/When/Then - tests BDD - spécification par l'exemple - sont les seules tests unitaires que vous avez besoin pour votre système d'information du point de vue des processus métier. Ces tests couvrent les règles métier de manière unitaire.

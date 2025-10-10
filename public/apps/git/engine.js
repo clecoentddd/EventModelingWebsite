@@ -230,11 +230,18 @@ function canCancelChange(changeId) {
    ============================ */
 
 function startChange() {
-  // User can always start a new change
-  const newId = "C" + Math.floor(1000 + Math.random() * 9000);
+  if (currentChangeId) {
+    // 🔸 Show alert using your existing UI layer
+    showAlert("Vous devez d'abord valider la version en cours avant d'en créer une nouvelle.");
+    return;
+  }
+
+  // Normal creation logic
+  const newId = "C" + (1000 + Object.keys(changes).length + 1);
   currentChangeId = newId;
-  record({ type: "VersionCreee", changeId: currentChangeId });
-  console.log("Started new change:", currentChangeId);
+  changes[newId] = { events: [] };
+  logEvent("VersionCreee", { changeId: newId });
+  updateUI();
 }
 
 function validateChange() {

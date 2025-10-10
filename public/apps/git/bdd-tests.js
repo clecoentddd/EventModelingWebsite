@@ -182,6 +182,47 @@ function runBDDTests() {
     }
   });
 
+test("Rule: Cannot create new version if another version is still open", () => {
+  const evs = [
+    { type: "VersionCreee", changeId: "C1003", timestamp: "2025-10-10T03:21:31.984Z" },
+    { 
+      type: "DepenseAjoutee", 
+      changeId: "C1003", 
+      entryCode: 206, 
+      label: "Divertissement", 
+      amount: 80, 
+      startMonth: "02-2025", 
+      endMonth: "04-2025", 
+      timestamp: "2025-10-10T03:21:31.985Z" 
+    }
+  ];
+
+  // simulate what getOpenChangeId would do
+  const openChange = (() => {
+    const grouped = {};
+    for (const e of evs) {
+      if (!e.changeId) continue;
+      grouped[e.changeId] = e;
+    }
+    const open = Object.entries(grouped)
+      .filter(([_, lastEv]) => lastEv.type !== "VersionValidee" && lastEv.type !== "VersionAnnulee")
+      .map(([changeId, lastEv]) => ({ changeId, lastEv }));
+    return open.length ? open[0].changeId : null;
+  })();
+
+  if (openChange) {
+    try {
+      startChange(); // if connected to real app code
+      throw new Error("App should have prevented starting a new version");
+    } catch (err) {
+      if (!err.message.includes("Vous devez valider")) {
+        throw new Error(`Unexpected error: ${err.message}`);
+      }
+    }
+  }
+});
+
+
   out.innerHTML = results
     .map(r => r.includes("✅") 
       ? `<div class='test-pass'>${r}</div>` 
