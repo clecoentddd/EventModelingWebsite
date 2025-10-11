@@ -16,7 +16,6 @@ header {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #c9e6f2, #000);
   color: #ffffff;
   padding: 2.5rem 1rem;
   border-bottom: 4px solid rgba(15, 158, 213, 0.5);

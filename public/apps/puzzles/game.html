@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Puzzle Game</title>
+    <link rel="stylesheet" href="./css/flow.css"> 
+</head>
+<body>
+
+    <header id="game-controls">
+        <label for="game-selector">Select Puzzle:</label>
+        <select id="game-selector">
+            </select>
+        <button id="load-game-btn">Load Game</button>
+        <div id="game-info">Instructions or Goal here.</div>
+    </header>
+
+    <section id="flow-canvas">
+        <div id="grid-container">
+            </div>
+        <svg id="arrow-canvas"></svg>
+    </section>
+
+    <section id="piece-tray">
+        <h2>Available Pieces</h2>
+    </section>
+
+    <script type="module" src="./js/gameLoader.js"></script>
+    <script type="module" src="./js/flowRenderer.js"></script>
+
+</body>
+</html>

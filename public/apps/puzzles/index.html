@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Modeling Flow Builder — Modern</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Ensure grid and SVG share same coordinate space */
+    #flow-inner {
+      position: relative;
+      width: max-content; /* expands to fit all columns */
+      height: max-content;
+    }
+
+    #grid-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #flow-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <div id="app" class="min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-80 bg-white border-r p-4 flex flex-col gap-4">
+      <h1 class="text-2xl font-bold">Event Flow Builder</h1>
+      <p class="text-sm text-slate-500">Visual editor for event modeling flows. Edit DSL or use the UI.</p>
+
+      <label class="text-xs font-medium">Load DSL</label>
+      <textarea id="dsl-input" rows="8" class="resize-none p-3 rounded border text-sm font-mono">Screen, "Subscription Checkout", 1;1, bottom, top
+Command, "Submit Payment", 1;0, bottom, top
+Event, "Payment Failed", 1;-1, right, bottom
+ReadModel, "User Cart", 2;0, top, bottom
+Wheel, "Auto Retry", 3;1, bottom, top
+Command, "Retry Payment", 3;0, bottom, top
+Event, "Payment Retried", 3;-1, right, bottom, 2
+Event, "Payment failed", 4;-1
+ReadModel, "Payments List", 5;0, top, bottom
+Wheel, "Something", 6;1
+</textarea>
+      <div class="flex gap-2">
+        <button id="load-dsl" class="flex-1 px-3 py-2 rounded bg-indigo-600 text-white font-semibold">Load DSL</button>
+        <button id="clear-flow" class="px-3 py-2 rounded bg-gray-100">Clear</button>
+      </div>
+
+      <div class="bg-slate-50 rounded p-3">
+        <div class="flex items-center justify-between">
+          <strong class="text-sm">Add Column</strong>
+          <button id="add-col" class="px-2 py-1 rounded bg-emerald-600 text-white text-sm">+ Col</button>
+        </div>
+        <p class="text-xs text-slate-500 mt-2">Tip: double-click a piece to rename. Click two pieces to connect.</p>
+      </div>
+
+      <div class="mt-auto text-xs text-slate-500">Made modular. Files available to download after I run them.</div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-semibold">Canvas</h2>
+          <p class="text-sm text-slate-500">Drag-free layout with SVG overlays for connections.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="export-json" class="px-3 py-1 rounded bg-white border">Export JSON</button>
+          <button id="download-project" class="px-3 py-1 rounded bg-white border">Download Project</button>
+        </div>
+      </div>
+
+      <div id="flow-area" class="bg-white rounded shadow p-4">
+        <div id="flow-canvas" class="overflow-auto border rounded" style="min-height:560px; position: relative;">
+          <!-- new shared inner container -->
+          <div id="flow-inner">
+            <div id="grid-container"></div>
+            <svg id="flow-svg"></svg>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+:root {
+  --slot-w: 260px;
+  --slot-h: 260px;
+}
+
+/* Canvas positioning */
+#flow-canvas {
+  position: relative;
+  height: 620px;
+  padding: 16px;
+  background: linear-gradient(180deg, #fff, #fbfbfd);
+  /* FIX: Hide scrollbars while keeping scrolling functional */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+#flow-canvas::-webkit-scrollbar {
+  display: none;
+}
+
+#grid-container {
+  display: grid;
+  grid-auto-columns: var(--slot-w);
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, var(--slot-h));
+  gap: 8px;
+}
+
+.grid-slot {
+  position: relative;
+  border: 1px dashed #eef2ff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: #fff;
+}
+
+.row-label {
+  position: absolute;
+  left: -88px;
+  top: 10px;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.flow-piece {
+  width: 88%;
+  height: 160px;
+  border-radius: 12px;
+  
+  /* Flex settings for vertical stack (text on top, icon below) */
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: flex-start; /* Default start position */
+  
+  padding: 12px;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+}
+
+/* --- Black Border ONLY for the 'UI' Element --- */
+.flow-piece.piece-UI {
+  border: 1px solid black; 
+}
+/* --------------------------------------------- */
+
+.piece-name-editable {
+  outline: none;
+  flex-shrink: 0; 
+}
+
+/* ------------------------------------ */
+/* --- Styles for the Wheel Icon (70px, Centered) --- */
+
+.flow-piece.piece-Wheel {
+  /* CHANGE: Using 'justify-content: space-between' ensures the text 
+     (.piece-name-editable) is pushed to the very top, and the icon 
+     is pushed toward the bottom, maximizing the space between them. */
+  justify-content: space-between; 
+}
+
+.flow-piece.piece-Wheel .wheel-icon {
+  /* CHANGE: Icon size set to 70px */
+  width: 70px;    
+  height: 70px;   
+  object-fit: contain; 
+  /* Removed margin-top as 'justify-content: space-between' handles spacing */
+  /* margin-top: 5px; */
+}
+/* ------------------------------------ */
+
+@media (max-width: 900px) {
+  aside {
+    display: none;
+  }
+}

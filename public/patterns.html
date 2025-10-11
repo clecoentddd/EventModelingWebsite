@@ -79,28 +79,84 @@
       </p>
       <p> 2 cas d'usage</p>
       
-      <Strong>Cas d'usage 1: "smart replay"</Strong>
-      <br>
-      Le cas "Adam du 08.10.2025: j'ai découvert bien que dans mes prototypes j'avais appliqué ce principe (par paresse). 
-      <br>A partir d'une projection, l'étape suivante est de prendre une décision. Normalement, on prend l'aggrégat en rejouant toutes ses évènements pour connaitre son état et appliquer la règle métier pour s'assurer de prendre la bonne décision.
-      <br>La question est pourquoi rejouer l'agrégat alors que je n'ai peut-être besoin de connaitre quelques évènements. 
-      <br>La question qui suit: pourquoi des faits doivent appartenir à des agrégats? 
-      <br>Et la question qui suit: est-ce que les agrégats ne sont pas artificiels?
-      ("Kill the aggregates" par Sara Pellegrini est une video à regarder).
-      <br>
-      Exemple: vous recevez un évènement comme quoi un client est blacklisté par une autre banque: pour fermer son compte, vous avez juste besoin de savoir que c'est un client pour la blacklister dans votre banque (règle simple). Sans suite une suite d'actions en fonction des comptes ouverts à bloquer
-      Il s'agit donc de ne rejouer que les évènements qui contribuent à la décision: ici, de voir si le client est un client de la banque.
-      D'ailleurs, la projection contient cette information: les clients à blacklister et les clients qui sont actifs.
-      C'est un peu un "smart" replay. Et pour y arriver, des frameworks comme Axoniq permettent de tagger les évènements.
-      Axoniq ne rejout dans ce cas que les évènements taggués dans le contexte de la décision à prendre."
-      <br>
+<section class="use-case">
+  <h3>Cas d’usage 1 : <em>Smart Replay</em></h3>
+
+  <p>
+    Le cas <strong>« Adam du 08.10.2025 »</strong> : j’ai découvert que, dans mes prototypes, j’avais déjà appliqué ce principe (par paresse).
+  </p>
+
+  <p>
+    À partir d’une <strong>projection</strong>, l’étape suivante est de prendre une décision.  
+    Normalement, on rejoue tous les <strong>évènements</strong> d’un agrégat pour connaître son état, puis appliquer la règle métier afin de s’assurer de prendre la bonne décision.
+  </p>
+
+  <p>
+    <strong>Mais la question est :</strong> pourquoi rejouer tout l’agrégat alors que je n’ai peut-être besoin que de quelques évènements ?
+  </p>
+
+  <p>
+    <strong>Et celle qui suit :</strong> pourquoi des faits doivent-ils forcément appartenir à des agrégats ?  
+    Les agrégats ne seraient-ils pas <em>artificiels</em> ?
+  </p>
+
+  <blockquote>
+    <p>
+      👉 « Kill the Aggregates » par <strong>Sara Pellegrini</strong> est une vidéo à regarder.
+    </p>
+  </blockquote>
+
+  <h4>Exemple</h4>
+  <p>
+    Vous recevez un évènement indiquant qu’un client est <strong>blacklisté</strong> par une autre banque.  
+    Pour fermer son compte, vous avez simplement besoin de savoir s’il est déjà client de votre banque — règle simple —  
+    sans devoir rejouer toute une suite d’actions pour bloquer tous ses comptes.
+  </p>
+
+  <p>
+    Il s’agit donc de <strong>ne rejouer que les évènements pertinents</strong> pour la décision : ici, vérifier si le client est connu comme client actif.
+  </p>
+
+  <p>
+    D’ailleurs, la <strong>projection</strong> contient déjà cette information :  
+    la liste des clients à blacklister et ceux qui sont actifs.
+  </p>
+
+  <p>
+    C’est donc une forme de <strong>« smart replay »</strong>.  
+    Et pour y arriver, des frameworks comme <strong>Axoniq</strong> permettent de <em>tagger</em> les évènements :  
+    Axoniq ne rejoue alors que les évènements taggués dans le contexte de la décision à prendre.
+  </p>
+</section>
+
       <h2 class="pptTitle">Cas 1: le client a été activé. C'est le seul fait qui m'intéresse.</h2>
       <img src="images//DCB/Slide1.JPG" alt="Step 1" class="zoomable">
-      <h2 class="pptTitle">Cas 2: le client a déjà été désactivé. Ci-dessous: les deux seules faits qui m'intéresse.</h2>
+      <h2 class="pptTitle">Cas 2: le client a déjà été désactivé. Ci-dessous: les deux seuls faits nécessaires pour prendre une décision</h2>
       <img src="images/DCB/Slide2.JPG" alt="Step 2" class="zoomable">
       
 
       <Strong>Cas d'usage 2: cas initial</Strong> 
+      <p>
+    Cette section est actuellement <strong>en construction</strong>.  
+    Vous pouvez déjà consulter les ressources suivantes :
+  </p>
+
+  <ul>
+    <li>
+      🔗 <a href="https://dcb.events/#what-is-it" target="_blank" rel="noopener noreferrer">
+        DCB Events — Présentation du concept
+      </a>
+    </li>
+    <li>
+      🎥 <a href="https://www.youtube.com/watch?v=wXt54BawI-8" target="_blank" rel="noopener noreferrer">
+        Vidéo YouTube — Introduction au sujet
+      </a>
+    </li>
+  </ul>
+
+  <p>
+    Plus de contenu sera ajouté prochainement pour expliquer le lien entre les <strong>évènements</strong> et la <strong>décision continue</strong>.
+  </p>
     
   </section>
 
