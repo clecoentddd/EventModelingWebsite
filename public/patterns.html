@@ -41,13 +41,13 @@
 
       <h3>Quelques explications</h3>
       <!-- Sequential slides -->
-      <img src="images/ToDoList/ToDo/Slide2.JPG" alt="Step 2">
-      <img src="images/ToDoList/ToDo/Slide3.JPG" alt="Step 3">
-      <img src="images/ToDoList/ToDo/Slide4.JPG" alt="Step 4">
-      <img src="images/ToDoList/ToDo/Slide5.JPG" alt="Step 5">
-      <img src="images/ToDoList/ToDo/Slide6.JPG" alt="Step 6">
-      <img src="images/ToDoList/ToDo/Slide7.JPG" alt="Step 7">
-      <img src="images/ToDoList/ToDo/Slide8.JPG" alt="Step 8">
+      <img src="images/ToDoList/ToDo/Slide2.JPG" alt="Step 2" class="zoomable">
+      <img src="images/ToDoList/ToDo/Slide3.JPG" alt="Step 3" class="zoomable">
+      <img src="images/ToDoList/ToDo/Slide4.JPG" alt="Step 4" class="zoomable">
+      <img src="images/ToDoList/ToDo/Slide5.JPG" alt="Step 5" class="zoomable">
+      <img src="images/ToDoList/ToDo/Slide6.JPG" alt="Step 6" class="zoomable">
+      <img src="images/ToDoList/ToDo/Slide7.JPG" alt="Step 7" class="zoomable">
+      <img src="images/ToDoList/ToDo/Slide8.JPG" alt="Step 8" class="zoomable">
     </section>
   </main>
 
@@ -59,17 +59,49 @@
       <a href="apps/git/index.html">Cliquez pour lancer la démo</a>
   </section>
 
-    <section id="notification">
+    <section id="notifications">
     <h2>Notification Pattern</h2>
       <p>
         C'est juste un exemple qui m'a marqué <strong>"Notifications" par email ou sms etc</strong> : comme ce n'est pas votre système qui envoie la notification,  mais un service, ne pas utiliser "Envoyer Notification" mais "Marquer Notification Envoyée" 
       </p>
             <!-- Sequential slides -->
              <br>
-             <h2 class="pptTitle">Notifications: seul le flux d'information de notre système est explicite (cas normal)"</h2>
-            <img src="images/notifications/Slide2.JPG" alt="Step 2">
-               <h2 class="pptTitle">Notifications: le flux du service externe est aussi montré explicitement (si nécessaire, dans certains cas)"</h2> 
-            <img src="images/notifications/Slide3.JPG" alt="Step 3">
+             <h2 class="pptTitle">Option 1 - Notifications: seul le flux d'information de notre système est explicite (cas normal)"</h2>
+            <img src="images/notifications/Slide2.JPG" alt="Step 2" class="zoomable">
+               <h2 class="pptTitle">Option 2 - Alternative: le flux du service externe est aussi montré explicitement (si nécessaire, dans certains cas)"</h2> 
+            <img src="images/notifications/Slide3.JPG" alt="Step 3" class="zoomable">
+  </section>
+
+      <section id="dcb">
+    <h2>DCB Pattern - Dynamic Consistancy Boundary... Quel nom!</h2>
+      <p>
+        Comme beaucoup de concept en Event Modeling / Event Sourcing, <strong>DCB</strong> est simple une fois compris. Ce pattern est plus en lien avec Event Sourcing qu'Event Modeling bien que les informations viennent du modèle
+      </p>
+      <p> 2 cas d'usage</p>
+      
+      <Strong>Cas d'usage 1: "smart replay"</Strong>
+      <br>
+      Le cas "Adam du 08.10.2025: j'ai découvert bien que dans mes prototypes j'avais appliqué ce principe (par paresse). 
+      <br>A partir d'une projection, l'étape suivante est de prendre une décision. Normalement, on prend l'aggrégat en rejouant toutes ses évènements pour connaitre son état et appliquer la règle métier pour s'assurer de prendre la bonne décision.
+      <br>La question est pourquoi rejouer l'agrégat alors que je n'ai peut-être besoin de connaitre quelques évènements. 
+      <br>La question qui suit: pourquoi des faits doivent appartenir à des agrégats? 
+      <br>Et la question qui suit: est-ce que les agrégats ne sont pas artificiels?
+      ("Kill the aggregates" par Sara Pellegrini est une video à regarder).
+      <br>
+      Exemple: vous recevez un évènement comme quoi un client est blacklisté par une autre banque: pour fermer son compte, vous avez juste besoin de savoir que c'est un client pour la blacklister dans votre banque (règle simple). Sans suite une suite d'actions en fonction des comptes ouverts à bloquer
+      Il s'agit donc de ne rejouer que les évènements qui contribuent à la décision: ici, de voir si le client est un client de la banque.
+      D'ailleurs, la projection contient cette information: les clients à blacklister et les clients qui sont actifs.
+      C'est un peu un "smart" replay. Et pour y arriver, des frameworks comme Axoniq permettent de tagger les évènements.
+      Axoniq ne rejout dans ce cas que les évènements taggués dans le contexte de la décision à prendre."
+      <br>
+      <h2 class="pptTitle">Cas 1: le client a été activé. C'est le seul fait qui m'intéresse.</h2>
+      <img src="images//DCB/Slide1.JPG" alt="Step 1" class="zoomable">
+      <h2 class="pptTitle">Cas 2: le client a déjà été désactivé. Ci-dessous: les deux seules faits qui m'intéresse.</h2>
+      <img src="images/DCB/Slide2.JPG" alt="Step 2" class="zoomable">
+      
+
+      <Strong>Cas d'usage 2: cas initial</Strong> 
+    
   </section>
 
   <div id="footer"></div>
