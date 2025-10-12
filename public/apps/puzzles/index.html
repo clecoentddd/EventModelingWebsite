@@ -4,81 +4,67 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Event Modeling Flow Builder — Modern</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
-  <style>
-    /* Ensure grid and SVG share same coordinate space */
-    #flow-inner {
-      position: relative;
-      width: max-content; /* expands to fit all columns */
-      height: max-content;
-    }
-
-    #grid-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    #flow-svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-    }
-  </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
-  <div id="app" class="min-h-screen flex">
-    <!-- Sidebar -->
-    <aside class="w-80 bg-white border-r p-4 flex flex-col gap-4">
+<body class="flow-app-base">
+  <div id="app" class="app-layout">
+    
+    <aside class="sidebar-layout">
       <h1 class="text-2xl font-bold">Event Flow Builder</h1>
       <p class="text-sm text-slate-500">Visual editor for event modeling flows. Edit DSL or use the UI.</p>
 
       <label class="text-xs font-medium">Load DSL</label>
-      <textarea id="dsl-input" rows="8" class="resize-none p-3 rounded border text-sm font-mono">Screen, "Subscription Checkout", 1;1, bottom, top
-Command, "Submit Payment", 1;0, bottom, top
-Event, "Payment Failed", 1;-1, right, bottom
-ReadModel, "User Cart", 2;0, top, bottom
-Wheel, "Auto Retry", 3;1, bottom, top
-Command, "Retry Payment", 3;0, bottom, top
-Event, "Payment Retried", 3;-1, right, bottom, 2
-Event, "Payment failed", 4;-1
-ReadModel, "Payments List", 5;0, top, bottom
-Wheel, "Something", 6;1
+      <textarea id="dsl-input" rows="8" class="dsl-input-styles">ELEMENT: 1, Screen, "Select Espresso", 1;1
+ELEMENT: 2, Command, "Order Espresso", 1;0
+ELEMENT: 3, Event, "Espresso Ordered", 1;-1
+ELEMENT: 4, ReadModel, "Espressos to prepare", 2;0
+ELEMENT: 5, Wheel, "Espresso Maker", 3;1
+ELEMENT: 6, Command, "Prepare Espresso", 3;0
+ELEMENT: 7, Event, "Espresso Prepared", 3;-1
+ELEMENT: 8, Event: "Espresso maker failed", 4;-1
+ELEMENT: 9, ReadModel, "Espresso Prepared List", 5;0
+ELEMENT: 10, Wheel, "Add Milk", 6;1
+
+FLOW: 1 to 2
+FLOW: 2 to 3
+FLOW: 3 to 4
+FLOW: 4 to 5
+FLOW: 5 to 6
+FLOW: 6 to 7
+FLOW: 7 to 9
+FLOW: 6 to 8 
+FLOW: 9 to 10
 </textarea>
-      <div class="flex gap-2">
-        <button id="load-dsl" class="flex-1 px-3 py-2 rounded bg-indigo-600 text-white font-semibold">Load DSL</button>
-        <button id="clear-flow" class="px-3 py-2 rounded bg-gray-100">Clear</button>
+      <div class="button-group">
+        <button id="load-dsl" class="button-load-dsl">Load DSL</button>
+        <button id="clear-flow" class="button-clear-flow">Clear</button>
       </div>
 
-      <div class="bg-slate-50 rounded p-3">
-        <div class="flex items-center justify-between">
+      <div class="sidebar-block">
+        <div class="block-header">
           <strong class="text-sm">Add Column</strong>
-          <button id="add-col" class="px-2 py-1 rounded bg-emerald-600 text-white text-sm">+ Col</button>
+          <button id="add-col" class="button-add-col">+ Col</button>
         </div>
         <p class="text-xs text-slate-500 mt-2">Tip: double-click a piece to rename. Click two pieces to connect.</p>
       </div>
 
-      <div class="mt-auto text-xs text-slate-500">Made modular. Files available to download after I run them.</div>
+      <div class="sidebar-footer">Made modular. Files available to download after I run them.</div>
     </aside>
 
-    <!-- Main -->
-    <main class="flex-1 p-6">
-      <div class="flex items-center justify-between mb-4">
+    <main class="main-content">
+      <div class="header-controls">
         <div>
           <h2 class="text-lg font-semibold">Canvas</h2>
           <p class="text-sm text-slate-500">Drag-free layout with SVG overlays for connections.</p>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="export-json" class="px-3 py-1 rounded bg-white border">Export JSON</button>
-          <button id="download-project" class="px-3 py-1 rounded bg-white border">Download Project</button>
+        <div class="button-group-right">
+          <button id="export-json" class="button-secondary">Export JSON</button>
+          <button id="download-project" class="button-secondary">Download Project</button>
         </div>
       </div>
 
-      <div id="flow-area" class="bg-white rounded shadow p-4">
-        <div id="flow-canvas" class="overflow-auto border rounded" style="min-height:560px; position: relative;">
-          <!-- new shared inner container -->
+      <div id="flow-area" class="flow-area-styles">
+        <div id="flow-canvas" class="flow-canvas-wrapper">
           <div id="flow-inner">
             <div id="grid-container"></div>
             <svg id="flow-svg"></svg>
