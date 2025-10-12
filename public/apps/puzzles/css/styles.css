@@ -1,3 +1,5 @@
+/* --- flow.css (Updated for Consistent Puzzle Piece Styling) --- */
+
 :root {
   --slot-w: 260px;
   --slot-h: 260px;
@@ -45,22 +47,63 @@
   font-weight: 700;
 }
 
+/* --- CORE PIECE STYLE (Used for both Grid and Tray) --- */
 .flow-piece {
-  width: 88%;
-  height: 160px;
+  /* Dimensions derived from your latest CSS */
+  width: 140px; /* Adjusted from 88% to a fixed size for the tray */
+  height: 120px; /* Reduced slightly from 160px to fit well in the tray area */
   border-radius: 12px;
   
-  /* Flex settings for vertical stack (text on top, icon below) */
+  /* Flex settings for vertical stack */
   display: flex;
   flex-direction: column; 
   align-items: center; 
-  justify-content: flex-start; /* Default start position */
+  justify-content: flex-start;
   
-  padding: 12px;
+  padding: 8px; /* Reduced padding for smaller size */
   font-weight: 700;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
-  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+  color: #1e293b;
+  /* Grid pieces use 'cursor: pointer' but tray pieces use 'cursor: grab' */
+  cursor: grab; 
 }
+
+/* --- PIECE TRAY STYLING --- */
+#piece-tray {
+  margin-top: 20px;
+  padding: 10px 16px;
+  border-top: 2px solid #eef2ff;
+}
+
+#piece-tray h2 {
+    width: 100%;
+    margin-bottom: 10px;
+    color: #475569;
+}
+
+/* Container for the pieces in the tray, enabling horizontal flow */
+#tray-pieces-container { 
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px;
+    align-items: flex-start; /* Align to the top of the container */
+}
+
+/* Styles specific to pieces in the tray (overrides cursor for drag) */
+.draggable-piece {
+    opacity: 0.95;
+    cursor: grab; 
+}
+
+/* --- Grid Piece Specific Styling (Larger size) --- */
+/* Pieces placed on the grid slots use this styling */
+.grid-slot > .flow-piece {
+  width: 88%;
+  height: 160px;
+  /* Use pointer cursor when placed, in case the user can still interact */
+  cursor: pointer; 
+}
+
 
 /* --- Black Border ONLY for the 'UI' Element --- */
 .flow-piece.piece-UI {
@@ -71,25 +114,26 @@
 .piece-name-editable {
   outline: none;
   flex-shrink: 0; 
+  text-align: center;
 }
 
-/* ------------------------------------ */
-/* --- Styles for the Wheel Icon (70px, Centered) --- */
-
+/* --- Styles for the Wheel Icon --- */
 .flow-piece.piece-Wheel {
-  /* CHANGE: Using 'justify-content: space-between' ensures the text 
-     (.piece-name-editable) is pushed to the very top, and the icon 
-     is pushed toward the bottom, maximizing the space between them. */
   justify-content: space-between; 
 }
 
-.flow-piece.piece-Wheel .wheel-icon {
-  /* CHANGE: Icon size set to 70px */
-  width: 70px;    
+/* Tray icon size */
+.flow-piece.draggable-piece.piece-Wheel .wheel-icon {
+  width: 50px; /* Smaller icon for the smaller tray piece */
+  height: 50px;   
+  object-fit: contain; 
+}
+
+/* Grid icon size */
+.grid-slot > .flow-piece.piece-Wheel .wheel-icon {
+  width: 70px; 
   height: 70px;   
   object-fit: contain; 
-  /* Removed margin-top as 'justify-content: space-between' handles spacing */
-  /* margin-top: 5px; */
 }
 /* ------------------------------------ */
 
