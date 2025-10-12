@@ -183,7 +183,7 @@ body {
 }
 
 #flow-canvas {
-    height: 620px;
+    height: 700px;
     background: linear-gradient(180deg, #fff, #fbfbfd);
     padding: 0; 
     overflow: auto; 
@@ -266,8 +266,8 @@ body {
 
 /* --- PIECE TRAY STYLING --- */
 #piece-tray {
-    margin-top: 20px;
-    padding: 10px 16px;
+    margin-top: 6px;
+    padding: 0px 16px;
     border-top: 2px solid #eef2ff;
 }
 
@@ -336,7 +336,7 @@ body {
 
 #game-controls {
     /* Styling the header bar for game.html */
-    padding: 1rem 1.5rem; 
+    padding: 8px 16px; 
     background-color: #ffffff;
     border-bottom: 1px solid #e2e8f0;
     display: flex;

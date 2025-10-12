@@ -165,37 +165,63 @@ export function setConnections(conns) { connections = conns; }
 function getAnchorFromDOM(r, c, segment, svgEl) {
   const key = `${r}_${c}`;
   const slot = document.getElementById(key);
-  if (!slot) return { x: 0, y: 0 };
+  if (!slot) {
+    console.warn(`[Anchor Log] Slot ${key} not found!`);
+    return { x: 0, y: 0 };
+  }
 
   const el = slot.querySelector('.flow-piece');
-  if (!el) return { x: 0, y: 0 };
+  if (!el) {
+    console.warn(`[Anchor Log] No piece in slot ${key}`);
+    return { x: 0, y: 0 };
+  }
 
   const pieceRect = el.getBoundingClientRect();
   const svgRect = svgEl.getBoundingClientRect();
 
+  // Default to center
   let x = pieceRect.left + pieceRect.width / 2;
   let y = pieceRect.top + pieceRect.height / 2;
 
+  // Adjust based on segment
   switch (segment) {
-    case 'top': y = pieceRect.top; break;
-    case 'bottom': y = pieceRect.bottom; break;
-    case 'left': x = pieceRect.left; break;
-    case 'right': x = pieceRect.right; break;
+    case 'top':
+      y = pieceRect.top;
+      x = pieceRect.left + pieceRect.width / 2;
+      break;
+    case 'bottom':
+      y = pieceRect.bottom;
+      x = pieceRect.left + pieceRect.width / 2;
+      break;
+    case 'left':
+      x = pieceRect.left;
+      y = pieceRect.top + pieceRect.height / 2;
+      break;
+    case 'right':
+      x = pieceRect.right;
+      y = pieceRect.top + pieceRect.height / 2;
+      break;
   }
 
   const x_svg_rel = x - svgRect.left;
   const y_svg_rel = y - svgRect.top;
 
-  const scaleX = (svgEl.viewBox.baseVal.width / svgRect.width);
-  const scaleY = (svgEl.viewBox.baseVal.height / svgRect.height);
+  const scaleX = svgEl.viewBox.baseVal.width / svgRect.width;
+  const scaleY = svgEl.viewBox.baseVal.height / svgRect.height;
 
   const finalX = x_svg_rel * scaleX;
   const finalY = y_svg_rel * scaleY;
 
-  console.log(`[Anchor Log] Slot ${key} (${segment}): Screen X=${x.toFixed(2)}, Screen Y=${y.toFixed(2)}, Final X=${finalX.toFixed(2)}, Final Y=${finalY.toFixed(2)}`);
+  console.log(`[Anchor Log] Slot ${key} (${segment}):
+    pieceRect: left=${pieceRect.left.toFixed(2)}, top=${pieceRect.top.toFixed(2)}, width=${pieceRect.width.toFixed(2)}, height=${pieceRect.height.toFixed(2)}
+    svgRect: left=${svgRect.left.toFixed(2)}, top=${svgRect.top.toFixed(2)}, width=${svgRect.width.toFixed(2)}, height=${svgRect.height.toFixed(2)}
+    Segment-adjusted screen: X=${x.toFixed(2)}, Y=${y.toFixed(2)}
+    SVG final: X=${finalX.toFixed(2)}, Y=${finalY.toFixed(2)}
+  `);
 
   return { x: finalX, y: finalY };
 }
+
 
 export function renderArrows(svgEl) {
   svgEl.innerHTML = '';
@@ -226,16 +252,21 @@ export function renderArrows(svgEl) {
 
     path.setAttribute('d', `M ${a.x} ${a.y} C ${a.x} ${controlPointY}, ${b.x} ${controlPointY}, ${b.x} ${b.y}`);
 
-    // ✅ Set dashed arrows to black instead of red
-    const strokeColor = conn.style === 'dashed' ? '#000000' : '#475569';
+    // --- DASHED ARROW LOGIC ---
+    const styleRaw = conn.style;
+    console.log(`[DEBUG] Connection ${conn.start} -> ${conn.end} raw style: "${styleRaw}"`);
 
-    path.setAttribute('stroke', strokeColor);
+    const styleType = (styleRaw || '').trim().toLowerCase();
+    const isDashed = styleType === 'dashed';
+    console.log(`[DEBUG] Normalized style: "${styleType}", isDashed: ${isDashed}`);
+
+    const strokeColorFinal = isDashed ? '#000000' : '#475569';
+
+    path.setAttribute('stroke', strokeColorFinal);
     path.setAttribute('fill', 'none');
     path.setAttribute('stroke-width', '2');
 
-    if (conn.style === 'dashed') {
-      path.setAttribute('stroke-dasharray', '5, 5');
-    }
+    if (isDashed) path.setAttribute('stroke-dasharray', '5,5');
 
     svgEl.appendChild(path);
 
@@ -243,9 +274,10 @@ export function renderArrows(svgEl) {
     marker.setAttribute('cx', b.x);
     marker.setAttribute('cy', b.y);
     marker.setAttribute('r', 4);
-    marker.setAttribute('fill', strokeColor);
+    marker.setAttribute('fill', strokeColorFinal);
     svgEl.appendChild(marker);
 
-    console.log(`[Render Log] Connection ${conn.start} -> ${conn.end} drawn from (${a.x.toFixed(2)}, ${a.y.toFixed(2)}) to (${b.x.toFixed(2)}, ${b.y.toFixed(2)}) with style: ${conn.style || 'solid'}`);
+    console.log(`[Render Log] Connection ${conn.start} -> ${conn.end} drawn from (${a.x.toFixed(2)}, ${a.y.toFixed(2)}) to (${b.x.toFixed(2)}, ${b.y.toFixed(2)}) with style: ${styleType || 'solid'}`);
   });
 }
+
