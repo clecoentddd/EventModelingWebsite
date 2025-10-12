@@ -1,6 +1,6 @@
 ELEMENT: 1, Screen, "Select Cappuccino", 1;1
 ELEMENT: 2, Command, "Order Cappuccino", 1;0
-ELEMENT: 3, Event, "Espresso Ordered", 1;-1
+ELEMENT: 3, Event, "Cappuccino Ordered", 1;-1
 ELEMENT: 4, ReadModel, "Cappuccinos  to prepare", 2;0
 ELEMENT: 5, Wheel, "Milk Frost Maker", 3;1
 ELEMENT: 6, Command, "Prepare Milk", 3;0

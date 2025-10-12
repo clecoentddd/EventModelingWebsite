@@ -25,7 +25,7 @@ const AVAILABLE_GAMES = [
     { fileName: 'view_state.dsl', displayName: 'View Change' },
     { fileName: 'automation.dsl', displayName: 'Automation' },
     { fileName: 'simple.dsl', displayName: 'Simple Puzzle' },
-    { fileName: 'doable.dsl', displayName: 'Doable Puzzle' },
+    { fileName: 'cappuccino.dsl', displayName: 'Cappuccino Puzzle' },
 ];
 
 function populateGameList() {
