@@ -213,8 +213,8 @@ body {
     grid-template-rows: repeat(3, var(--slot-h));
     gap: 8px;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 5px;
+    left: 5px;
 }
 
 #flow-svg {

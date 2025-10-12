@@ -1,96 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flow Puzzle Game</title>
-
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/game.css">
-
-<style>
-    /* --- Body and app fill viewport --- */
-    body.flow-app-base {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        font-family: sans-serif;
-    }
-
-    #game-controls {
-        padding: 8px 16px;
-        background-color: #f0f0f0;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 12px;
-        z-index: 10;
-    }
-
-    #app {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden; /* constrain scrolling inside main-content */
-        min-height: 0;
-    }
-
-    .main-content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: auto; /* allow scrolling if needed */
-        min-height: 0;  /* crucial to allow inner flex scrolling */
-        padding: 16px;
-    }
-
-    /* --- Piece tray above canvas --- */
-    #piece-tray {
-        margin-bottom: 16px;
-    }
-
-    /* --- Flow canvas container --- */
-    #flow-area {
-        flex: 1;
-        overflow: auto; /* scroll if canvas is too big */
-        min-height: 0;
-    }
-
-    #flow-canvas {
-        height: 100%;
-        overflow: visible; /* allow #flow-inner to show completely */
-    }
-
-    #flow-inner {
-        position: relative;
-        width: max-content;
-        height: max-content;
-        padding: 40px 16px 16px 40px; /* top & left padding to prevent clipping */
-    }
-
-    #grid-container {
-        display: grid;
-        grid-auto-columns: var(--slot-w);
-        grid-auto-flow: column;
-        grid-template-rows: repeat(3, var(--slot-h));
-        gap: 8px;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    #flow-svg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Puzzle Game</title>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/game.css"> 
 </head>
 <body class="flow-app-base">
-
 <header id="game-controls">
     <label for="game-selector">Select Puzzle:</label>
     <select id="game-selector"></select>
@@ -100,13 +18,10 @@
 
 <div id="app" class="app-layout">
     <main class="main-content">
-
-        <!-- Available Pieces on top -->
         <section id="piece-tray" class="piece-tray-styles">
             <h2>Available Pieces</h2>
         </section>
 
-        <!-- Flow Canvas below -->
         <section id="flow-area" class="flow-area-styles">
             <div id="flow-canvas" class="flow-canvas-wrapper">
                 <div id="flow-inner">
@@ -115,7 +30,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 </div>
 

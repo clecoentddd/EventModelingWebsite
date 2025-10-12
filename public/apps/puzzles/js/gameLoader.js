@@ -195,6 +195,6 @@ window.checkPuzzleState = function() {
         highlightNextSlot(window.currentGameConfig.dslContent, lastCorrectElementId); 
         console.log(`[State] Puzzle state: ${Object.keys(currentPieces).length} placed. ${correctPlacements}/${requiredPlacements} correct.`);
     }
-
+    
     console.log("--- checkPuzzleState END ---");
 };

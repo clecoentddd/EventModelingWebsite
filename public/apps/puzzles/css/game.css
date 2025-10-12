@@ -6,30 +6,94 @@
     transition: outline 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* ------------------ GAME.HTML LAYOUT FIX ------------------ */
-#app {
+/*
+ * public/apps/puzzles/css/game.css
+ * Revised to prevent default scroll-down behavior.
+ */
+
+/* --- Body and App Fill Viewport --- */
+body.flow-app-base {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 56px); /* Subtract header height */
-    overflow: hidden;
+    font-family: sans-serif;
 }
 
+#game-controls {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+}
+
+#app {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+    min-height: 0;
+}
+
+/* 🔑 FIX: Force alignment to the top */
 .main-content {
     flex: 1;
-    overflow: auto; /* Scroll if canvas too big */
-    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    /* Prevent vertical content alignment from pushing content down */
+    align-items: stretch; /* ensure children stretch horizontally */
+    
+    /* Crucial: Hide main-content scroll and enforce top alignment */
+    overflow: hidden; 
     min-height: 0; 
+    padding: 16px;
 }
 
+/* --- Piece tray above canvas --- */
+#piece-tray {
+    margin-bottom: 16px;
+    flex-shrink: 0; 
+}
+
+/* --- Flow Canvas Container --- */
+/* Flow area takes remaining space and handles its own content scroll */
 #flow-area {
     flex: 1;
-    overflow: auto; /* Scrollable canvas */
-    padding: 0; 
+    overflow: auto; /* This is where the scroll bar for the grid should appear */
+    min-height: 0;
+}
+
+#flow-canvas {
+    height: 100%;
+    overflow: visible; 
 }
 
 #flow-inner {
     position: relative;
     width: max-content;
     height: max-content;
-    padding: 8px; /* smaller than 16px */
+    /* top & left padding to prevent clipping of pieces/arrows near the edge */
+    padding: 40px 16px 16px 40px; 
+}
+
+#grid-container {
+    display: grid;
+    grid-auto-columns: var(--slot-w);
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, var(--slot-h));
+    gap: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#flow-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* allows clicking/dragging pieces underneath the SVG */
 }
