@@ -307,18 +307,18 @@ body {
     text-align: center;
 }
 
-/* --- Styles for the Wheel Icon --- */
-.flow-piece.piece-Wheel {
+/* --- Styles for the Automation Icon --- */
+.flow-piece.piece-Automation {
     justify-content: space-between; 
 }
 
-.flow-piece.draggable-piece.piece-Wheel .wheel-icon {
+.flow-piece.draggable-piece.piece-Automation .Automation-icon {
     width: 50px; 
     height: 50px; 
     /* REMOVED: object-fit: contain; */
 }
 
-.grid-slot > .flow-piece.piece-Wheel .wheel-icon {
+.grid-slot > .flow-piece.piece-Automation .Automation-icon {
     width: 70px; 
     height: 70px; 
     /* REMOVED: object-fit: contain; */

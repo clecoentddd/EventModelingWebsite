@@ -2,7 +2,7 @@ ELEMENT: 1, Screen, "Select Espresso", 1;1
 ELEMENT: 2, Command, "Order Espresso", 1;0
 ELEMENT: 3, Event, "Espresso Ordered", 1;-1
 ELEMENT: 4, ReadModel, "Espressos to prepare", 2;0
-ELEMENT: 5, Wheel, "Espresso Maker", 3;1
+ELEMENT: 5, Automation, "Espresso Maker", 3;1
 ELEMENT: 6, Command, "Prepare Espresso", 3;0
 ELEMENT: 7, Event, "Espresso Prepared", 3;-1
 
