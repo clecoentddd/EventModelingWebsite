@@ -14,14 +14,14 @@
       <p class="text-sm text-slate-500">Visual editor for event modeling flows. Edit DSL or use the UI.</p>
 
       <label class="text-xs font-medium">Load DSL</label>
-      <textarea id="dsl-input" rows="8" class="dsl-input-styles">ELEMENT: 1, Screen, "Select Espresso", 1;1
+<textarea id="dsl-input" rows="8" class="dsl-input-styles">ELEMENT: 1, Screen, "Select Espresso", 1;1
 ELEMENT: 2, Command, "Order Espresso", 1;0
 ELEMENT: 3, Event, "Espresso Ordered", 1;-1
 ELEMENT: 4, ReadModel, "Espressos to prepare", 2;0
 ELEMENT: 5, Wheel, "Espresso Maker", 3;1
 ELEMENT: 6, Command, "Prepare Espresso", 3;0
 ELEMENT: 7, Event, "Espresso Prepared", 3;-1
-ELEMENT: 8, Event: "Espresso maker failed", 4;-1
+ELEMENT: 8, Event, "Espresso maker failed", 4;-1
 ELEMENT: 9, ReadModel, "Espresso Prepared List", 5;0
 ELEMENT: 10, Wheel, "Add Milk", 6;1
 
@@ -38,14 +38,6 @@ FLOW: 9 to 10
       <div class="button-group">
         <button id="load-dsl" class="button-load-dsl">Load DSL</button>
         <button id="clear-flow" class="button-clear-flow">Clear</button>
-      </div>
-
-      <div class="sidebar-block">
-        <div class="block-header">
-          <strong class="text-sm">Add Column</strong>
-          <button id="add-col" class="button-add-col">+ Col</button>
-        </div>
-        <p class="text-xs text-slate-500 mt-2">Tip: double-click a piece to rename. Click two pieces to connect.</p>
       </div>
 
       <div class="sidebar-footer">Made modular. Files available to download after I run them.</div>
