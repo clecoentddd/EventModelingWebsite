@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flow Puzzle Game</title>
+    
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/game.css">
-</head>
+    <link rel="stylesheet" href="css/game.css"> 
+    </head>
 <body>
 
     <header id="game-controls">
         <label for="game-selector">Select Puzzle:</label>
         <select id="game-selector">
-            </select>
+        </select>
         <button id="load-game-btn">Load Game</button>
         <div id="game-info">Select a puzzle and build it</div>
     </header>
 
-        <section id="flow-area">
+    <section id="flow-area">
         <div id="flow-canvas" class="flow-container">
             <div id="flow-inner"> 
                 <div id="grid-container"></div>
@@ -32,6 +33,6 @@
 
     <script type="module" src="./js/gameLoader.js"></script>
     <script type="module" src="./js/flowRenderer.js"></script>
-
-</body>
+    <script type="module" src="./js/puzzleGuide.js"></script> 
+    </body>
 </html>

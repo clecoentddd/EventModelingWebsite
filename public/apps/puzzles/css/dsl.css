@@ -1,0 +1,55 @@
+/* Custom DSL Editor Styling (css/dsl.css) */
+
+.dsl-editor-output-styles {
+    /* Code Editor Look */
+    width: 100%;
+    min-height: 180px;
+    padding: 10px;
+    border: 1px solid #334155; 
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: monospace; 
+    font-size: 14px;
+    line-height: 1.5;
+    
+    /* Syntax Highlighting Base */
+    background-color: #1e293b; /* Dark background */
+    color: #f1f5f9; /* Light text color */
+    
+    /* Contenteditable specific styles */
+    outline: none;
+    white-space: pre; /* CRITICAL: Ensures text is left-aligned and spaces are preserved */
+    overflow-x: auto; /* Allows horizontal scrolling */
+}
+
+/* --- Syntax Keyword Classes --- */
+
+/* Event: Amber */
+.dsl-keyword-event {
+    color: #f59e0b; /* Amber-500 */
+    font-weight: bold;
+}
+
+/* ReadModel: Green */
+.dsl-keyword-readmodel {
+    color: #10b981; /* Emerald-500 */
+    font-weight: bold;
+}
+
+/* Command, Screen, UI: Blue */
+.dsl-keyword-command {
+    color: #3b82f6; /* Blue-500 */
+    font-weight: bold;
+}
+
+/* Wheel/Automation: White */
+.dsl-keyword-wheel {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Keyword Prefixes (ELEMENT, FLOW) */
+.dsl-keyword-prefix {
+    color: #94a3b8; /* Slate-400 */
+    font-weight: bold;
+}

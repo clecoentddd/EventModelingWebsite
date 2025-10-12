@@ -1,0 +1,7 @@
+/* CSS for highlighting elements on the canvas */
+.slot-highlight {
+    /* Use a clear, pulsing border or background change */
+    outline: 4px solid #d3cbcf; /* Bright Pink/Magenta */
+    box-shadow: 0 0 10px #d3cbcf;
+    transition: outline 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
