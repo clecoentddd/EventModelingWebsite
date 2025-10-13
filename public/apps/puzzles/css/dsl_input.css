@@ -1,91 +1,87 @@
-/* DSL Textarea Styles */
+/* ----------------------------------------------------------- */
+/* --- DSL TEXTAREA (Component Styling) ---------------------- */
+/* ----------------------------------------------------------- */
+
+/* New container for height control */
+.dsl-editor-container {
+    position: relative;
+    width: 100%;
+    /* Set a default height that the textarea must adhere to */
+    height: 700px; 
+    display: flex;
+    flex-direction: column;
+    transition: height 0.3s ease;
+}
+
+/* When expanded: only the container grows taller */
+.app-layout.expanded .dsl-editor-container {
+    height: 800px;
+}
+
 .dsl-input-styles {
     width: 100%;
-    padding: 10px;
+    height: 100%; /* Fill the height of the dsl-editor-container */
+    
+    font-family: monospace;
+    font-size: 14px; /* Base font size */
+    
     border: 1px solid #334155; 
     border-radius: 6px;
-    box-sizing: border-box;
-    resize: vertical;
+    padding: 10px;
+    box-sizing: border-box; 
     
-    /* Code formatting */
-    font-family: monospace;
-    font-size: 14px;
+    /* FIX: Disable manual resizing to prevent conflicts with CSS transitions */
+    resize: none; 
+    
     background-color: #1e293b;
     color: #f1f5f9;
+    
+    /* Ensure the font size transitions smoothly */
+    transition: font-size 0.3s ease; 
 }
 
-/* Button Group Styles */
-.button-group, .button-group-right {
+/* Adjust font size when expanded for better readability */
+.app-layout.expanded .dsl-input-styles {
+    font-size: 1.2rem;
+}
+
+/* ----------------------------------------------------------- */
+/* --- BUTTONS (Component Styling) --------------------------- */
+/* ----------------------------------------------------------- */
+
+.button-group {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+    flex-shrink: 0; /* Important: Prevents group from shrinking when sidebar is small */
 }
 
-/* Button Base Styles */
-.button-base {
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-}
-
-.button-load-dsl {
-    flex: 1;
-    background-color: #4f46e5;
-    color: white;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-}
-
+.button-load-dsl,
 .button-clear-flow {
-    background-color: #f3f4f6;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
+    flex: 0 0 auto; /* prevents stretching */
+    width: auto;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    border: 1px solid transparent;
-}
-
-.button-add-col {
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    background-color: #059669;
-    color: white;
-    font-size: 0.875rem;
-    cursor: pointer;
+    transition: background 0.2s ease;
     border: none;
 }
 
-.button-secondary {
-    padding: 0.25rem 0.75rem;
-    border-radius: 0.25rem;
-    background-color: white;
-    border: 1px solid #e2e8f0;
-    cursor: pointer;
+.button-load-dsl {
+    background: #2563eb;
+    color: white;
 }
 
-/* Sidebar Specific Styles */
-.sidebar-block {
-    background-color: #f8fafc;
-    border-radius: 0.25rem;
-    padding: 0.75rem;
+.button-load-dsl:hover {
+    background: #1d4ed8;
 }
-.sidebar-footer {
-    margin-top: auto;
-    font-size: 0.75rem;
-    color: #64748b;
+
+.button-clear-flow {
+    background: #f1f5f9;
 }
-.block-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.header-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+
+.button-clear-flow:hover {
+    background: #e2e8f0;
 }

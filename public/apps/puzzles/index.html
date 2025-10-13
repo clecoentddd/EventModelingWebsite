@@ -18,10 +18,11 @@
     <h1 class="text-2xl font-bold">Event Flow Builder</h1>
     <button id="toggle-sidebar" class="enlarge-btn" title="Enlarge / Shrink sidebar">⤢</button>
   </div>
-      <p class="text-sm text-slate-500">Visual editor for event modeling flows. Edit DSL or use the UI.</p>
-
-      <label class="text-xs font-medium">Load DSL</label>
-<textarea id="dsl-input" rows="8" class="dsl-input-styles">ELEMENT: 1, Screen, "Select Espresso", 1;1
+      <p class="text-sm text-slate-500">Visual editor for event modeling flows. Edit DSL & Load to see the results</p>
+<div class="dsl-editor-container">
+  <pre id="dsl-highlight" class="dsl-highlight"></pre>
+  <textarea id="dsl-input" class="dsl-input-styles" spellcheck="false">
+ELEMENT: 1, Screen, "Select Espresso", 1;1
 ELEMENT: 2, Command, "Order Espresso", 1;0
 ELEMENT: 3, Event, "Espresso Ordered", 1;-1
 ELEMENT: 4, ReadModel, "Espressos to prepare", 2;0
@@ -48,12 +49,11 @@ FLOW: 10 to 11
 FLOW: 11 to 12
 FLOW: 12 to 13
 </textarea>
+</div>
       <div class="button-group">
         <button id="load-dsl" class="button-load-dsl">Load DSL</button>
         <button id="clear-flow" class="button-clear-flow">Clear</button>
       </div>
-
-      <div class="sidebar-footer">Made modular. Files available to download after I run them.</div>
     </aside>
 
     <main class="main-content">
