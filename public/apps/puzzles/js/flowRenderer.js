@@ -81,7 +81,7 @@ export function addPiece(r, c, type, name, id) {
   }
 
   let innerHTML = `<div class="piece-name-editable">${name}</div>`;
-  if (type === 'Automation') innerHTML += `<img src="./images/Automation.png" class="Automation-icon" alt="Automation Icon">`;
+  if (type === 'Automation') innerHTML += `<img src="./images/automation.png" class="Automation-icon" alt="Automation Icon">`;
   el.innerHTML = innerHTML;
 
   el.setAttribute('draggable', 'true');
@@ -134,7 +134,7 @@ export function renderAvailablePieces(container, pieces) {
     el.style.backgroundColor = PIECE_COLORS[p.type] || '#999';
 
     let innerHTML = `<div class="piece-name-editable">${p.name}</div>`;
-    if (p.type === 'Automation') innerHTML += `<img src="./images/Automation.png" class="Automation-icon" alt="Automation Icon">`;
+    if (p.type === 'Automation') innerHTML += `<img src="./images/automation.png" class="Automation-icon" alt="Automation Icon">`;
     el.innerHTML = innerHTML;
 
     piecesContainer.appendChild(el);
