@@ -14,7 +14,10 @@
   <div id="app" class="app-layout">
     
     <aside class="sidebar-layout">
-      <h1 class="text-2xl font-bold">Event Flow Builder</h1>
+        <div class="sidebar-header">
+    <h1 class="text-2xl font-bold">Event Flow Builder</h1>
+    <button id="toggle-sidebar" class="enlarge-btn" title="Enlarge / Shrink sidebar">⤢</button>
+  </div>
       <p class="text-sm text-slate-500">Visual editor for event modeling flows. Edit DSL or use the UI.</p>
 
       <label class="text-xs font-medium">Load DSL</label>
@@ -23,7 +26,7 @@ ELEMENT: 2, Command, "Order Espresso", 1;0
 ELEMENT: 3, Event, "Espresso Ordered", 1;-1
 ELEMENT: 4, ReadModel, "Espressos to prepare", 2;0
 ELEMENT: 5, Automation, "Espresso Maker", 3;1
-ELEMENT: 6, Command, "Prepare Espresso", 3;0
+ELEMENT: 6, Command, "Mark Espresso As Prepared", 3;0
 ELEMENT: 7, Event, "Espresso Prepared", 3;-1
 ELEMENT: 8, Event, "Espresso maker failed", 4;-1
 ELEMENT: 9, ReadModel, "Espresso Prepared List", 5;0
@@ -71,4 +74,16 @@ FLOW: 12 to 13
 
   <script type="module" src="js/app.js"></script>
 </body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('toggle-sidebar');
+    const appLayout = document.querySelector('.app-layout');
+
+    toggleBtn.addEventListener('click', () => {
+      appLayout.classList.toggle('expanded');
+    });
+  });
+</script>
+
 </html>

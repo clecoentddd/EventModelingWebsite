@@ -1,49 +1,137 @@
 /* ----------------------------------------------------------- */
-/* --- INDEX.HTML SPECIFIC LAYOUT ---                          */
+/* --- INDEX.HTML SPECIFIC LAYOUT ---                         */
 /* ----------------------------------------------------------- */
 
 .flow-app-base {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
-/* Replaces #app classes (min-h-screen flex) */
+/* ---------------------- GRID LAYOUT ------------------------ */
 .app-layout {
-    display: flex;
-    min-height: 100vh;
+  display: grid;
+  grid-template-columns: 320px 1fr; /* sidebar + main */
+  transition: grid-template-columns 0.3s ease;
+  height: 100vh;
 }
 
-/* Replaces aside classes (w-80 bg-white border-r p-4 flex flex-col gap-4) */
+/* When expanded: sidebar grows wider */
+.app-layout.expanded {
+  grid-template-columns: 700px 1fr;
+}
+
+/* ---------------------- SIDEBAR ----------------------------- */
 .sidebar-layout {
-    width: 20rem; /* w-80 */
-    background-color: white; /* bg-white */
-    border-right: 1px solid #e2e8f0; /* border-r */
-    padding: 1rem; /* p-4 */
-    display: flex; /* flex */
-    flex-direction: column; /* flex-col */
-    gap: 1rem; /* gap-4 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background: #f9fafb;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: auto;
+  transition: all 0.3s ease;
+  width: 100%;
 }
 
-/* Replaces main classes (flex-1 p-6) */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Enlarge button (top-right corner inside sidebar) */
+.enlarge-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+.enlarge-btn:hover {
+  transform: scale(1.2);
+}
+
+/* ---------------------- DSL TEXTAREA ------------------------ */
+.dsl-input-styles {
+  width: 100%;
+  height: 180px;
+  font-family: monospace;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.5rem;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+/* When expanded: only textarea grows larger */
+.app-layout.expanded .dsl-input-styles {
+  height: 300px;
+  font-size: 0.9rem;
+}
+
+/* ---------------------- BUTTONS ----------------------------- */
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.button-load-dsl,
+.button-clear-flow {
+  flex: 0 0 auto; /* prevent stretching */
+  width: auto;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border: none;
+}
+
+.button-load-dsl {
+  background: #2563eb;
+  color: white;
+}
+
+.button-load-dsl:hover {
+  background: #1d4ed8;
+}
+
+.button-clear-flow {
+  background: #f1f5f9;
+}
+
+.button-clear-flow:hover {
+  background: #e2e8f0;
+}
+
+/* ---------------------- MAIN CONTENT ------------------------ */
 .main-content {
-    flex: 1; /* flex-1 */
-    padding: 1.5rem; /* p-6 */
+  flex: 1;
+  padding: 1.5rem;
 }
 
-/* Flow Area Styles (Shared) */
+/* Flow Area Styles */
 .flow-area-styles {
-    background-color: white; /* bg-white */
-    border-radius: 0.5rem; /* rounded */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow */
-    padding: 1rem; /* p-4 */
-}
-.flow-canvas-wrapper {
-    border: 1px solid #e2e8f0;
-    border-radius: 0.25rem;
-    overflow: hidden;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
 }
 
+.flow-canvas-wrapper {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/* ---------------------- RESPONSIVE -------------------------- */
 @media (max-width: 900px) {
-    aside {
-        display: none;
-    }
+  aside {
+    display: none;
+  }
 }
