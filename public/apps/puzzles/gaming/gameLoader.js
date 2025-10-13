@@ -1,7 +1,7 @@
 // public/apps/puzzles/js/gameLoader.js - CARD SELECTOR VERSION
 
-import * as Renderer from './flowRenderer.js';
-import * as DslParser from './dslParser.js';
+import * as Renderer from '../flowRenderer/flowRenderer.js';
+import * as DslParser from '../dslParser/dslParser.js';
 import { highlightNextSlot, clearAllHighlights } from './puzzleGuide.js';
 
 // ------------------- DOM ELEMENTS -------------------
@@ -68,7 +68,7 @@ async function loadGame(dslFileName) {
   console.log(`[GameLoader] Attempting to load DSL: ${dslFileName}`);
 
   try {
-    const dslPath = `./games/${dslFileName}`;
+    const dslPath = `../games/${dslFileName}`;
     const response = await fetch(dslPath);
     if (!response.ok) throw new Error(`Failed to load ${dslFileName}: ${response.statusText}.`);
     const dslContent = await response.text();

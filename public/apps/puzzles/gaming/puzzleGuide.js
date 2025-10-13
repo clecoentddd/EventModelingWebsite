@@ -65,7 +65,7 @@ function highlightTargetSlot(slotKey) {
     if(slotElement && !slotElement.querySelector('.flow-piece')) { 
         slotElement.classList.add('slot-highlight');
         // Keep the slot visible in the viewport
-        slotElement.scrollIntoView({ behavior: 'smooth', block: 'top' });
+        
         console.log(`[Guide] ✅ Applied highlight to empty grid slot: #${slotKey}`);
     }
 }

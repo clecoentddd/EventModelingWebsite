@@ -1,7 +1,6 @@
-import { parseDSL, resolveConnections } from './dslParser.js';
+import { parseDSL, resolveConnections } from '../dslParser/dslParser.js';
 // FIX: Removed the non-existent 'resetDragAndDrop' from imports
-import { createGrid, addPiece, setConnections, renderArrows, resetState } from './flowRenderer.js';
-
+import { createGrid, addPiece, setConnections, renderArrows, resetState } from '../flowRenderer/flowRenderer.js';
 const GRID_CONTAINER = document.getElementById('grid-container');
 const SVG = document.getElementById('flow-svg');
 const DSL_INPUT = document.getElementById('dsl-input');
