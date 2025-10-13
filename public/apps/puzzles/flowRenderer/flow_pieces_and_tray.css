@@ -23,8 +23,8 @@
 
 /* --- CORE PIECE STYLE (Used for both Grid and Tray) --- */
 .flow-piece {
-    width: 140px; 
-    height: 120px; 
+    width: 180px;
+    height: 180px;
     border-radius: 12px;
     display: flex;
     flex-direction: column; 
@@ -35,6 +35,11 @@
     box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
     color: #1e293b;
     cursor: grab; 
+}
+
+.flow-piece svg {
+    width: 100%;
+    height: 100%;
 }
 
 /* --- PIECE COLOR & ATTRIBUTE STYLES --- */
@@ -67,12 +72,17 @@
 .draggable-piece {
     opacity: 0.95;
     cursor: grab; 
+    transition: transform 0.15s;
+}
+
+.draggable-piece:active {
+  transform: scale(1.2); /* zoom in on mouse down */
 }
 
 /* --- Grid Piece Specific Styling (Larger size) --- */
 .grid-slot > .flow-piece {
     width: 88%;
-    height: 160px;
+    height: 120px;
     cursor: pointer; 
 }
 

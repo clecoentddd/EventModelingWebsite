@@ -1,0 +1,38 @@
+#flow-area {
+  flex: 1;
+  overflow: auto; /* keep scroll */
+  position: relative;
+  background: var(--flow-bg, #fafafa);
+  min-height: 0;
+}
+
+#flow-canvas {
+  height: 100%;
+  overflow: visible;
+}
+
+
+
+#grid-container {
+  display: grid;
+  grid-auto-columns: var(--slot-w);
+  grid-auto-flow: column;
+  grid-template-rows: repeat(12, var(--slot-h)); /* increase visible rows */
+  gap: 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#flow-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.slot-highlight {
+  outline: 4px solid #d3cbcf;
+  box-shadow: 0 0 10px #d3cbcf;
+  transition: outline 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}

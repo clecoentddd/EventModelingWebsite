@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flow Puzzle Game</title>
     
-      <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../flowRenderer/flow_pieces_and_tray.css">
-    <link rel="stylesheet" href="../flowRenderer/flow_canvas.css">
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../flowRenderer/flow_pieces_and_tray.css">
+        <link rel="stylesheet" href="../flowRenderer/flow_canvas.css">
         <link rel="stylesheet" href="./game_controls.css">
-        <link rel="stylesheet" href="./game.css"> 
+        <link rel="stylesheet" href="./gameLayout.css">
+        <link rel="stylesheet" href="./gameFlowRenderer.css">
+        <link rel="stylesheet" href="./zoom.css">
 </head>
 <body class="flow-app-base">
 <header id="game-controls" class="game-controls-cards">
@@ -28,12 +30,17 @@
         </section>
 
         <section id="flow-area" class="flow-area-styles">
-            <div id="flow-canvas" class="flow-canvas-wrapper">
-                <div id="flow-inner">
-                    <div id="grid-container"></div>
-                    <svg id="flow-svg"></svg>
-                </div>
+        <div class="zoom-controls">
+            <button id="zoom-out">−</button>
+            <button id="zoom-reset">⟳</button>
+            <button id="zoom-in">+</button>
+        </div>
+        <div id="flow-canvas" class="flow-canvas-wrapper">
+            <div id="flow-inner">
+            <div id="grid-container"></div>
+            <svg id="flow-svg"></svg>
             </div>
+        </div>
         </section>
     </main>
 </div>
@@ -41,6 +48,49 @@
 <script type="module" src="gameLoader.js"></script>
 <script type="module" src="puzzleGuide.js"></script> 
 <script type="module" src="../flowRenderer/flowRenderer.js"></script>
+
+<script>
+(() => {
+  const flowInner = document.getElementById('flow-inner');
+  const zoomIn = document.getElementById('zoom-in');
+  const zoomOut = document.getElementById('zoom-out');
+  const zoomReset = document.getElementById('zoom-reset');
+  
+  let zoomLevel = 1;
+  const minZoom = 0.5;
+  const maxZoom = 2.0;
+  const step = 0.1;
+
+  function applyZoom() {
+    flowInner.style.transform = `scale(${zoomLevel})`;
+  }
+
+  zoomIn.addEventListener('click', () => {
+    zoomLevel = Math.min(maxZoom, zoomLevel + step);
+    applyZoom();
+  });
+
+  zoomOut.addEventListener('click', () => {
+    zoomLevel = Math.max(minZoom, zoomLevel - step);
+    applyZoom();
+  });
+
+  zoomReset.addEventListener('click', () => {
+    zoomLevel = 1;
+    applyZoom();
+  });
+
+  // Optional: wheel zoom on Ctrl + scroll only inside flow-area
+  document.getElementById('flow-area').addEventListener('wheel', (e) => {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    zoomLevel += e.deltaY > 0 ? -step : step;
+    zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
+    applyZoom();
+  }, { passive: false });
+})();
+</script>
+
 
 </body>
 </html>
