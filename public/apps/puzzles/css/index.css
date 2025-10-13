@@ -1,0 +1,49 @@
+/* ----------------------------------------------------------- */
+/* --- INDEX.HTML SPECIFIC LAYOUT ---                          */
+/* ----------------------------------------------------------- */
+
+.flow-app-base {
+    min-height: 100vh;
+}
+
+/* Replaces #app classes (min-h-screen flex) */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Replaces aside classes (w-80 bg-white border-r p-4 flex flex-col gap-4) */
+.sidebar-layout {
+    width: 20rem; /* w-80 */
+    background-color: white; /* bg-white */
+    border-right: 1px solid #e2e8f0; /* border-r */
+    padding: 1rem; /* p-4 */
+    display: flex; /* flex */
+    flex-direction: column; /* flex-col */
+    gap: 1rem; /* gap-4 */
+}
+
+/* Replaces main classes (flex-1 p-6) */
+.main-content {
+    flex: 1; /* flex-1 */
+    padding: 1.5rem; /* p-6 */
+}
+
+/* Flow Area Styles (Shared) */
+.flow-area-styles {
+    background-color: white; /* bg-white */
+    border-radius: 0.5rem; /* rounded */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow */
+    padding: 1rem; /* p-4 */
+}
+.flow-canvas-wrapper {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    aside {
+        display: none;
+    }
+}

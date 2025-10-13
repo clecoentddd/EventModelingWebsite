@@ -4,7 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Event Modeling Flow Builder — Modern</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/flow_canvas.css">
+  <link rel="stylesheet" href="css/flow_pieces_and_tray.css">
+  <link rel="stylesheet" href="css/dsl_input.css">
 </head>
 <body class="flow-app-base">
   <div id="app" class="app-layout">
@@ -23,7 +27,10 @@ ELEMENT: 6, Command, "Prepare Espresso", 3;0
 ELEMENT: 7, Event, "Espresso Prepared", 3;-1
 ELEMENT: 8, Event, "Espresso maker failed", 4;-1
 ELEMENT: 9, ReadModel, "Espresso Prepared List", 5;0
-ELEMENT: 10, Automation, "Add Milk", 6;1
+ELEMENT: 10, External_Event, "Alert", 6;-2
+ELEMENT: 11, Automation, "Notify Barista", 7;1
+ELEMENT: 12, Command, "Translate to Coffee Required", 7;0
+ELEMENT: 13, Event, "Coffee Required", 7;-1
 
 FLOW: 1 to 2
 FLOW: 2 to 3
@@ -33,9 +40,10 @@ FLOW: 5 to 6
 FLOW: 6 to 7
 FLOW: 7 to 9
 FLOW: 6 to 8 
-FLOW: 9 to 10
 BACK_FLOW: 7 to 4
-
+FLOW: 10 to 11
+FLOW: 11 to 12
+FLOW: 12 to 13
 </textarea>
       <div class="button-group">
         <button id="load-dsl" class="button-load-dsl">Load DSL</button>
@@ -47,14 +55,7 @@ BACK_FLOW: 7 to 4
 
     <main class="main-content">
       <div class="header-controls">
-        <div>
-          <h2 class="text-lg font-semibold">Canvas</h2>
-          <p class="text-sm text-slate-500">Drag-free layout with SVG overlays for connections.</p>
-        </div>
-        <div class="button-group-right">
-          <button id="export-json" class="button-secondary">Export JSON</button>
-          <button id="download-project" class="button-secondary">Download Project</button>
-        </div>
+          <h2>Canvas - use DSL Load to see what you are building</h2>
       </div>
 
       <div id="flow-area" class="flow-area-styles">

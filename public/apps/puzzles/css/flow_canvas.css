@@ -1,0 +1,52 @@
+/* ----------------------------------------------------------- */
+/* --- FLOW CANVAS CONTAINERS (Includes Row Fixes) ---         */
+/* ----------------------------------------------------------- */
+
+:root {
+    --slot-w: 220px;
+    --slot-h: 200px; 
+}
+
+#flow-canvas {
+    height: 900px;
+    background: linear-gradient(180deg, #fff, #fbfbfd);
+    padding: 0; 
+    overflow: auto; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#flow-canvas::-webkit-scrollbar {
+    display: none;
+}
+
+#flow-inner {
+    position: relative;
+    width: max-content; 
+    height: max-content;
+    /* FIX: Increased top padding to expose negative grid rows (-1, -2) */
+    padding: 80px 16px 16px 40px; 
+}
+
+/* ----------------------------------------------------------- */
+/* --- GRID & SVG Positioning (Absolute Overlay) ---           */
+/* ----------------------------------------------------------- */
+
+#grid-container {
+    display: grid;
+    grid-auto-columns: var(--slot-w);
+    grid-auto-flow: column;
+    /* FIX: Set to 4 rows for grid track indexes corresponding to DSL rows -2, -1, 0, 1 */
+    grid-template-rows: repeat(4, var(--slot-h)); 
+    gap: 8px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+#flow-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; 
+}

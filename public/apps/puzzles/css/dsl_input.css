@@ -1,0 +1,91 @@
+/* DSL Textarea Styles */
+.dsl-input-styles {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #334155; 
+    border-radius: 6px;
+    box-sizing: border-box;
+    resize: vertical;
+    
+    /* Code formatting */
+    font-family: monospace;
+    font-size: 14px;
+    background-color: #1e293b;
+    color: #f1f5f9;
+}
+
+/* Button Group Styles */
+.button-group, .button-group-right {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Button Base Styles */
+.button-base {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.button-load-dsl {
+    flex: 1;
+    background-color: #4f46e5;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.button-clear-flow {
+    background-color: #f3f4f6;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.button-add-col {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #059669;
+    color: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border: none;
+}
+
+.button-secondary {
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+}
+
+/* Sidebar Specific Styles */
+.sidebar-block {
+    background-color: #f8fafc;
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+}
+.sidebar-footer {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+.block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}

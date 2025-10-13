@@ -1,0 +1,103 @@
+/* ----------------------------------------------------------- */
+/* --- GRID SLOT & PIECE STYLES ---                          */
+/* ----------------------------------------------------------- */
+
+.grid-slot {
+    position: relative;
+    border: 1px dashed #eef2ff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: #fff;
+}
+
+.row-label {
+    position: absolute;
+    left: -88px;
+    top: 10px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+/* --- CORE PIECE STYLE (Used for both Grid and Tray) --- */
+.flow-piece {
+    width: 140px; 
+    height: 120px; 
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: flex-start;
+    padding: 8px; 
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+    color: #1e293b;
+    cursor: grab; 
+}
+
+/* --- PIECE COLOR & ATTRIBUTE STYLES --- */
+.flow-piece[data-type="External_Event"] {
+    background-color: #FFFFCC; /* Pale Yellow (Fix for visibility) */
+    border: 1px solid #CCCC99;
+    color: #1e293b;
+}
+
+/* --- PIECE TRAY STYLING --- */
+#piece-tray {
+    margin-top: 6px;
+    padding: 0px 16px;
+    border-top: 2px solid #eef2ff;
+}
+
+#piece-tray h2 {
+    width: 100%;
+    margin-bottom: 10px;
+    color: #475569;
+}
+
+#tray-pieces-container { 
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px;
+    align-items: flex-start; 
+}
+
+.draggable-piece {
+    opacity: 0.95;
+    cursor: grab; 
+}
+
+/* --- Grid Piece Specific Styling (Larger size) --- */
+.grid-slot > .flow-piece {
+    width: 88%;
+    height: 160px;
+    cursor: pointer; 
+}
+
+/* --- Black Border ONLY for the 'UI' Element --- */
+.flow-piece.piece-UI {
+    border: 1px solid black; 
+}
+
+.piece-name-editable {
+    outline: none;
+    flex-shrink: 0; 
+    text-align: center;
+}
+
+/* --- Styles for the Automation Icon --- */
+.flow-piece.piece-Automation {
+    justify-content: space-between; 
+}
+
+.flow-piece.draggable-piece.piece-Automation .Automation-icon {
+    width: 50px; 
+    height: 50px; 
+}
+
+.grid-slot > .flow-piece.piece-Automation .Automation-icon {
+    width: 70px; 
+    height: 70px; 
+}

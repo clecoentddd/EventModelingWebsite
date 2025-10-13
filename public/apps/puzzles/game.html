@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flow Puzzle Game</title>
     
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/game.css"> 
+      <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/flow_canvas.css">
+    <link rel="stylesheet" href="css/flow_pieces_and_tray.css">
+        <link rel="stylesheet" href="css/game_controls.css">
+        <link rel="stylesheet" href="css/game.css"> 
 </head>
 <body class="flow-app-base">
-<header id="game-controls">
-    <label for="game-selector">Select Puzzle:</label>
-    <select id="game-selector"></select>
-    <button id="load-game-btn">Load Game</button>
-    <div id="game-info">Select a puzzle and build it</div>
+<header id="game-controls" class="game-controls-cards">
+  <div class="game-controls-top">
+    <h3 class="controls-title">Select Puzzle</h3>
+  </div>
+
+  <!-- Cards container -->
+  <div id="game-cards" class="game-cards" role="list"></div>
 </header>
 
 <div id="app" class="app-layout">

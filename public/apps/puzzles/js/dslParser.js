@@ -257,35 +257,76 @@ export function resolveConnections(items, rawFlows) {
 
 
 // --- 3. SELF-CONTAINED UNIT TEST (UNCHANGED) ---
+// --- 3. SELF-CONTAINED UNIT TEST (MODIFIED) ---
 function runDslParserTest() {
-    const testDsl = `
+    let allTestsPassed = true;
+
+    // --- TEST 1: Original BACK_FLOW Test (Unchanged Logic) ---
+    const testDsl1 = `
 ELEMENT: 100, ReadModel, "Test ReadModel", 2;0
 ELEMENT: 101, Event, "Test Event", 3;-1
 BACK_FLOW: 101 to 100
 `;
+    
+    const { items: items1, rawFlows: rawFlows1, errors: errors1 } = parseDSL(testDsl1);
 
-    const { items, rawFlows, errors } = parseDSL(testDsl);
-
-    if (errors.length > 0) {
-        console.error("TEST FAILED: Parsing resulted in errors.", errors);
-        return;
-    }
-
-    const { connections } = resolveConnections(items, rawFlows);
-    
-    if (connections.length === 1) {
-        const backFlow = connections.find(c => c.style === 'back');
-        
-        // Check if style and segments are set correctly: left to bottom
-        if (backFlow && backFlow.startSegment === 'left' && backFlow.endSegment === 'bottom') {
-            console.log("✅ DSL Parser Test PASSED: Resolved BACK_FLOW as left to bottom.");
-        } else {
-            console.error("❌ DSL Parser Test FAILED: Segments incorrect. Expected left to bottom.");
-            console.log("Failed Connections:", connections);
-        }
+    if (errors1.length > 0) {
+        console.error("❌ TEST 1 FAILED: Parsing resulted in errors.", errors1);
+        allTestsPassed = false;
     } else {
-        console.error(`❌ DSL Parser Test FAILED: Expected 1 connection, got ${connections.length}.`);
-    }
+        const { connections: connections1 } = resolveConnections(items1, rawFlows1);
+        
+        if (connections1.length === 1) {
+            const backFlow = connections1.find(c => c.style === 'back');
+            
+            if (backFlow && backFlow.startSegment === 'left' && backFlow.endSegment === 'bottom') {
+                console.log("✅ TEST 1 PASSED: Resolved BACK_FLOW as left to bottom.");
+            } else {
+                console.error("❌ TEST 1 FAILED: BACK_FLOW segments incorrect. Expected left to bottom.");
+                allTestsPassed = false;
+            }
+        } else {
+            console.error(`❌ TEST 1 FAILED: Expected 1 connection, got ${connections1.length}.`);
+            allTestsPassed = false;
+        }
+    }
+
+
+    // ----------------------------------------------------------------------------------
+    // --- TEST 2: EXTERNAL_EVENT Row Shifting Logic Test ---
+    // Should result in E-Event at R=-1 and Event at R=-2
+    // ----------------------------------------------------------------------------------
+    const testDsl2 = `
+ELEMENT: 200, External_Event, "External Event", 1;-1
+ELEMENT: 201, Event, "Standard Event", 2;-1
+`;
+
+    const { items: items2, rawFlows: rawFlows2, errors: errors2 } = parseDSL(testDsl2);
+
+    if (errors2.length > 0) {
+        console.error("❌ TEST 2 FAILED: Parsing resulted in errors.", errors2);
+        allTestsPassed = false;
+    } else {
+        const externalEvent = items2.find(item => item.id === 200); // E-Event should stay at R=-1
+        const standardEvent = items2.find(item => item.id === 201); // Standard Event should be pushed to R=-2
+
+        if (externalEvent && externalEvent.r === -1 && standardEvent && standardEvent.r === -2) {
+            console.log("✅ TEST 2 PASSED: EXTERNAL_EVENT logic confirmed. E-Event at R=-1, Standard Event shifted to R=-2.");
+        } else {
+            console.error(`❌ TEST 2 FAILED: Row shifting incorrect. E-Event row: ${externalEvent?.r}, Standard Event row: ${standardEvent?.r}.`);
+            allTestsPassed = false;
+        }
+    }
+
+    if (allTestsPassed) {
+        console.log("======================================");
+        console.log("🚀 ALL DSL Parser Tests PASSED! 🎉");
+        console.log("======================================");
+    } else {
+        console.error("======================================");
+        console.error("❌ SOME DSL Parser Tests FAILED! 🐞");
+        console.error("======================================");
+    }
 }
 
 // Run the test immediately.

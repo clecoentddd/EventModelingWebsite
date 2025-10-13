@@ -1,6 +1,6 @@
 // public/apps/puzzles/js/flowRenderer.js - FINAL WITH HIGHLIGHT FIX
 
-export const GRID_ROWS = [1, 0, -1];
+export const GRID_ROWS = [1, 0, -1, -2];
 export const SLOT_W = 260, SLOT_H = 260;
 let pieces = {}, connections = [];
 
@@ -9,7 +9,8 @@ const PIECE_COLORS = {
   Event: '#FFC000',
   ReadModel: '#4EA72E',
   Automation: '#ffffff',
-  UI: '#ffffff'
+  UI: '#ffffff',
+  External_Event: '#FFFFCC'
 };
 
 export function resetState() { pieces = {}; connections = []; }
