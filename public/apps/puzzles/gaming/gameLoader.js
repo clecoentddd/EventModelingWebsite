@@ -178,7 +178,6 @@ function structureGameConfig(dslContent) {
 
 
 // ------------------- STATE CHECK -------------------
-// ------------------- STATE CHECK -------------------
 window.checkPuzzleState = function () {
   const currentPieces = Renderer.getPieces();
   if (!window.currentGameConfig) return;
