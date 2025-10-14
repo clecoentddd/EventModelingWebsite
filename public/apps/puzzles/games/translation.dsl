@@ -1,3 +1,6 @@
+DESCRIPTION: "A simple translation: we receive an external event from an external system and we translate it (copy/paste almost)"
+LEVEL: 1
+
 ELEMENT: 1, ExternalEvent, "System Refiller - Alert Refiller KO", 1;-2
 ELEMENT: 2, Automation, "Alert Notifer Barista ", 2;1
 ELEMENT: 3, Command, "Translate to Coffee Required", 2;0

@@ -1,4 +1,4 @@
-DESCRIPTION: "Make a cappuccino, Milk First Then Espresso"
+DESCRIPTION: "Make a cappuccino, Milk First Then Espresso (Any failure in the process will be handled later but we have a post-it)"
 LEVEL: 2
 
 ELEMENT: 1, Screen, "Select Cappuccino", 1;1

@@ -29,7 +29,7 @@ const AVAILABLE_GAMES = [
   { fileName: 'automation.dsl', displayName: 'Automation' },
   { fileName: 'translation.dsl', displayName: 'Translation' },
   { fileName: 'cappuccino.dsl', displayName: 'Cappuccino Puzzle' },
-  { fileName: 'espreso_with_alert.dsl', displayName: 'Espresso with an alert' },
+  { fileName: 'espresso_with_alert.dsl', displayName: 'Espresso with an alert' },
   { fileName: 'notification1.dsl', displayName: 'Implicit Notification' },
   { fileName: 'notification2.dsl', displayName: 'Explicit Notification' },
 ];
@@ -178,66 +178,88 @@ function structureGameConfig(dslContent) {
 
 
 // ------------------- STATE CHECK -------------------
+// public/apps/puzzles/js/gameLoader.js - CARD SELECTOR VERSION
+
+// ... (omitted code for brevity) ...
+
+
+// ------------------- STATE CHECK -------------------
 window.checkPuzzleState = function () {
-  const currentPieces = Renderer.getPieces();
-  if (!window.currentGameConfig) return;
+    const currentPieces = Renderer.getPieces();
+    if (!window.currentGameConfig) return;
 
-  const solutionMap = window.currentGameConfig.solutionMap;
-  const rawFlows = window.currentGameConfig.rawFlows;
+    const solutionMap = window.currentGameConfig.solutionMap;
+    const rawFlows = window.currentGameConfig.rawFlows;
 
-  console.log('--- checkPuzzleState START ---');
+    console.log('--- checkPuzzleState START ---');
 
-  // 1. Determine which pieces are correctly placed
-  const itemsForParser = [];
-  const placedDslIds = new Set();
+    // 1. Determine which pieces are correctly placed
+    const itemsForParser = [];
+    const placedDslIds = new Set();
+    
+    // LOG: Check how many pieces are considered correctly placed
+    console.log(`[GameLoader:State] Checking ${Object.keys(currentPieces).length} placed pieces.`);
+    let correctPieceCount = 0;
 
-  for (const key in solutionMap) {
-    const requiredPiece = solutionMap[key];
-    const placedPiece = currentPieces[key];
+    for (const key in solutionMap) {
+        const requiredPiece = solutionMap[key];
+        const placedPiece = currentPieces[key];
 
-    if (placedPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
-      placedDslIds.add(requiredPiece.dslId);
+        if (placedPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
+            placedDslIds.add(requiredPiece.dslId);
+            correctPieceCount++; // INCREMENT LOG
 
-      const [r, c] = key.split('_').map(Number);
-      itemsForParser.push({
-        id: requiredPiece.dslId,
-        type: placedPiece.type,
-        name: placedPiece.name,
-        c,
-        r,
-        conn: null,
-      });
+            const [r, c] = key.split('_').map(Number);
+            itemsForParser.push({
+                id: requiredPiece.dslId,
+                type: placedPiece.type,
+                name: placedPiece.name,
+                c,
+                r,
+                conn: null,
+            });
+        }
     }
-  }
+    console.log(`[GameLoader:State] Found ${correctPieceCount} correctly placed pieces.`); // LOG
 
-  // 2. Resolve connections (including dashed/back-flows)
-  const resolvedConnections = DslParser.resolveConnections(itemsForParser, rawFlows);
-  resolvedConnections.connections.forEach(conn => {
-    if (conn.style === 'dashed') {
-      conn.startSegment = 'left';
-      conn.endSegment = 'bottom';
+    // 2. Resolve connections (including dashed/back-flows)
+    const resolvedConnections = DslParser.resolveConnections(itemsForParser, rawFlows);
+    
+    // 💥 NEW LOG: Check the actual connection count
+    console.log(`[GameLoader:State] DslParser resolved ${resolvedConnections.connections.length} connections.`); 
+    
+    resolvedConnections.connections.forEach(conn => {
+        if (conn.style === 'dashed') {
+            conn.startSegment = 'left';
+            conn.endSegment = 'bottom';
+        }
+        // NEW LOG: Show resolved connections
+        console.log(`[GameLoader:State] Resolved Connection: ${conn.start} -> ${conn.end} (${conn.style || 'solid'})`);
+    });
+
+    Renderer.setConnections(resolvedConnections.connections);
+    
+    // 👇 FIX: Wrap arrow rendering in a setTimeout to wait for DOM layout
+    setTimeout(() => {
+        const svgElement = document.getElementById('flow-svg');
+        if (svgElement) Renderer.renderArrows(svgElement);
+    }, 50); // 50ms is usually sufficient for a re-layout
+
+    // 3. Find next missing piece to highlight
+    const allDslIds = Object.values(solutionMap).map(p => p.dslId).sort((a, b) => a - b);
+    const missingDslIds = allDslIds.filter(id => !placedDslIds.has(id));
+
+    if (missingDslIds.length > 0) {
+        // highlight first missing piece
+        highlightNextSlot(window.currentGameConfig.dslContent, missingDslIds[0]);
+    } else {
+        // all pieces placed
+        clearAllHighlights();
+        console.log('PUZZLE SOLVED! 🎉');
+        setTimeout(() => alert('Congratulations! Puzzle Solved!'), 100);
     }
-  });
 
-  Renderer.setConnections(resolvedConnections.connections);
-  const svgElement = document.getElementById('flow-svg');
-  if (svgElement) Renderer.renderArrows(svgElement);
-
-  // 3. Find next missing piece to highlight
-  const allDslIds = Object.values(solutionMap).map(p => p.dslId).sort((a, b) => a - b);
-  const missingDslIds = allDslIds.filter(id => !placedDslIds.has(id));
-
-  if (missingDslIds.length > 0) {
-    // highlight first missing piece
-    highlightNextSlot(window.currentGameConfig.dslContent, missingDslIds[0]);
-  } else {
-    // all pieces placed
-    clearAllHighlights();
-    console.log('PUZZLE SOLVED! 🎉');
-    setTimeout(() => alert('Congratulations! Puzzle Solved!'), 100);
-  }
-
-  console.log('--- checkPuzzleState END ---');
+    console.log('--- checkPuzzleState END ---');
 };
 
 

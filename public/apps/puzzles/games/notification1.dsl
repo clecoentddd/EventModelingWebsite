@@ -1,3 +1,6 @@
+DESCRIPTION: "How to handle a notification using an external API: we make it implicit here"
+LEVEL: 2
+
 ELEMENT: 1, Screen, "Confirm your Email toto@zozo.com", 1;1
 ELEMENT: 2, Command, "Validate Email", 1;0
 ELEMENT: 3, Event, "Email validated", 1;-1
