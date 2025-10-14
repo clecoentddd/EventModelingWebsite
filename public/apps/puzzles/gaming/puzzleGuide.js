@@ -37,24 +37,6 @@ export function highlightNextSlot(currentDsl, lastCompletedElementId) {
 // --- INTERNAL HELPER FUNCTIONS ---
 
 /**
- * Parses the DSL text to extract all FLOW definitions.
- */
-function parseFlows(dslContent) {
-    // This helper is technically not used for 'highlight all slots' but kept for completeness.
-    const flowRegex = /FLOW:\s*(\d+)\s*to\s*(\d+)/g;
-    const flows = [];
-    let match;
-
-    while ((match = flowRegex.exec(dslContent)) !== null) {
-        flows.push({
-            from: parseInt(match[1]), 
-            to: parseInt(match[2])    
-        });
-    }
-    return flows;
-}
-
-/**
  * Highlights a specific empty grid slot by its R_C key.
  * @param {string} slotKey - The R_C key (e.g., "0_1").
  */

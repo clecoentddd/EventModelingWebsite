@@ -180,30 +180,33 @@ export function renderAvailablePieces(container, piecesList) {
 
     // Drag back from grid
     piecesContainer.addEventListener('dragover', (e) => e.preventDefault());
-    piecesContainer.addEventListener('drop', (e) => {
-        e.preventDefault();
-        const pieceData = JSON.parse(e.dataTransfer.getData('text/plain'));
-        if (!pieceData || !pieceData.id) return;
+// New drop handler for the Tray area
+piecesContainer.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const pieceData = JSON.parse(e.dataTransfer.getData('text/plain'));
+    if (!pieceData || !pieceData.id) return;
+    
+    console.log(`[Renderer] Dropping piece ${pieceData.id} back to tray. Source: ${pieceData.sourceSlot}`); // LOG
+
+    // FIX: Only process the drop if the piece originated from the grid.
+    if (pieceData.sourceSlot) { 
         
-        console.log(`[Renderer] Dropping piece ${pieceData.id} back to tray. Source: ${pieceData.sourceSlot}`); // LOG
+        // 1. Remove the piece from its old grid slot
+        removePiece(pieceData.sourceSlot);
 
-        if (pieceData.sourceSlot) {
-            // 1. Remove the piece from its old grid slot
-            removePiece(pieceData.sourceSlot);
-
-            // 2. FIX: Call the global state check to re-highlight the next correct slot
-            // We use a safety check here to prevent errors in editor.html
-            if (window.checkPuzzleState) {
-                window.checkPuzzleState();
-            } else {
-                 console.log("[Renderer] checkPuzzleState not defined. Not updating puzzle state."); // LOG
-            }
-        }
-
-        // Re-add the piece back to the visual tray
+        // 2. Re-add the piece back to the visual tray
         const el = createPieceElement({ type: pieceData.type, name: pieceData.name, id: pieceData.id });
         piecesContainer.appendChild(el);
-    });
+        
+        // 3. Call the global state check
+        if (window.checkPuzzleState) {
+            window.checkPuzzleState();
+        } else {
+             console.log("[Renderer] checkPuzzleState not defined. Not updating puzzle state."); 
+        }
+    } 
+    // If pieceData.sourceSlot is null (it came from the tray itself), the drop is simply ignored.
+});
 
     // Original pieces
     piecesList.forEach(p => {
