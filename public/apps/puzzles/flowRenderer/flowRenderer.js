@@ -23,6 +23,7 @@ export function getPieces() {
   return pieces;
 }
 
+
 // ---------------------- Helper to create piece element ----------------------
 function createPieceElement({ type, name, id, slot = null }) {
   const el = document.createElement('div');
@@ -157,33 +158,43 @@ export function removePiece(key) {
 }
 
 // ---------------------- Tray / Available Pieces ----------------------
+// ---------------------- Tray / Available Pieces ----------------------
 export function renderAvailablePieces(container, piecesList) {
-  const header = container.querySelector('h2');
-  container.innerHTML = '';
-  if (header) container.appendChild(header);
+  const header = container.querySelector('h2');
+  container.innerHTML = '';
+  if (header) container.appendChild(header);
 
-  const piecesContainer = document.createElement('div');
-  piecesContainer.id = 'tray-pieces-container';
-  container.appendChild(piecesContainer);
+  const piecesContainer = document.createElement('div');
+  piecesContainer.id = 'tray-pieces-container';
+  container.appendChild(piecesContainer);
 
-  // Drag back from grid
-  piecesContainer.addEventListener('dragover', (e) => e.preventDefault());
-  piecesContainer.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const pieceData = JSON.parse(e.dataTransfer.getData('text/plain'));
-    if (!pieceData || !pieceData.id) return;
+  // Drag back from grid
+  piecesContainer.addEventListener('dragover', (e) => e.preventDefault());
+  piecesContainer.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const pieceData = JSON.parse(e.dataTransfer.getData('text/plain'));
+    if (!pieceData || !pieceData.id) return;
 
-    if (pieceData.sourceSlot) removePiece(pieceData.sourceSlot);
+    if (pieceData.sourceSlot) {
+      // 1. Remove the piece from its old grid slot
+      removePiece(pieceData.sourceSlot);
 
-    const el = createPieceElement({ type: pieceData.type, name: pieceData.name, id: pieceData.id });
-    piecesContainer.appendChild(el);
-  });
+      // 2. FIX: Call the global state check to re-highlight the next correct slot
+      // This ensures the slot that was just vacated (if it was the next correct one)
+      // or the subsequent correct slot is highlighted based on the DSL.
+      window.checkPuzzleState();
+    }
 
-  // Original pieces
-  piecesList.forEach(p => {
-    const el = createPieceElement({ type: p.type, name: p.name, id: p.id });
-    piecesContainer.appendChild(el);
-  });
+    // Re-add the piece back to the visual tray
+    const el = createPieceElement({ type: pieceData.type, name: pieceData.name, id: pieceData.id });
+    piecesContainer.appendChild(el);
+  });
+
+  // Original pieces
+  piecesList.forEach(p => {
+    const el = createPieceElement({ type: p.type, name: p.name, id: p.id });
+    piecesContainer.appendChild(el);
+  });
 }
 
 // ---------------------- Drag Listeners for tray ----------------------

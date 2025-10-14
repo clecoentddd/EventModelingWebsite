@@ -1,6 +1,7 @@
 /* ===== GLOBAL.CSS ===== */
 @import url("nav.css");
 @import url("ptt.css");
+@import url("header.css");
 
 body {
   font-family: "Helvetica Neue", Arial, sans-serif;
@@ -10,38 +11,6 @@ body {
   font-size: 15px;
 }
 
-/* --- Header: Black + Blue --- */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  color: #ffffff;
-  padding: 2.5rem 1rem;
-  border-bottom: 4px solid rgba(15, 158, 213, 0.5);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-logo {
-  width: 96px;
-  height: 96px;
-  padding-right: 20px;
-  object-fit: contain;
-}
-
-header h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-  position: relative;
-  z-index: 1;
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  text-align: center;
-}
 
 /* ===== MAIN CONTENT ===== */
 main {

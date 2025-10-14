@@ -93,3 +93,77 @@
     padding: 0.5rem;
   }
 }
+
+/* --- Gamification Banner: 2025 Minimalist Style (Black / White / Grey / Blue Accent) --- */
+.gamification-banner {
+  background: #f7f8fa;
+  color: #111;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-radius: 0.8rem;
+  margin: 3rem auto;
+  max-width: 760px;
+  border: 1px solid #e0e0e0;
+}
+
+.gamification-banner h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #0a0a0a;
+}
+
+.gamification-banner p {
+  font-size: 1.05rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 1.8rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Call to Action Button --- */
+.cta-button {
+  display: inline-block;
+  background: #111;
+  color: #fff;
+  padding: 0.9rem 2rem;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.cta-button:hover {
+  background: #0057b7;
+  color: #fff;
+}
+
+/* --- Optional: Dark Mode --- */
+@media (prefers-color-scheme: dark) {
+  .gamification-banner {
+    background: #1a1a1a;
+    color: #f0f0f0;
+    border-color: #333;
+  }
+
+  .gamification-banner h2 {
+    color: #ffffff;
+  }
+
+  .gamification-banner p {
+    color: #cccccc;
+  }
+
+  .cta-button {
+    background: #f0f0f0;
+    color: #111;
+  }
+
+  .cta-button:hover {
+    background: #0057b7;
+    color: #fff;
+  }
+}

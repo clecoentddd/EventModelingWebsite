@@ -36,11 +36,9 @@ const AVAILABLE_GAMES = [
 
 // ------------------- BUILD CARD UI -------------------
 function renderGameCards() {
-  if (!gameCardsContainer) {
-    console.error('[GameLoader] Missing #game-cards container');
-    return;
-  }
+  if (!gameCardsContainer) return;
   gameCardsContainer.innerHTML = '';
+
   AVAILABLE_GAMES.forEach((game) => {
     const card = document.createElement('button');
     card.className = 'game-card';
@@ -48,16 +46,41 @@ function renderGameCards() {
     card.textContent = game.displayName;
     card.dataset.fileName = game.fileName;
 
+        // --- Add tooltip with description if available ---
+if (window.currentGameConfig && window.currentGameConfig.description) {
+  card.title = window.currentGameConfig.description;
+} else {
+  card.title = ''; // fallback
+}
+
+    // Fetch DSL to get level & description
+    fetch(`../games/${game.fileName}`)
+      .then(r => r.text())
+      .then(dsl => {
+        const { level, description } = DslParser.parseDSL(dsl);
+
+        // Color by level
+        let bgColor = '#0078ff'; // default blue
+        if (level === 2) bgColor = '#28a745'; // green
+        else if (level === 3) bgColor = '#ffc107'; // yellow
+        else if (level >= 4) bgColor = '#6f42c1'; // purple
+
+        card.style.backgroundColor = bgColor;
+        card.style.color = 'white';
+        card.title = description || ''; // show description on hover
+      })
+      .catch(err => console.warn('[GameLoader] Failed to parse DSL for card tooltip', err));
+
     card.addEventListener('click', () => {
       document.querySelectorAll('.game-card').forEach((c) => c.classList.remove('active'));
       card.classList.add('active');
       loadGame(game.fileName);
-      // if (gameInfo) gameInfo.textContent = `Loaded: ${game.displayName}`;
     });
 
     gameCardsContainer.appendChild(card);
   });
 }
+
 
 // ------------------- MAIN LOGIC -------------------
 function isTestMode() {
@@ -119,16 +142,11 @@ async function loadGame(dslFileName) {
 function structureGameConfig(dslContent) {
   console.log('[GameLoader] --- Raw DSL ---\n', dslContent);
 
-  const { items, rawFlows, errors } = DslParser.parseDSL(dslContent);
-  console.log('[GameLoader] --- Parsed Items ---', items);
-  console.log('[GameLoader] --- Raw Flows ---', rawFlows);
-  console.log('[GameLoader] --- Errors ---', errors);
-
+  const { items, rawFlows, errors, description, level } = DslParser.parseDSL(dslContent);
   const { connections } = DslParser.resolveConnections(items, rawFlows);
+
   let maxColumn = 0;
-  items.forEach((item) => {
-    if (item.c > maxColumn) maxColumn = item.c;
-  });
+  items.forEach((item) => { if (item.c > maxColumn) maxColumn = item.c; });
 
   const availablePieces = items.map((item, index) => ({
     id: `p${index}`,
@@ -153,9 +171,13 @@ function structureGameConfig(dslContent) {
     errors,
     dslContent,
     rawFlows,
+    description,  // <-- pass along
+    level,        // <-- pass along
   };
 }
 
+
+// ------------------- STATE CHECK -------------------
 // ------------------- STATE CHECK -------------------
 window.checkPuzzleState = function () {
   const currentPieces = Renderer.getPieces();
@@ -163,40 +185,35 @@ window.checkPuzzleState = function () {
 
   const solutionMap = window.currentGameConfig.solutionMap;
   const rawFlows = window.currentGameConfig.rawFlows;
-  const requiredPlacements = Object.keys(solutionMap).length;
-  let correctPlacements = 0;
-  let highestCorrectDslId = 0;
 
   console.log('--- checkPuzzleState START ---');
 
-  const correctPlacementKeys = {};
+  // 1. Determine which pieces are correctly placed
   const itemsForParser = [];
+  const placedDslIds = new Set();
 
-  for (const key in currentPieces) {
-    const placedPiece = currentPieces[key];
+  for (const key in solutionMap) {
     const requiredPiece = solutionMap[key];
-    if (requiredPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
-      correctPlacements++;
-      correctPlacementKeys[key] = true;
-      if (requiredPiece.dslId > highestCorrectDslId) highestCorrectDslId = requiredPiece.dslId;
+    const placedPiece = currentPieces[key];
+
+    if (placedPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
+      placedDslIds.add(requiredPiece.dslId);
 
       const [r, c] = key.split('_').map(Number);
       itemsForParser.push({
         id: requiredPiece.dslId,
         type: placedPiece.type,
         name: placedPiece.name,
-        c: c,
-        r: r,
+        c,
+        r,
         conn: null,
       });
     }
   }
 
-  lastCorrectElementId = highestCorrectDslId;
-
-  // --- PATCH: Force back-flow / dashed segments ---
+  // 2. Resolve connections (including dashed/back-flows)
   const resolvedConnections = DslParser.resolveConnections(itemsForParser, rawFlows);
-  resolvedConnections.connections.forEach((conn) => {
+  resolvedConnections.connections.forEach(conn => {
     if (conn.style === 'dashed') {
       conn.startSegment = 'left';
       conn.endSegment = 'bottom';
@@ -207,17 +224,23 @@ window.checkPuzzleState = function () {
   const svgElement = document.getElementById('flow-svg');
   if (svgElement) Renderer.renderArrows(svgElement);
 
-  if (correctPlacements === requiredPlacements && Object.keys(currentPieces).length === requiredPlacements) {
-    console.log('PUZZLE SOLVED! 🎉');
-    clearAllHighlights();
-    setTimeout(() => alert('Congratulations! Puzzle Solved!'), 100);
+  // 3. Find next missing piece to highlight
+  const allDslIds = Object.values(solutionMap).map(p => p.dslId).sort((a, b) => a - b);
+  const missingDslIds = allDslIds.filter(id => !placedDslIds.has(id));
+
+  if (missingDslIds.length > 0) {
+    // highlight first missing piece
+    highlightNextSlot(window.currentGameConfig.dslContent, missingDslIds[0]);
   } else {
-    highlightNextSlot(window.currentGameConfig.dslContent, lastCorrectElementId);
-    console.log(`[State] Puzzle state: ${Object.keys(currentPieces).length} placed. ${correctPlacements}/${requiredPlacements} correct.`);
+    // all pieces placed
+    clearAllHighlights();
+    console.log('PUZZLE SOLVED! 🎉');
+    setTimeout(() => alert('Congratulations! Puzzle Solved!'), 100);
   }
 
   console.log('--- checkPuzzleState END ---');
 };
+
 
 // ------------------- INIT -------------------
 document.addEventListener('DOMContentLoaded', () => {

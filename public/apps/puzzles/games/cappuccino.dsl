@@ -1,3 +1,6 @@
+DESCRIPTION: "Make a cappuccino, Milk First Then Espresso"
+LEVEL: 2
+
 ELEMENT: 1, Screen, "Select Cappuccino", 1;1
 ELEMENT: 2, Command, "Order Cappuccino", 1;0
 ELEMENT: 3, Event, "Cappuccino Ordered", 1;-1

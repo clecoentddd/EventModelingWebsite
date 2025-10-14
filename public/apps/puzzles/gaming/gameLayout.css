@@ -39,3 +39,51 @@ body.flow-app-base {
   margin-bottom: 16px;
   flex-shrink: 0;
 }
+
+.hint-container {
+  position: relative;
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.hint-icon {
+  cursor: pointer;
+  background: #E59EDD; /* dark blue */
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.hint-icon:hover {
+  background: #005fa3;
+}
+
+.hint-text {
+  visibility: hidden;
+  opacity: 0;
+  width: 200px;
+  background-color: #ffffff;
+  color: black;
+  text-align: left;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  position: absolute;
+  top: 120%;  /* below icon */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease;
+  font-size: 0.85rem;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.hint-container:hover .hint-text {
+  visibility: visible;
+  opacity: 1;
+}
+
