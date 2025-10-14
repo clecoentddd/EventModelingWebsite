@@ -24,8 +24,8 @@
     position: relative;
     width: max-content; 
     height: max-content;
-    /* FIX: Increased top padding to expose negative grid rows (-1, -2) */
-    padding: 40px 16px 16px 20px; 
+    /* Increased left padding to push the entire grid and indicators to the right */
+    padding: 40px 16px 16px 0px; /* <--- Increased 20px to 35px */
 }
 
 /* ----------------------------------------------------------- */
@@ -43,7 +43,7 @@
     gap: 14px;
     position: absolute;
     top: 5px;
-    left: 5px;
+    left: 0px;
 
     /* Ensure pieces fill the grid cell */
     justify-items: stretch;
@@ -57,3 +57,30 @@
     left: 0;
     pointer-events: none; 
 }
+
+/* Flow Area Styles (Structural Container) */
+.flow-area-styles {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+}
+
+.flow-canvas-wrapper {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.row-indicator {
+    width: 6px;
+    height: 200px;
+    border-radius: 2px;
+    opacity: 0.4;
+    position: relative;
+    z-index: 0;
+    margin-left: -12px; /* <--- Set margin-left to 0 */
+    margin-right: 18px; /* Added space on the right */
+}
+

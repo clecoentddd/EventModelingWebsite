@@ -256,7 +256,25 @@ window.checkPuzzleState = function () {
         // all pieces placed
         clearAllHighlights();
         console.log('PUZZLE SOLVED! 🎉');
-        setTimeout(() => alert('Congratulations! Puzzle Solved!'), 100);
+       console.log('PUZZLE SOLVED! 🎉');
+
+        setTimeout(() => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <div id="popup">
+              <h3>🎉 Congratulations!</h3>
+              <p>Puzzle solved successfully!</p>
+              <p><strong>Event Modeling Gamification – Thanks for using us!</strong></p>
+              <button id="ok-btn">OK</button>
+            </div>
+          `;
+          document.body.appendChild(div);
+
+          document.getElementById('ok-btn').addEventListener('click', () => {
+            div.remove();
+          });
+        }, 100);
+
     }
 
     console.log('--- checkPuzzleState END ---');

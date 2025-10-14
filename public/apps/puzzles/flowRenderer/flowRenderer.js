@@ -124,6 +124,25 @@ export function createGrid(container, cols) {
             });
 
             container.appendChild(slot);
+
+            // Add vertical indicator only once per row (first column only)
+if (c === 1) {
+  const rowIndicator = document.createElement('div');
+  rowIndicator.classList.add('row-indicator');
+
+  // Choose color based on row
+  if (r >= 1) {
+    rowIndicator.style.background = 'linear-gradient(to right, #fff, #000)';
+  } else if (r === 0) {
+    rowIndicator.style.background = 'linear-gradient(to right, #0078ff, #28a745)';
+  } else {
+    rowIndicator.style.background = 'linear-gradient(to right, #ffc107, #ff9800)';
+  }
+
+  rowIndicator.style.gridRow = idx + 1;
+  rowIndicator.style.gridColumn = 1; // aligns to leftmost column
+  container.appendChild(rowIndicator);
+}
         });
     }
     refreshSlotHighlights();
