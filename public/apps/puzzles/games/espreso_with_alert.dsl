@@ -7,7 +7,7 @@ ELEMENT: 6, Command, "Prepare Espresso", 3;0
 ELEMENT: 7, Event, "Espresso Prepared", 3;-1
 ELEMENT: 8, Event, "Espresso maker failed", 4;-1
 ELEMENT: 9, ReadModel, "Espresso Prepared List", 5;0
-ELEMENT: 10, External_Event, "Alert", 6;-2
+ELEMENT: 10, ExternalEvent, "Alert", 6;-2
 ELEMENT: 11, Automation, "Notify Barista", 7;1
 ELEMENT: 12, Command, "Translate to Coffee Required", 7;0
 ELEMENT: 13, Event, "Coffee Required", 7;-1

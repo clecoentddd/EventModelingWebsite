@@ -43,7 +43,7 @@
 }
 
 /* --- PIECE COLOR & ATTRIBUTE STYLES --- */
-.flow-piece[data-type="External_Event"] {
+.flow-piece[data-type="ExternalEvent"] {
     background-color: #FFFFCC; /* Pale Yellow (Fix for visibility) */
     border: 1px solid #CCCC99;
     color: #1e293b;

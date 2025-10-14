@@ -30,6 +30,8 @@ const AVAILABLE_GAMES = [
   { fileName: 'translation.dsl', displayName: 'Translation' },
   { fileName: 'cappuccino.dsl', displayName: 'Cappuccino Puzzle' },
   { fileName: 'espreso_with_alert.dsl', displayName: 'Espresso with an alert' },
+  { fileName: 'notification1.dsl', displayName: 'Implicit Notification' },
+  { fileName: 'notification2.dsl', displayName: 'Explicit Notification' },
 ];
 
 // ------------------- BUILD CARD UI -------------------

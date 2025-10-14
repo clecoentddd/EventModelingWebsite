@@ -10,7 +10,7 @@ const PIECE_COLORS = {
   ReadModel: '#4EA72E',
   Automation: '#ffffff',
   UI: '#ffffff',
-  External_Event: '#FFFFCC'
+  ExternalEvent: '#FFFFCC'
 };
 
 export function resetState() {
