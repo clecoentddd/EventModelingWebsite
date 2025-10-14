@@ -6,12 +6,12 @@ ELEMENT: 2, Command, "Order Cappuccino", 1;0
 ELEMENT: 3, Event, "Cappuccino Ordered", 1;-1
 ELEMENT: 4, ReadModel, "Cappuccinos  to prepare", 2;0
 ELEMENT: 5, Automation, "Milk Frost Maker", 3;1
-ELEMENT: 6, Command, "Prepare Milk", 3;0
+ELEMENT: 6, Command, "Mark Milk Prepared", 3;0
 ELEMENT: 7, Event, "Milk Prepared", 3;-1
 ELEMENT: 8, Event, "Milk Frost Maker Failed", 4;-1
 ELEMENT: 9, ReadModel, "Espressos to Prepare", 5;0
-ELEMENT: 10, Automation, "Prepare Espresso", 6;1
-ELEMENT: 11, Command, "Prepare Espresso", 6;0
+ELEMENT: 10, Automation, "Espresso Maker", 6;1
+ELEMENT: 11, Command, "Mark Espresso Prepared", 6;0
 ELEMENT: 12, Event, "Espresso Prepared", 6:-1
 ELEMENT: 13, ReadModel, "Drinks ready", 7;0
 ELEMENT: 14, Screen, "Drinks Ready", 7;1
