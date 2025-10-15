@@ -1,6 +1,9 @@
 
 #flow-area {
-    padding: 20px;
+  flex: 1 1 auto; /* grid fills remaining space */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* grid scroll/zoom inside */
 }
 
 .game-cards {

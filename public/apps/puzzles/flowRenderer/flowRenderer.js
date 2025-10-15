@@ -189,50 +189,42 @@ export function removePiece(key) {
 
 // ---------------------- Tray / Available Pieces ----------------------
 export function renderAvailablePieces(container, piecesList) {
-    const header = container.querySelector('h2');
-    container.innerHTML = '';
-    if (header) container.appendChild(header);
+    const trayInner = container.querySelector('#tray-inner');
+    if (!trayInner) return;
 
-    const piecesContainer = document.createElement('div');
-    piecesContainer.id = 'tray-pieces-container';
-    container.appendChild(piecesContainer);
+    trayInner.innerHTML = '';
+    trayInner.style.display = 'flex';
+    trayInner.style.flexWrap = 'wrap';
+    trayInner.style.gap = '8px';
+    trayInner.style.overflow = 'visible';
 
-    // Drag back from grid
-    piecesContainer.addEventListener('dragover', (e) => e.preventDefault());
-// New drop handler for the Tray area
-piecesContainer.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const pieceData = JSON.parse(e.dataTransfer.getData('text/plain'));
-    if (!pieceData || !pieceData.id) return;
-    
-    console.log(`[Renderer] Dropping piece ${pieceData.id} back to tray. Source: ${pieceData.sourceSlot}`); // LOG
+    if (!trayInner.dataset.listenersSetup) {
+        trayInner.addEventListener('dragover', (e) => e.preventDefault());
+        trayInner.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const pieceData = JSON.parse(e.dataTransfer.getData('text/plain'));
+            if (!pieceData?.id) return;
+            if (pieceData.sourceSlot) {
+                removePiece(pieceData.sourceSlot);
+                const el = createPieceElement(pieceData);
+                trayInner.appendChild(el);
+                if (window.checkPuzzleState) window.checkPuzzleState();
+            }
+        });
+        trayInner.dataset.listenersSetup = 'true';
+    }
 
-    // FIX: Only process the drop if the piece originated from the grid.
-    if (pieceData.sourceSlot) { 
-        
-        // 1. Remove the piece from its old grid slot
-        removePiece(pieceData.sourceSlot);
-
-        // 2. Re-add the piece back to the visual tray
-        const el = createPieceElement({ type: pieceData.type, name: pieceData.name, id: pieceData.id });
-        piecesContainer.appendChild(el);
-        
-        // 3. Call the global state check
-        if (window.checkPuzzleState) {
-            window.checkPuzzleState();
-        } else {
-             console.log("[Renderer] checkPuzzleState not defined. Not updating puzzle state."); 
-        }
-    } 
-    // If pieceData.sourceSlot is null (it came from the tray itself), the drop is simply ignored.
-});
-
-    // Original pieces
     piecesList.forEach(p => {
         const el = createPieceElement({ type: p.type, name: p.name, id: p.id });
-        piecesContainer.appendChild(el);
+        trayInner.appendChild(el);
     });
+
+    // ✅ Call tray-zoom recalculation AFTER pieces are added
+    if (window.applyTrayZoom) window.applyTrayZoom();
 }
+
+
+
 
 // ---------------------- Drag Listeners for tray ----------------------
 function setupDragListeners() {
