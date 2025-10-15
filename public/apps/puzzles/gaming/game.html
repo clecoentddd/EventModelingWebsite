@@ -5,207 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flow Puzzle Game</title>
     
-        <link rel="stylesheet" href="../css/base.css">
-        <link rel="stylesheet" href="../flowRenderer/flow_pieces_and_tray.css">
-        <link rel="stylesheet" href="../flowRenderer/flow_canvas.css">
-        <link rel="stylesheet" href="./game_controls.css">
-        <link rel="stylesheet" href="./gameLayout.css">
-        <link rel="stylesheet" href="./gameFlowRenderer.css">
-        <link rel="stylesheet" href="./zoom.css">
-        <link rel="stylesheet" href="./toast.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../flowRenderer/flow_pieces_and_tray.css">
+    <link rel="stylesheet" href="../flowRenderer/flow_canvas.css">
+    <link rel="stylesheet" href="./game_controls.css">
+    <link rel="stylesheet" href="./gameLayout.css">
+    <link rel="stylesheet" href="./gameFlowRenderer.css">
+    <link rel="stylesheet" href="./zoom.css">
+    <link rel="stylesheet" href="./toast.css">
 
-        <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body class="flow-app-base">
 
 <header id="game-controls" class="game-controls-cards">
-  <div class="game-controls-top">
-    <a href="/" class="home-link">
-      <img src="/favicon.png" alt="Accueil" class="home-logo">
-    </a>
-    <h3 class="controls-title">Select Puzzle</h3>
-  </div>
+    <div class="game-controls-top">
+        <a href="/" class="home-link">
+            <img src="/favicon.png" alt="Accueil" class="home-logo">
+        </a>
+        <h3 class="controls-title">Select Puzzle</h3>
+    </div>
 
-  <!-- Cards container -->
-  <div id="game-cards" class="game-cards" role="list"></div>
+    <div id="game-cards" class="game-cards" role="list"></div>
 
-  <div class="hint-container">
-    <span class="hint-icon">?</span>
-    <span class="hint-text">
-      Start with Events, then customer journey: UI/Screens/Automation.
-      Arrows will appear when two connected pieces are correctly placed.
-    </span>
-  </div>
+    <div class="hint-container">
+        <span class="hint-icon">?</span>
+        <span class="hint-text">
+            Start with Events, then customer journey: UI/Screens/Automation.
+            Arrows will appear when two connected pieces are correctly placed.
+        </span>
+    </div>
 </header>
 
 
 <div id="app" class="app-layout">
- <main class="main-content">
-  <!-- SPACE 1: Tray -->
-  <section id="piece-tray" class="piece-tray-styles">
-    <h2>Available Pieces</h2>
-    <div id="tray-canvas" class="tray-canvas-wrapper">
-        <div class="zoom-controls" id="tray-zoom-controls">
-            <button id="tray-zoom-out">−</button>
-            <button id="tray-zoom-reset">⟳</button>
-            <button id="tray-zoom-in">+</button>
-        </div>
-        <div id="tray-inner"></div>
-    </div>
-</section>
+    <main class="main-content">
+        <section id="piece-tray" class="piece-tray-styles">
+            <h2>Available Pieces</h2>
+            <div id="tray-canvas" class="tray-canvas-wrapper">
+                <div class="zoom-controls" id="tray-zoom-controls">
+                    <button id="tray-zoom-out">−</button>
+                    <button id="tray-zoom-reset">⟳</button>
+                    <button id="tray-zoom-in">+</button>
+                </div>
+                <div id="tray-inner"></div>
+            </div>
+        </section>
 
-  <!-- SPACE 2: Flow Area -->
-  <section id="flow-area" class="flow-area-styles">
-    <div class="zoom-controls">
-      <button id="zoom-out">−</button>
-      <button id="zoom-reset">⟳</button>
-      <button id="zoom-in">+</button>
-    </div>
-    <div id="flow-canvas" class="flow-canvas-wrapper">
-      <div id="flow-inner">
-        <div id="grid-container"></div>
-        <svg id="flow-svg"></svg>
-      </div>
-    </div>
-  </section>
-</main>
-
+        <section id="flow-area" class="flow-area-styles">
+            <div class="zoom-controls">
+                <button id="zoom-out">−</button>
+                <button id="zoom-reset">⟳</button>
+                <button id="zoom-in">+</button>
+            </div>
+            <div id="flow-canvas" class="flow-canvas-wrapper">
+                <div id="flow-inner">
+                    <div id="grid-container"></div>
+                    <svg id="flow-svg"></svg>
+                </div>
+            </div>
+        </section>
+    </main>
 </div>
 
 <script type="module" src="gameLoader.js"></script>
 <script type="module" src="puzzleGuide.js"></script> 
 <script type="module" src="../flowRenderer/flowRenderer.js"></script>
 
-<script>
-(() => {
-  const flowInner = document.getElementById('flow-inner');
-  const zoomIn = document.getElementById('zoom-in');
-  const zoomOut = document.getElementById('zoom-out');
-  const zoomReset = document.getElementById('zoom-reset');
-  
-  let zoomLevel = 1;
-  const minZoom = 0.5;
-  const maxZoom = 2.0;
-  const step = 0.1;
-
-  function applyZoom() {
-    flowInner.style.transform = `scale(${zoomLevel})`;
-  }
-
-  zoomIn.addEventListener('click', () => {
-    zoomLevel = Math.min(maxZoom, zoomLevel + step);
-    applyZoom();
-  });
-
-  zoomOut.addEventListener('click', () => {
-    zoomLevel = Math.max(minZoom, zoomLevel - step);
-    applyZoom();
-  });
-
-  zoomReset.addEventListener('click', () => {
-    zoomLevel = 1;
-    applyZoom();
-  });
-
-  // Optional: wheel zoom on Ctrl + scroll only inside flow-area
-  document.getElementById('flow-area').addEventListener('wheel', (e) => {
-    if (!e.ctrlKey) return;
-    e.preventDefault();
-    zoomLevel += e.deltaY > 0 ? -step : step;
-    zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
-    applyZoom();
-  }, { passive: false });
-})();
-</script>
-
-
+<script src="./tray-zoom.js"></script>
 
 <script>
 (() => {
-    const trayInner = document.getElementById('tray-inner');
-    const trayZoomIn = document.getElementById('tray-zoom-in');
-    const trayZoomOut = document.getElementById('tray-zoom-out');
-    const trayZoomReset = document.getElementById('tray-zoom-reset');
-
-    let trayZoom = 1;
+    const flowInner = document.getElementById('flow-inner');
+    const zoomIn = document.getElementById('zoom-in');
+    const zoomOut = document.getElementById('zoom-out');
+    const zoomReset = document.getElementById('zoom-reset');
+    
+    // Duplicated variables removed - use constants defined here
     const minZoom = 0.5;
     const maxZoom = 2.0;
     const step = 0.1;
-    
-    let initialWidth = 0; 
-    let initialHeight = 0;
+    let zoomLevel = 1;
 
-    function getInitialDimensions() {
-        // 1. Temporarily reset styles to capture true unscaled size
-        trayInner.style.width = 'auto';
-        trayInner.style.height = 'auto';
-        trayInner.style.transform = 'scale(1)';
-
-        // 2. Capture true dimensions from scroll
-        initialWidth = trayInner.scrollWidth + 20; // Add buffer
-        initialHeight = trayInner.scrollHeight + 20;
-
-        // Fallback safety check
-        if (initialWidth <= 20) initialWidth = 800; 
-        if (initialHeight <= 20) initialHeight = 400; 
-
-        console.log(`[Tray Zoom] Initialized Size: ${initialWidth}x${initialHeight}`);
+    function applyZoom() {
+        flowInner.style.transform = `scale(${zoomLevel})`;
     }
 
-    function applyTrayZoom() {
-        if (initialWidth === 0) {
-            getInitialDimensions();
-        }
+    zoomIn.addEventListener('click', () => {
+        zoomLevel = Math.min(maxZoom, zoomLevel + step);
+        applyZoom();
+    });
 
-        const effectiveWidth = initialWidth / trayZoom;
-        const effectiveHeight = initialHeight / trayZoom;
+    zoomOut.addEventListener('click', () => {
+        zoomLevel = Math.max(minZoom, zoomLevel - step);
+        applyZoom();
+    });
 
-        // 1. Force the layout dimensions to change (CRITICAL for scroll range)
-        trayInner.style.width = `${effectiveWidth}px`;
-        trayInner.style.height = `${effectiveHeight}px`;
+    zoomReset.addEventListener('click', () => {
+        zoomLevel = 1;
+        applyZoom();
+    });
 
-        // 2. Apply the visual scale transformation
-        trayInner.style.transform = `scale(${trayZoom})`;
-    }
-    
-    // EXPOSED FUNCTION: Call this after pieces are fully rendered.
-    window.initializeTrayZoom = () => {
-        initialWidth = 0; 
-        initialHeight = 0; 
-        
-        setTimeout(() => {
-            getInitialDimensions();
-            applyTrayZoom();
-        }, 50);
-    };
-
-    // Attach event listeners
-    if (trayZoomIn) {
-        trayZoomIn.addEventListener('click', () => {
-            trayZoom = Math.min(maxZoom, trayZoom + step);
-            applyTrayZoom();
-        });
-        trayZoomOut.addEventListener('click', () => {
-            trayZoom = Math.max(minZoom, trayZoom - step);
-            applyTrayZoom();
-        });
-        trayZoomReset.addEventListener('click', () => {
-            trayZoom = 1;
-            applyTrayZoom();
-        });
-    }
-
-    // Ctrl + scroll logic
-    document.getElementById('piece-tray').addEventListener('wheel', (e) => {
+    // Optional: wheel zoom on Ctrl + scroll only inside flow-area
+    document.getElementById('flow-area').addEventListener('wheel', (e) => {
         if (!e.ctrlKey) return;
         e.preventDefault();
-        trayZoom += e.deltaY > 0 ? -step : step;
-        trayZoom = Math.max(minZoom, Math.min(maxZoom, trayZoom));
-        applyTrayZoom();
+        zoomLevel += e.deltaY > 0 ? -step : step;
+        zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
+        applyZoom();
     }, { passive: false });
+    
+    // Initial application of zoom level
+    applyZoom();
 })();
 </script>
-
 
 </body>
 </html>

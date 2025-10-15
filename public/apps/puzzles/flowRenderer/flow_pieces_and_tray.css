@@ -49,25 +49,8 @@
     color: #1e293b;
 }
 
-/* --- PIECE TRAY STYLING --- */
-#piece-tray {
-    margin-top: 6px;
-    padding: 0px 16px;
-    border-top: 2px solid #eef2ff;
-}
 
-#piece-tray h2 {
-    width: 100%;
-    margin-bottom: 10px;
-    color: #475569;
-}
 
-#tray-pieces-container { 
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 10px;
-    align-items: flex-start; 
-}
 
 .draggable-piece {
     opacity: 0.95;
