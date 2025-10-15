@@ -76,8 +76,6 @@
 .row-indicator {
     width: 6px;
     height: 200px;
-    border-radius: 2px;
-    opacity: 0.4;
     position: relative;
     z-index: 0;
     margin-left: -12px; /* <--- Set margin-left to 0 */

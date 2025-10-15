@@ -183,57 +183,80 @@ footer {
   border-top: 1px solid #e6e6e6;
   margin-top: 2rem;
 }
-
-/* ===== BULLETS ===== */
+/* ===== MODERN BULLETS ===== */
 .em-bullets {
   list-style: none;
   padding-left: 0;
-  max-width: 800px;
-  margin: 1rem auto;
+  max-width: 820px;
+  margin: 1.5rem auto;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  gap: 1rem;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: #2c2c2c;
 }
 
 .em-bullets li {
   position: relative;
-  padding: 10px 16px;
-  border-left: 3px solid #0F9ED5;
+  padding: 14px 20px 14px 18px;
+  border-left: 2px solid #b6d6e3;
   background: #ffffff;
-  border-radius: 4px;
-  transition: background 0.2s ease;
+  border-radius: 0px;
+  box-shadow: 0 2px 6px rgba(15, 158, 213, 0.06);
+  transition: all 0.25s ease;
 }
 
 .em-bullets li:hover {
-  background: #f7f9fb;
+  background: #f8fbfd;
+  box-shadow: 0 4px 10px rgba(15, 158, 213, 0.1);
+  transform: translateY(-2px);
 }
 
 .em-bullets li::before {
   content: "•";
   position: absolute;
-  left: -12px;
+  left: -14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #0F9ED5;
 }
 
 .em-bullets li strong {
   color: #0F9ED5;
+  font-weight: 600;
 }
 
 .em-bullets li ul {
-  list-style: disc inside;
-  margin-top: 0.5rem;
-  padding-left: 1.2rem;
+  list-style: disc;
+  margin-top: 0.6rem;
+  padding-left: 1.5rem;
   font-size: 0.9rem;
   color: #4a4a4a;
 }
 
 .em-bullets li ul li {
-  padding: 2px 0;
+  padding: 3px 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .em-bullets li {
+    background: #1b1e22;
+    border-left-color: #40b6f2;
+    color: #e4e6eb;
+    box-shadow: none;
+  }
+  .em-bullets li:hover {
+    background: #202428;
+  }
+  .em-bullets li strong {
+    color: #40b6f2;
+  }
 }
 
 p {

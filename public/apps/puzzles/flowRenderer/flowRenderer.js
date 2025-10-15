@@ -132,11 +132,11 @@ if (c === 1) {
 
   // Choose color based on row
   if (r >= 1) {
-    rowIndicator.style.background = 'linear-gradient(to right, #fff, #000)';
+    rowIndicator.style.background = 'linear-gradient(to bottom, #fff 50%, #000 50%)';
   } else if (r === 0) {
-    rowIndicator.style.background = 'linear-gradient(to right, #0078ff, #28a745)';
+    rowIndicator.style.background = 'linear-gradient(to bottom, #0F9ED5 50%, #4EA72E 50%)';
   } else {
-    rowIndicator.style.background = 'linear-gradient(to right, #ffc107, #ff9800)';
+    rowIndicator.style.background = 'linear-gradient(to bottom,  #FFC000 50%, #FAFAB7 50%)';
   }
 
   rowIndicator.style.gridRow = idx + 1;

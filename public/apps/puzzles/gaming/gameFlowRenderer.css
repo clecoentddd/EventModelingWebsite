@@ -32,7 +32,8 @@
 }
 
 .slot-highlight {
-  outline: 4px solid #d3cbcf;
-  box-shadow: 0 0 10px #d3cbcf;
+  outline: 4px solid white;
+  box-shadow: 0 0 10px white;
   transition: outline 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: rgb(209 224 226);
 }
