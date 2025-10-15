@@ -28,3 +28,35 @@ body {
 .font-semibold { font-weight: 600; }
 .font-medium { font-weight: 500; }
 .text-slate-500 { color: #64748b; }
+
+
+.home-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1e293b;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.home-link:hover {
+  color: #0078ff;
+}
+
+.home-logo {
+  height: 28px;
+  width: auto;
+  transition: transform 0.2s ease-in-out;
+}
+
+.home-link:hover .home-logo {
+  transform: scale(1.1);
+}
+
+.game-controls-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
