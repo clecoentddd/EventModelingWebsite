@@ -24,14 +24,15 @@ function shuffleArray(array) {
 
 // ------------------- AVAILABLE GAMES -------------------
 const AVAILABLE_GAMES = [
-  { fileName: 'state_change.dsl', displayName: 'State Change' },
-  { fileName: 'view_state.dsl', displayName: 'View Change' },
-  { fileName: 'automation.dsl', displayName: 'Automation' },
-  { fileName: 'translation.dsl', displayName: 'Translation' },
-  { fileName: 'cappuccino.dsl', displayName: 'Cappuccino Puzzle' },
-  { fileName: 'espresso_with_alert.dsl', displayName: 'Espresso with an alert' },
-  { fileName: 'notification1.dsl', displayName: 'Implicit Notification' },
-  { fileName: 'notification2.dsl', displayName: 'Explicit Notification' },
+  { fileName: 'state_change.dsl', description: 'State Change' },
+  { fileName: 'view_state.dsl', description: 'View Change' },
+  { fileName: 'automation.dsl', description: 'Automation' },
+  { fileName: 'translation.dsl', description: 'Translation' },
+  { fileName: 'cappuccino.dsl', description: 'Cappuccino Puzzle' },
+  { fileName: 'espresso_with_alert.dsl', description: 'Espresso with an alert' },
+  { fileName: 'notification1.dsl', description: 'Implicit Notification' },
+  { fileName: 'notification2.dsl', description: 'Explicit Notification' },
+  { fileName: 'ruptureDeStock.dsl', description: 'Rupture de stock' },
 ];
 
 // ------------------- BUILD CARD UI -------------------
@@ -43,7 +44,7 @@ function renderGameCards() {
     const card = document.createElement('button');
     card.className = 'game-card';
     card.type = 'button';
-    card.textContent = game.displayName;
+    card.textContent = game.description;
     card.dataset.fileName = game.fileName;
 
         // --- Add tooltip with description if available ---

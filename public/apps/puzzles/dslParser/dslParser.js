@@ -1,7 +1,8 @@
-// DSL Parser Module - FINAL VERSION with FLOW and BACK_FLOW support + RULES + LOGGING
+// DSL Parser Module - FINAL VERSION with FLOW, BACK_FLOW, SLICE support + RULES + LOGGING
 
 // Helper: split by commas but respect quoted strings
-const splitCsv = (line) => line.split(/, ?(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(s => s.trim());
+const splitCsv = (line) =>
+  line.split(/, ?(?=(?:[^"]*"[^"]*")*[^"]*$)/).map((s) => s.trim());
 
 // Helper: parse coordinates from a string (e.g., "3;1" or "3,1")
 const parseCoords = (coordRaw, line, errors) => {
@@ -41,11 +42,54 @@ function determineSegments(r1, c1, r2, c2) {
   return { startSegment, endSegment };
 }
 
+// --- SLICE RULE VALIDATION ---
+export function validateSliceRules(slices, elements, errors) {
+  for (const s of slices) {
+    const sliceElements = elements.filter((e) => s.columns.includes(e.c));
+    const types = new Set(sliceElements.map((e) => e.type.toUpperCase()));
+
+    switch (s.type) {
+      case 'STATE_CHANGE':
+      case 'AUTOMATION':
+        if (!types.has('UI') || !types.has('COMMAND') || !Array.from(types).some((t) => t === 'EVENT')) {
+          errors.push({
+            line: s.line,
+            raw: s.raw,
+            reason: `Invalid ${s.type}: must include UI, COMMAND, and ≥1 EVENT`,
+          });
+        }
+        break;
+
+      case 'VIEW_STATE':
+        if (!types.has('READMODEL') || types.has('EVENT')) {
+          errors.push({
+            line: s.line,
+            raw: s.raw,
+            reason: `Invalid VIEW_STATE: needs ≥1 READMODEL and no EVENT`,
+          });
+        }
+        break;
+
+      case 'TRANSLATION':
+        const required = ['EXTERNAL_EVENT', 'AUTOMATION', 'COMMAND', 'EVENT'];
+        if (!required.every((t) => types.has(t))) {
+          errors.push({
+            line: s.line,
+            raw: s.raw,
+            reason: `Invalid TRANSLATION: must include ${required.join(', ')}`,
+          });
+        }
+        break;
+    }
+  }
+}
+
 // --- 1. PARSE DSL FUNCTION ---
 export function parseDSL(text) {
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
+  const lines = text.split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
   const elements = [];
   const rawFlows = [];
+  const slices = [];
   const errors = [];
 
   let description = '';
@@ -60,7 +104,7 @@ export function parseDSL(text) {
 
     // --- DESCRIPTION ---
     if (raw.startsWith('DESCRIPTION')) {
-      const match = raw.match(/DESCRIPTION\s*:?s*"(.+)"$/) || raw.match(/DESCRIPTION\s*:\s*"(.+)"$/);
+      const match = raw.match(/DESCRIPTION\s*:?\s*"(.+)"$/);
       console.log(`[Parse] Found DESCRIPTION line: "${raw}"`);
       if (match) {
         description = match[1];
@@ -74,7 +118,7 @@ export function parseDSL(text) {
 
     // --- LEVEL ---
     if (raw.startsWith('LEVEL')) {
-      const match = raw.match(/LEVEL\s*:?s*(\d+)/) || raw.match(/LEVEL\s*:\s*(\d+)/);
+      const match = raw.match(/LEVEL\s*:?\s*(\d+)/);
       console.log(`[Parse] Found LEVEL line: "${raw}"`);
       if (match) {
         level = parseInt(match[1]);
@@ -117,6 +161,36 @@ export function parseDSL(text) {
       continue;
     }
 
+    // --- SLICE ---
+    if (raw.startsWith('SLICE:')) {
+      const parts = splitCsv(raw.substring(6));
+      if (parts.length < 3) {
+        errors.push({ line: lineNumber, raw, reason: 'Too few parts in SLICE: (expected Type, Name, Columns...)' });
+        console.warn(`[Parse] ⚠ SLICE too few parts: ${raw}`);
+        continue;
+      }
+
+      const type = parts[0].trim().toUpperCase();
+      const name = parts[1].replace(/^"|"$/g, '').trim();
+      const columns = parts.slice(2).map((v) => parseInt(v)).filter((v) => !isNaN(v));
+
+      if (columns.length === 0) {
+        errors.push({ line: lineNumber, raw, reason: 'SLICE must include at least one numeric column' });
+        continue;
+      }
+
+      const validTypes = ['STATE_CHANGE', 'VIEW_STATE', 'AUTOMATION', 'TRANSLATION'];
+      if (!validTypes.includes(type)) {
+        errors.push({ line: lineNumber, raw, reason: `Invalid SLICE type: ${type}` });
+        console.warn(`[Parse] ⚠ Invalid SLICE type: ${type}`);
+        continue;
+      }
+
+      slices.push({ type, name, columns, raw, line: lineNumber });
+      console.log(`[Parse] Added SLICE (${type}) "${name}" on cols ${columns.join(',')}`);
+      continue;
+    }
+
     // --- FLOW ---
     if (raw.startsWith('FLOW:')) {
       const match = raw.match(/FLOW:\s*(\d+)\s+to\s+(\d+)/);
@@ -151,11 +225,14 @@ export function parseDSL(text) {
     console.warn(`[Parse] ⚠ Ignored unknown line: "${raw}"`);
   }
 
-  console.log(`[Parse] Finished. Elements: ${elements.length}, Flows: ${rawFlows.length}, Errors: ${errors.length}`);
+  // Validate SLICE rules
+  validateSliceRules(slices, elements, errors);
+
+  console.log(`[Parse] Finished. Elements: ${elements.length}, Flows: ${rawFlows.length}, Slices: ${slices.length}, Errors: ${errors.length}`);
   console.log(`[Parse] Description: "${description}" | Level: ${level}`);
   console.groupEnd();
 
-  return { items: elements, rawFlows, errors, description, level };
+  return { items: elements, rawFlows, slices, errors, description, level };
 }
 
 // --- 2. RESOLVE CONNECTIONS FUNCTION ---
@@ -172,14 +249,14 @@ export function resolveConnections(items, rawFlows) {
   console.groupCollapsed('--- Connection Resolution Start ---');
   console.log(`[Connect] Items: ${items.length}, RawFlows: ${rawFlows.length}`);
 
-  items.forEach(it => {
+  items.forEach((it) => {
     const key = `${it.r}_${it.c}`;
     pieces[key] = it;
     idToKeyMap[it.id] = key;
   });
 
   // A. Resolve explicit FLOW connections
-  rawFlows.forEach(flow => {
+  rawFlows.forEach((flow) => {
     const startKey = idToKeyMap[flow.startId];
     const endKey = idToKeyMap[flow.endId];
 
@@ -190,7 +267,7 @@ export function resolveConnections(items, rawFlows) {
 
     const start = pieces[startKey];
     const end = pieces[endKey];
-    const [r1, c1, r2, c2] = [startKey, endKey].flatMap(k => k.split('_').map(Number));
+    const [r1, c1, r2, c2] = [startKey, endKey].flatMap((k) => k.split('_').map(Number));
 
     let startSegment;
     let endSegment;
@@ -214,7 +291,7 @@ export function resolveConnections(items, rawFlows) {
       end: endKey,
       style: flow.style || 'solid',
       startSegment,
-      endSegment
+      endSegment,
     });
     console.log(`[Connect] ✅ ${flow.style.toUpperCase()} ${start.type}(${flow.startId}) -> ${end.type}(${flow.endId})`);
   });

@@ -2,8 +2,8 @@ DESCRIPTION: "How to handle a notification using an external API: we make it exp
 LEVEL: 2
 
 ELEMENT: 1, Screen, "Confirm your Email toto@zozo.com", 1;1
-ELEMENT: 2, Command, "Validate Email", 1;0
-ELEMENT: 3, Event, "Email validated", 1;-1
+ELEMENT: 2, Command, "Confirm Email", 1;0
+ELEMENT: 3, Event, "Email Confirmed", 1;-1
 ELEMENT: 4, ReadModel, "Email Notification to send", 2;0
 ELEMENT: 5, Automation, "EMail Processor (API)", 3;1
 ELEMENT: 6, Command, "Send Email", 3;0
@@ -14,7 +14,7 @@ ELEMENT: 10, Automation, "Email Notifier (internal)", 6;1
 ELEMENT: 11, Command, "Mark Email Send", 6;0
 ELEMENT: 12, Event, "Notification by Email Sent", 6;-1
 ELEMENT: 13, ReadModel, "Notifications sent", 7;0
-ELEMENT: 14, Screen, "An email has been sent to you!", 7;1
+ELEMENT: 14, Screen, "An email has been sent to you! Click here to connect with your email !", 7;1
 
 FLOW: 1 to 2
 FLOW: 2 to 3

@@ -1,20 +1,20 @@
-DESCRIPTION: "Make a cappuccino, Milk First Then Espresso (Any failure in the process will be handled later but we have a post-it)"
+DESCRIPTION: "Make a cappuccino, Milk Froth First Then Espresso (Any failure in the process will be handled later but we have a post-it for it as a reminder)"
 LEVEL: 2
 
 ELEMENT: 1, Screen, "Select Cappuccino", 1;1
 ELEMENT: 2, Command, "Order Cappuccino", 1;0
 ELEMENT: 3, Event, "Cappuccino Ordered", 1;-1
 ELEMENT: 4, ReadModel, "Cappuccinos  to prepare", 2;0
-ELEMENT: 5, Automation, "Milk Frost Maker", 3;1
-ELEMENT: 6, Command, "Mark Milk Prepared", 3;0
-ELEMENT: 7, Event, "Milk Prepared", 3;-1
-ELEMENT: 8, Event, "Milk Frost Maker Failed", 4;-1
+ELEMENT: 5, Automation, "Milk Froth Maker", 3;1
+ELEMENT: 6, Command, "Mark Milk Froth Prepared", 3;0
+ELEMENT: 7, Event, "Milk Froth Prepared", 3;-1
+ELEMENT: 8, Event, "Milk Froth Maker Failed", 4;-1
 ELEMENT: 9, ReadModel, "Espressos to Prepare", 5;0
 ELEMENT: 10, Automation, "Espresso Maker", 6;1
 ELEMENT: 11, Command, "Mark Espresso Prepared", 6;0
 ELEMENT: 12, Event, "Espresso Prepared", 6:-1
 ELEMENT: 13, ReadModel, "Drinks ready", 7;0
-ELEMENT: 14, Screen, "Drinks Ready", 7;1
+ELEMENT: 14, Screen, "Your drinks are ready. See you soon !", 7;1
 
 FLOW: 1 to 2
 FLOW: 2 to 3
