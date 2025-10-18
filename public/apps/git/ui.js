@@ -2,6 +2,7 @@
    UI Layer
    Rendering and user interactions
    ============================ */
+   
 
 /* ============================
    Custom selectable alert
@@ -19,6 +20,12 @@ function closeAlert() {
   document.getElementById("customAlert").classList.add("hidden");
 }
 
+function updateUI() {
+    renderEventsLog();
+    renderCurrentInfo();
+    renderProjection();
+    renderGitGraph();
+}
 // Replace native alert so all calls are selectable
 window.alert = showAlert;
 

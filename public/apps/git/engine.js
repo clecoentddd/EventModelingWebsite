@@ -7,11 +7,18 @@
    Utilities & Timestamping
    ============================ */
 let lastTimestamp = Date.now();
+let lastEntryId = 0; // NEW: Counter for unique entry IDs
 
 function getNextTimestamp() {
   // ensures strictly increasing timestamps (ms)
   lastTimestamp = Math.max(Date.now(), lastTimestamp + 1);
   return new Date(lastTimestamp).toISOString();
+}
+
+function getNextEntryId() {
+    lastEntryId += 1;
+    // Returns a simple, chronologically increasing ID (e.g., "E1", "E2", "E3")
+    return `E${lastEntryId}`;
 }
 
 /* ============================
@@ -71,8 +78,8 @@ const seedEventsData = [
     entryCode: 101, 
     label: "Salaire", 
     amount: 2000, 
-    startMonth: "01-2025", 
-    endMonth: "03-2025" 
+    startMonth: "10-2025", 
+    endMonth: "12-2025" 
   },
   { 
     type: "DepenseAjoutee", 
@@ -80,8 +87,8 @@ const seedEventsData = [
     entryCode: 202, 
     label: "Courses", 
     amount: 150, 
-    startMonth: "01-2025", 
-    endMonth: "02-2025" 
+    startMonth: "10-2025", 
+    endMonth: "11-2025" 
   },
   { type: "VersionValidee", changeId: "C1001" },
 
@@ -92,8 +99,8 @@ const seedEventsData = [
     entryCode: 104, 
     label: "Prime", 
     amount: 500, 
-    startMonth: "02-2025", 
-    endMonth: "04-2025" 
+    startMonth: "09-2025", 
+    endMonth: "11-2025" 
   },
   { 
     type: "DepenseAjoutee", 
@@ -101,8 +108,8 @@ const seedEventsData = [
     entryCode: 205, 
     label: "Assurance", 
     amount: 100, 
-    startMonth: "03-2025", 
-    endMonth: "03-2025" 
+    startMonth: "09-2025", 
+    endMonth: "11-2025" 
   },
   { type: "VersionAnnulee", changeId: "C1002" },
 
@@ -114,25 +121,31 @@ const seedEventsData = [
     entryCode: 206, 
     label: "Divertissement", 
     amount: 80, 
-    startMonth: "02-2025", 
-    endMonth: "04-2025" 
+    startMonth: "09-2025", 
+    endMonth: "12-2025" 
   },
 ];
 
 
-/* When initializing, assign timestamps in chronological order */
+/* When initializing, assign timestamps in chronological order (MODIFIED) */
 (function initSeed() {
-  let lastChange = null;
-  for (const e of seedEventsData) {
-    // bump time slightly whenever changeId changes (for clarity)
-    if (e.changeId && e.changeId !== lastChange) {
-      lastTimestamp += 60000; // jump 1 minute on new change set
-      lastChange = e.changeId;
+    let lastChange = null;
+    for (const e of seedEventsData) {
+        // bump time slightly whenever changeId changes (for clarity)
+        if (e.changeId && e.changeId !== lastChange) {
+            lastTimestamp += 60000; // jump 1 minute on new change set
+            lastChange = e.changeId;
+        }
+        // if seed already has timestamp, keep it; otherwise generate new
+        if (!e.timestamp) e.timestamp = getNextTimestamp();
+
+        // NEW: Assign a unique entryId for ADD events in seed data
+        if (e.type === "RevenuAjoute" || e.type === "DepenseAjoutee") {
+            e.entryId = getNextEntryId(); 
+        }
+
+        events.push({ ...e }); // push as-is (we will always process chronologically)
     }
-    // if seed already has timestamp, keep it; otherwise generate new
-    if (!e.timestamp) e.timestamp = getNextTimestamp();
-    events.push({ ...e }); // push as-is (we will always process chronologically)
-  }
 })();
 
 /* ============================
@@ -295,47 +308,51 @@ function cancelChange() {
    ============================ */
 
 function addEntry() {
-  if (!currentChangeId) {
-    alert("Vous ne pouvez pas faire des saisies car il y a pas de version en cours — Créer une nouvelle version.");
-    return;
-  }
+    if (!currentChangeId) {
+        alert("Vous ne pouvez pas faire des saisies car il y a pas de version en cours — Créer une nouvelle version.");
+        return;
+    }
 
-  // Check if the change allows adding entries (last CHANGE event must be VersionCreee)
-  if (!canAddEntry(currentChangeId)) {
-    const lastChangeEventType = getLastChangeEventType(currentChangeId);
-    alert(`Cannot add entry to change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only add entries if the change's last CHANGE event is "VersionCreee".`);
-    return;
-  }
+    // Check if the change allows adding entries (last CHANGE event must be VersionCreee)
+    if (!canAddEntry(currentChangeId)) {
+        const lastChangeEventType = getLastChangeEventType(currentChangeId);
+        alert(`Cannot add entry to change ${currentChangeId}.\nLast CHANGE event for this change is "${lastChangeEventType}".\nYou can only add entries if the change's last CHANGE event is "VersionCreee".`);
+        return;
+    }
 
-  // Get form values
-  const type = document.getElementById("type").value;
-  const code = document.getElementById("entryCode").value;
-  const label = getLabelByCode(type, code);
-  const amount = Number(document.getElementById("amount").value);
-  const startMonthInput = document.getElementById("startMonth").value;
-  const endMonthInput = document.getElementById("endMonth").value;
+    // Get form values
+    const type = document.getElementById("type").value;
+    const code = document.getElementById("entryCode").value;
+    const label = getLabelByCode(type, code);
+    const amount = Number(document.getElementById("amount").value);
+    const startMonthInput = document.getElementById("startMonth").value;
+    const endMonthInput = document.getElementById("endMonth").value;
 
-  if (!amount) {
-    alert("Enter an amount!");
-    return;
-  }
-  if (!startMonthInput || !endMonthInput) {
-    alert("Enter start and end months!");
-    return;
-  }
+    if (!amount) {
+        alert("Enter an amount!");
+        return;
+    }
+    if (!startMonthInput || !endMonthInput) {
+        alert("Enter start and end months!");
+        return;
+    }
 
-  const startMonth = convertMonthFormat(startMonthInput);
-  const endMonth = convertMonthFormat(endMonthInput);
+    const startMonth = convertMonthFormat(startMonthInput);
+    const endMonth = convertMonthFormat(endMonthInput);
+    
+    // NEW: Generate the unique ID
+    const entryId = getNextEntryId();
 
-  const evType = type === "income" ? "RevenuAjoute" : "DepenseAjoutee";
-  record({ type: evType, changeId: currentChangeId, entryCode: code, label, amount, startMonth, endMonth });
-  
-  // Clear form fields
-  document.getElementById("amount").value = "";
-  document.getElementById("startMonth").value = "";
-  document.getElementById("endMonth").value = "";
-  
-  console.log("Added entry to change:", currentChangeId);
+    const evType = type === "income" ? "RevenuAjoute" : "DepenseAjoutee";
+    // MODIFIED: Include entryId in the recorded event
+    record({ type: evType, changeId: currentChangeId, entryId: entryId, entryCode: code, label, amount, startMonth, endMonth });
+    
+    // Clear form fields
+    document.getElementById("amount").value = "";
+    document.getElementById("startMonth").value = "";
+    document.getElementById("endMonth").value = "";
+    
+    console.log("Added entry to change:", currentChangeId);
 }
 
 /* ============================
@@ -395,29 +412,32 @@ function rebuildProjection() {
 }
 
 function applyEvent(e) {
-  if (!e || !e.type) return;
-  const entryKey = e.changeId && e.entryCode ? `${e.changeId}-${e.entryCode}` : null;
-  switch (e.type) {
-    case "RevenuAjoute":
-    case "DepenseAjoutee":
-      if (entryKey) projection[entryKey] = { ...e, status: "pending" };
-      break;
-    case "VersionValidee":
-      // mark all entries in this change validated
-      for (const k of Object.keys(projection)) {
-        if (k.startsWith(e.changeId + '-')) projection[k].status = "validated";
-      }
-      break;
-    case "VersionAnnulee":
-      // remove entries for this change
-      for (const k of Object.keys(projection)) {
-        if (k.startsWith(e.changeId + '-')) delete projection[k];
-      }
-      break;
-    case "VersionCreee":
-      // nothing to projection directly; used to identify open changes
-      break;
-  }
+    if (!e || !e.type) return;
+    
+    // MODIFIED: Use the stable entryId as the key if it exists, otherwise fall back to the old key for old events that haven't been re-seeded.
+    const entryKey = e.entryId || (e.changeId && e.entryCode ? `${e.changeId}-${e.entryCode}` : null);
+    
+    switch (e.type) {
+        case "RevenuAjoute":
+        case "DepenseAjoutee":
+            if (entryKey) projection[entryKey] = { ...e, status: "pending" };
+            break;
+        case "VersionValidee":
+            // mark all entries in this change validated
+            for (const k of Object.keys(projection)) {
+                if (projection[k].changeId === e.changeId) projection[k].status = "validated";
+            }
+            break;
+        case "VersionAnnulee":
+            // remove entries for this change
+            for (const k of Object.keys(projection)) {
+                if (projection[k].changeId === e.changeId) delete projection[k];
+            }
+            break;
+        case "VersionCreee":
+            // nothing to projection directly; used to identify open changes
+            break;
+    }
 }
 
 /* ============================
