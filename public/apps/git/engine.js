@@ -33,6 +33,7 @@ const bus = {
 let events = [];
 let projection = {};
 let currentChangeId = null;
+let changes = {}; 
 const INCOMES = [
   { code: 101, label: "Salaire" },
   { code: 102, label: "Dividendes" },
@@ -236,11 +237,20 @@ function startChange() {
     return;
   }
 
+  function generateChangeId() {
+  const now = new Date();
+  const ss = String(now.getSeconds()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const hh = String(now.getHours()).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  return `C${ss}${mm}${hh}${dd}`;
+}
+
   // Normal creation logic
-  const newId = "C" + (1000 + Object.keys(changes).length + 1);
+  const newId = generateChangeId();
   currentChangeId = newId;
   changes[newId] = { events: [] };
-  logEvent("VersionCreee", { changeId: newId });
+  record({ type: "VersionCreee", changeId: newId });
   updateUI();
 }
 

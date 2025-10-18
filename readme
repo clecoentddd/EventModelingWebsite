@@ -1,1 +1,12 @@
+Go to cd public
 Run this command: serve .
+
+ftp: eveo05.ftp.tb-hosting.com
+
+username: christophe.lecoent@eventmodelingch
+
+pwd: s....1
+
+to start testing locally: 
+cd path/to/public
+http-server -p 3000
