@@ -244,10 +244,10 @@ function canCancelChange(changeId) {
    ============================ */
 
 function startChange() {
-  if (currentChangeId) {
-    // 🔸 Show alert using your existing UI layer
-    showAlert("Vous devez d'abord valider la version en cours avant d'en créer une nouvelle.");
-    return;
+    if (currentChangeId) {
+    const msg = "Vous devez d'abord valider la version en cours avant d'en créer une nouvelle.";
+    alert(msg);
+    throw new Error(msg); // Throw error for testability
   }
 
   function generateChangeId() {
