@@ -37,5 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     img.addEventListener('click', () => {
       img.classList.toggle('active');
     });
+
+    img.addEventListener('mouseleave', () => {
+      img.classList.remove('active');
+    });
   });
 });

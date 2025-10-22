@@ -27,6 +27,7 @@
   cursor: zoom-in;
   border-radius: 8px;
   z-index: 0;
+  transform-origin: center;
 }
 
 /* Hover effect */

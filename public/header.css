@@ -65,75 +65,86 @@
 }
 
 /* =========================
-   DROPDOWN MENU AS CARDS
+   MODERN DROPDOWN MENU — 2025 STYLE
    ========================= */
+
 .dropdown-menu {
   display: none;
   flex-wrap: wrap;
-  gap: 10px; /* reduced spacing between cards */
   justify-content: center;
-  padding: 12px 16px; /* tighter padding */
-  background: linear-gradient(180deg, #f0f4ff, #ffffff);
-  border-radius: 14px;
+  gap: 16px; /* even spacing between all 8 cards */
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(14px);
+  border-radius: 28px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: none;                  /* ✨ no edge lines */
 }
 
 .dropdown-menu.show {
   display: flex;
 }
 
-/* Each top-level menu card */
+/* ========== MENU CARD ========== */
 .menu-card {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 12px 16px; /* reduced from 18px 24px */
-  min-width: 180px;
-  flex: 1 1 180px;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;                  /* ✨ no internal lines */
+  border-radius: 24px;           /* more rounded */
+  padding: 18px 22px;
+  min-width: 200px;
+  flex: 1 1 200px;
   display: flex;
   flex-direction: column;
-  gap: 4px; /* tighter vertical rhythm */
-  transition: transform 0.2s, box-shadow 0.3s, background 0.3s;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-/* Hover: smoother and less jumpy */
+/* Hover: subtle 3D lift */
 .menu-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-  background: #f7fbff;
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
 }
 
-/* Card title */
+/* Title */
 .card-title {
   font-weight: 700;
-  color: #0F9ED5;
-  font-size: 0.95em;
+  color: #0078D7;
+  font-size: 1.05em;
   text-align: center;
-  margin-bottom: 4px; /* slight spacing below title */
+  margin-bottom: 6px;
 }
 
-/* Links inside card */
+/* Links */
 .menu-card a {
+  display: block;
   text-decoration: none;
-  color: #333;
+  color: #222;
   font-weight: 500;
-  padding: 4px 0; /* reduced vertical padding */
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 10px;
   text-align: center;
   transition: all 0.2s ease-in-out;
+  border: none;                  /* ✨ remove bottom lines */
 }
 
-/* Hover effect on links */
+/* Hover on links */
 .menu-card a:hover {
-  color: #0F9ED5;
-  background: rgba(15, 158, 213, 0.1);
+  color: #fff;
+  background: linear-gradient(90deg, #0078D7, #00B7FF);
+  box-shadow: 0 4px 12px rgba(0, 120, 215, 0.3);
 }
 
-/* Responsive layout */
+/* RESPONSIVE */
 @media (max-width: 767px) {
   .dropdown-menu {
     flex-direction: column;
-    gap: 8px;
-    padding: 8px;
+    padding: 12px;
+    gap: 10px;
   }
+
   .menu-card {
     width: 100%;
     min-width: auto;
