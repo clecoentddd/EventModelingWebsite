@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sites Web - Event Modeling</title>
+  <link rel="stylesheet" href="../global.css">
+  <link rel="stylesheet" href="resources.css">
+  <link rel="icon" type="image/png" href="../favicon.png">
+</head>
+<body>
+  <div id="header"></div>
+
+  <main>
+    <h2>Sites Web Recommandés</h2>
+    <div class="references-container">
+      <div class="reference-card">
+        <h3>Event Modeling</h3>
+        <p>Site officiel d’Event Modeling avec ressources et exemples.</p>
+        <a href="https://eventmodeling.org/" target="_blank" rel="noopener noreferrer">Visiter Event Modeling</a>
+      </div>
+      <div class="reference-card">
+        <h3>Martin Dilger</h3>
+        <p>Premier cours officiel complet par Martin Dilger</p>
+        <a href="https://www.eventsourcingcourse.com/" target="_blank" rel="noopener noreferrer">Visiter Formation Event Modeling</a>
+      </div>
+      <div class="reference-card">
+        <h3>Formation (video) par Confluent</h3>
+        <p>Video sur Event Modeling - rapide, simple - par Confluent</p>
+        <a href="https://youtu.be/tpcgUstqECU/" target="_blank" rel="noopener noreferrer">Visiter Video</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("../header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+        const menuToggle = document.getElementById("menuToggle");
+        const navMenu = document.getElementById("navMenu");
+        if(menuToggle && navMenu){
+          menuToggle.addEventListener("click", () => navMenu.classList.toggle("show"));
+          navMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navMenu.classList.remove("show")));
+        }
+      });
+
+    fetch("../footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+</body>
+</html>

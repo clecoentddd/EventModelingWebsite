@@ -11,7 +11,6 @@
 
   <!-- Reusable parts -->
   <div id="header"></div>
-  <div id="nav"></div>
 
   <main>
 
@@ -45,7 +44,7 @@
       <h2 class="pptTitle">Choississons un chapitre c'est à dire un processus, un workflow sans alternatives, de bout en bout. Tous les participants doivent se concentrer maintenant sur ce chapitre.</h2>
       <img src="images/10_steps/Slide10.JPG" alt="Step 11" class="zoomable">
       <br>
-      <h2 class="pptTitle">Changement d'état: c'est quand l'état du système change: un évènement, un fait, change l'état du système. Le changement d'état est initier par l'utilisateur</h2>
+      <h2 class="pptTitle">Changement d'état: c'est quand l'état du système change: un évènement, un fait, change l'état du système. Le changement d'état est initié par l'utilisateur</h2>
       <img src="images/10_steps/Slide11.JPG" alt="Step 12" class="zoomable">
       <h2 class="pptTitle">Pratiquons: pour nous, le changement d'état est initié par l'utilisateur qui veut un espresso. Remarquez que le sticker en bleu fait référence à l'espresso: "Commander" ou "Commander boisson" seraient trop génériques. Les mots sont super-importants.</h2>
       <img src="images/10_steps/Slide12.JPG" alt="Step 13" class="zoomable">
@@ -96,22 +95,7 @@
 
   <div id="footer"></div>
 
-  <script>
-    // Load header
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("header").innerHTML = data);
-
-    // Load nav
-    fetch("nav.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("nav").innerHTML = data);
-
-    // Load footer
-    fetch("footer.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("footer").innerHTML = data);
-  </script>
+  <script src="/js/script.js"></script>
 
 </body>
 </html>

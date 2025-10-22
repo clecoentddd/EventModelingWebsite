@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaders - Event Modeling</title>
+  <link rel="stylesheet" href="../global.css">
+  <link rel="stylesheet" href="resources.css">
+  <link rel="icon" type="image/png" href="../favicon.png">
+</head>
+<body>
+  <div id="header"></div>
+
+  <main>
+    <h2>Des personnes à suivre sur LinkedIn</h2>
+    <div class="references-container">
+      <!-- All reference cards from Leaders -->
+      <div class="reference-card">
+        <h3>Martin Dilger</h3>
+        <p>Auteur du livre EventSourcing & EventModeling</p>
+        <a href="https://www.linkedin.com/in/martindilger/" target="_blank" rel="noopener noreferrer">View LinkedIn</a>
+        <a href="https://www.nebulit.de/" target="_blank" rel="noopener noreferrer">Nebulit</a>
+      </div>
+      <div class="reference-card">
+        <h3>Adam Dymitruk</h3>
+        <p>Créateur d'Event Modeling</p>
+        <a href="https://www.linkedin.com/in/eventmodeling/?originalSubdomain=ca">View LinkedIn</a>
+        <a href="https://eventmodeling.org/">EventModeling</a>
+      </div>
+      <div class="reference-card">
+        <h3>Greg Young</h3>
+        <p>Tout ce que vous voulez savoir sur Event Sourcing & CQRS</p>
+        <a href="https://www.linkedin.com/in/gregory-young-a28b011">View LinkedIn</a>
+        <a href="https://www.youtube.com/watch?v=JHGkaShoyNs">A great video</a>
+      </div>
+      <div class="reference-card">
+        <h3>Allard Buijze</h3>
+        <p>Fondateur de Axoniq. Très actif sur Event Modeling (Event Models)</p>
+        <a href="https://www.linkedin.com/in/abuijze/">View LinkedIn</a>
+        <a href="https://www.axoniq.io/">Axoniq - plus qu'un serveur</a>
+      </div>
+      <div class="reference-card">
+        <h3>Oskar Dudycz</h3>
+        <p>Vous trouverez sur son site quelques patterns bien expliqués</p>
+        <a href="https://www.linkedin.com/in/oskardudycz/">View LinkedIn</a>
+        <a href="https://event-driven.io/">A great website</a>
+      </div>
+      <div class="reference-card">
+        <h3>Yves Goeleven</h3>
+        <p>Manière simple d'expliquer Event Modeling & Event Sourcing</p>
+        <a href="https://www.linkedin.com/in/goeleven/">View LinkedIn</a>
+      </div>
+      <div class="reference-card">
+        <h3>Sam Hatoum</h3>
+        <p>Créateur d'Auto - générateur de code avec DSL Event Modeling</p>
+        <a href="https://www.linkedin.com/in/samhatoum/">View LinkedIn</a>
+        <a href="https://on.auto/">Auto</a>
+      </div>
+      <div class="reference-card">
+        <h3>Jimmy Bogard</h3>
+        <p>Vertical Slice Architecture Leader</p>
+        <a href="https://www.linkedin.com/in/jimmybogard/">View LinkedIn</a>
+        <a href="https://www.jimmybogard.com/vertical-slice-architecture/">Auto</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("../header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+        const menuToggle = document.getElementById("menuToggle");
+        const navMenu = document.getElementById("navMenu");
+        if(menuToggle && navMenu){
+          menuToggle.addEventListener("click", () => navMenu.classList.toggle("show"));
+          navMenu.querySelectorAll("a").forEach(a => {
+            a.addEventListener("click", () => navMenu.classList.remove("show"));
+          });
+        }
+      });
+
+    fetch("../footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+</body>
+</html>

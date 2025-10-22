@@ -1,48 +1,42 @@
-  <!DOCTYPE html>
-  <html lang="fr">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site français dédié à Event Modeling - Event Sourcing (CQRS) - Vertical Slice Architecture</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="projetIntro.css">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Site français dédié à Event Modeling - Event Sourcing (CQRS) - Vertical Slice Architecture
+  </title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="projetIntro.css">
+  <link rel="stylesheet" href="ptt.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
 
-    <link rel="icon" type="image/png" href="favicon.png">
-  </head>
-  <body>
+<body>
+  <!-- ✅ Unified header (logo + title + nav) -->
+  <div id="header"></div>
 
-    <div id="header"></div>
-    <div id="nav"></div>
-
-   <main>
-
-    <!-- MAIN CONTENT + SIDEBAR -->
+  <main>
     <div class="main-with-cards">
-
+      <!-- ========================= -->
       <!-- Main content -->
+      <!-- ========================= -->
       <div class="main-content">
-        <section id="Home">
+        <section id="Home" class="home-section">
           <h1>Bienvenue sur le site Event Modeling en Français</h1>
           <h2>L'objectif de ce site est de vous aider dans votre chemin vers Event Modeling et Event Sourcing</h2>
 
-          <div class="gamification-banner">
-  <h2>🎮 Nouveau ! Découvrez la Gamification Event Modeling</h2>
-  <p>Apprenez en jouant : résolvez des puzzles et modélisez votre système de manière ludique.</p>
-  <a href="/apps/puzzles/gaming/game.html" class="cta-button">Jouer maintenant</a>
-</div>
 
-<h2>Event modeling créé par Adam Dymitruk et évangilisé par Martin Dilger</h2>
-<h3>Event Modeling permet collaborativement avec les métiers et les équipes projet de modéliser un système d'information</h3>
-
-<img src="images/index/Slide2.JPG" alt="Key Visual" class="center-img zoomable">
-
-<h2>Event Modeling (EM) est une approche de modélisation d'un système d'information...</h2>
-<img src="images/index/Slide3.JPG" alt="Key Visual" class="center-img zoomable">
-    <br>
-        <img src="images/index/Slide4.JPG" alt="Les 5 éléments de base" class="center-img zoomable">
-     <br>    
-
+          <h2>Event modeling créé par Adam Dymitruk et évangilisé par Martin Dilger</h2>
+          <h3>Event Modeling permet collaborativement avec les métiers et les équipes projet de modéliser un système d'information</h3>
+          </section>
+          <section>
+            <h2>Event Modeling (EM) en une diapositive</h2>
+          <img src="images/index/Slide2.JPG" alt="Key Visual" class="center-img zoomable">
+          <h2>Event Modeling (EM) est une approche de modélisation d'un système d'information...</h2>
+          <img src="images/index/Slide3.JPG" alt="Key Visual" class="center-img zoomable"><br>
+          <img src="images/index/Slide4.JPG" alt="Les 5 éléments de base" class="center-img zoomable"><br>
 
           <div class="em-description">
             <h2>Les quelques étapes pour animer un atelier de facilitation d'Event Modeling</h2>
@@ -53,42 +47,54 @@
               <li>Chaque étape du processus est appelée "slice": l'implémentation d'une des 4 patterns</li>
               <li>Ensuite on itère par processus, chaque processus ayant entre 3 à 30+ slices (étapes)</li>
             </ul>
-
           </div>
         </section>
 
         <section id="VotrePremierModèle">
           <h2>Un Premier Modèle</h2>
           <h2 class="pptTitle">Un processus simple utilisant 5 éléments</h2>
-          <img src="images/index/Slide5.JPG" alt="Les 5 éléments de base" class="center-img zoomable">
-          <br>
+          <img src="images/index/Slide5.JPG" alt="Les 5 éléments de base" class="center-img zoomable"><br>
+
           <h2 class="pptTitle">Ce processus est composé de 6 slices, chaque slice étant l'implémentation d'un des 4 patterns</h2>
-          <img src="images/index/Slide6.JPG" alt="Un processus simple" class="center-img zoomable">
-          <br>
+          <img src="images/index/Slide10.JPG" alt="Un processus simple" class="center-img zoomable"><br>
+
           <h2 class="pptTitle">La puissance de l'Event Modeling est sa simplicité: l'ultime simplicité</h2>
-             <p>Les forces de l'Event Modeling vont au-delà du modèle :</p>
+          <p>Les forces de l'Event Modeling vont au-delà du modèle :</p>
 
-            <ul class="em-bullets">
-              <li>Permet une implémentation utilisant Event Sourcing...</li>
-              <li>Permet une gestion de projet simple...</li>
-              <li>Permet une documentation vivante</li>
-              <li>Permet d'utiliser le pattern Vertical Slice Architecture...</li>
-            </ul>
+          <ul class="em-bullets">
+            <li>Permet une implémentation utilisant Event Sourcing...</li>
+            <li>Permet une gestion de projet simple...</li>
+            <li>Permet une documentation vivante</li>
+            <li>Permet d'utiliser le pattern Vertical Slice Architecture...</li>
+          </ul>
 
-            <h2 class="pptTitle">Et en bonus, l'IA est extrêmement efficiente car Event Modeling lui donne le contexte nécessaire à générer une application.</h2>
+          <h2 class="pptTitle">
+            Et en bonus, l'IA est extrêmement efficiente car Event Modeling lui donne le contexte nécessaire à générer une application.
+          </h2>
           <img src="images/index/Slide7.JPG" alt="Un processus simple avec 4 slices" class="center-img zoomable">
         </section>
       </div>
 
+      <!-- ========================= -->
       <!-- Sidebar cards -->
+      <!-- ========================= -->
       <section class="vertical-cards">
+
         <div class="card-grid">
+          <div class="card">
+            <h2>Gamification Event Modeling</h2>
+            <ul>
+             <li><a href="/apps/puzzles/gaming/game.html">Jouer maintenant</a></li>
+            </ul>
+          </div>
+
           <div class="card">
             <h2>Prototypes avec AI</h2>
             <ul>
               <li><a href="https://new-chat-w8jr.bolt.host/">Bolt.new Machine Espresso</a></li>
               <li><a href="https://alert-free-brew.lovable.app/">Lovable Machine Espresso</a></li>
               <li><a href="/apps/git/index.html">Implémentation du git pattern</a></li>
+            </ul>
           </div>
 
           <div class="card">
@@ -122,13 +128,9 @@
     </div>
   </main>
 
-  <div id="footer"></div>
+   <div id="footer"></div>
 
-  <script>
-    fetch("header.html").then(res => res.text()).then(data => document.getElementById("header").innerHTML = data);
-    fetch("nav.html").then(res => res.text()).then(data => document.getElementById("nav").innerHTML = data);
-    fetch("footer.html").then(res => res.text()).then(data => document.getElementById("footer").innerHTML = data);
-  </script>
+   <script src="/js/script.js"></script>
 
 </body>
 </html>

@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patterns</title>
-  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="../global.css">
   <link rel="stylesheet" href="patterns.css">
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body>
 
   <!-- Reusable parts -->
   <div id="header"></div>
-  <div id="nav"></div>
 
   <main>
     <!-- Passage of Time Pattern -->
@@ -27,6 +26,26 @@
            target="_blank" rel="noopener noreferrer">
           ToDo List &amp; Passage of Time Patterns Combined (event-driven.io)
         </a>
+      </p>
+    </section>
+
+        <!-- Slice Architecture -->
+    <section id="slice">
+      <h2>Slice Architecture (Vertical Based Architecture)</h2>
+
+
+      <p>
+        Concept, idée de Jimmy Bogard
+        
+        <a href="http://localhost:3000/SliceArchitecture.html">Vertical Slice Architecture</a>
+        
+        Le concept est expliqué dans cette vidéo :
+        <a href="https://www.youtube.com/watch?v=ReZV5e6v8nY" target="_blank" rel="noopener noreferrer">
+          Vertical Slice Architecture - Jimmy Bogard
+        </a>
+
+        A noter, que chaque slice du modèle n'est pas forcément une slice architecturale.
+        Par contre, 2 slices du modèle ne devraient jamais être dans la même slice architecturale.
       </p>
     </section>
 
@@ -130,7 +149,7 @@
 </section>
 
       <h2 class="pptTitle">Cas 1: le client a été activé. C'est le seul fait qui m'intéresse.</h2>
-      <img src="images//DCB/Slide1.JPG" alt="Step 1" class="zoomable">
+      <img src="images/DCB/Slide1.JPG" alt="Step 1" class="zoomable">
       <h2 class="pptTitle">Cas 2: le client a déjà été désactivé. Ci-dessous: les deux seuls faits nécessaires pour prendre une décision</h2>
       <img src="images/DCB/Slide2.JPG" alt="Step 2" class="zoomable">
       
@@ -162,22 +181,7 @@
 
   <div id="footer"></div>
 
-  <script>
-    // Load header
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("header").innerHTML = data);
-
-    // Load nav
-    fetch("nav.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("nav").innerHTML = data);
-
-    // Load footer
-    fetch("footer.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("footer").innerHTML = data);
-  </script>
+   <script src="/js/script.js"></script>
 
 </body>
 </html>

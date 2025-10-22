@@ -6,11 +6,11 @@
   <title>Glossaire - Event Modeling</title>
   <link rel="stylesheet" href="global.css">
   <link rel="stylesheet" href="definitions.css">
+   <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
 
   <div id="header"></div>
-  <div id="nav"></div>
 
   <main>
     <div class="main-with-sidebar">
@@ -27,19 +27,6 @@
   <div id="footer"></div>
 
 <script>
-  // Charger header / nav / footer
-  fetch("header.html")
-    .then(r => r.text())
-    .then(d => document.getElementById("header").innerHTML = d);
-
-  fetch("nav.html")
-    .then(r => r.text())
-    .then(d => document.getElementById("nav").innerHTML = d);
-
-  fetch("footer.html")
-    .then(r => r.text())
-    .then(d => document.getElementById("footer").innerHTML = d);
-
   // Charger et parser definitions.md
   async function loadDefinitions() {
     const res = await fetch("definitions.md");
@@ -116,6 +103,8 @@
 
   loadDefinitions();
 </script>
+ <script src="/js/script.js"></script>
+
 
 
 

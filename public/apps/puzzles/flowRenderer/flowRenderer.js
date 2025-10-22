@@ -1,3 +1,6 @@
+// grid-renderer.js
+// Updated to show piece.text under piece name (smaller, left-aligned, margin)
+
 export const GRID_ROWS = [1, 0, -1, -2];
 const SLOT_W = 200, SLOT_H = 200;
 let pieces = {}, connections = [];
@@ -22,7 +25,8 @@ export function getPieces() {
 }
 
 // ---------------------- Helper to create piece element ----------------------
-function createPieceElement({ type, name, id, slot = null }) {
+// IMPORTANT: create DOM nodes (avoid injecting raw HTML) so we can set textContent safely.
+function createPieceElement({ type, name, id, text = '', slot = null }) {
     const el = document.createElement('div');
     el.className = `flow-piece piece-${type}` + (slot === null ? ' draggable-piece' : '');
     if (slot) el.dataset.slot = slot;
@@ -31,12 +35,29 @@ function createPieceElement({ type, name, id, slot = null }) {
     el.dataset.pieceId = id;
     el.style.backgroundColor = PIECE_COLORS[type] || '#999';
 
-    let innerHTML = `<div class="piece-name-editable">${name}</div>`;
-    if (type === 'Automation') {
-        innerHTML += `<img src="../flowRenderer/images/automation.png" class="Automation-icon" alt="Automation Icon">`;
-    }
-    el.innerHTML = innerHTML;
+    // Name node
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'piece-name-editable';
+    nameDiv.textContent = name;
+    el.appendChild(nameDiv);
 
+    // Subtext node (smaller, left-aligned)
+    const subtextDiv = document.createElement('div');
+    subtextDiv.className = 'piece-subtext';
+    // Use textContent so quotes and punctuation are safe
+    subtextDiv.textContent = text || '';
+    el.appendChild(subtextDiv);
+
+    // Special icon for Automation type (keeps original behavior)
+    if (type === 'Automation') {
+        const img = document.createElement('img');
+        img.src = '../flowRenderer/images/automation.png';
+        img.className = 'Automation-icon';
+        img.alt = 'Automation Icon';
+        el.appendChild(img);
+    }
+
+    // Drag behavior (tray pieces vs grid pieces)
     if (slot === null) {
         // Tray piece
         el.setAttribute('draggable', 'true');
@@ -45,6 +66,7 @@ function createPieceElement({ type, name, id, slot = null }) {
                 id,
                 type,
                 name,
+                text,
                 sourceSlot: null
             }));
             e.currentTarget.classList.add('dragging');
@@ -60,16 +82,14 @@ function createPieceElement({ type, name, id, slot = null }) {
                 id,
                 type,
                 name,
+                text,
                 sourceSlot: slot
             }));
         });
         el.addEventListener('dblclick', () => {
-            console.log(`[Renderer] Double-click to remove piece from slot: ${slot}`); // LOG
+            console.log(`[Renderer] Double-click to remove piece from slot: ${slot}`);
             if (removePiece(slot)) {
-                // Check if the puzzle state function exists before calling
-                if (window.checkPuzzleState) {
-                    window.checkPuzzleState();
-                }
+                if (window.checkPuzzleState) window.checkPuzzleState();
             }
         });
     }
@@ -104,63 +124,72 @@ export function createGrid(container, cols) {
                 const pieceData = JSON.parse(e.dataTransfer.getData('text/plain'));
                 if (!pieceData || !pieceData.type) return;
 
-                console.log(`[Renderer] Dropping piece ${pieceData.id} to slot ${key}. Source: ${pieceData.sourceSlot}`); // LOG
+                console.log(`[Renderer] Dropping piece ${pieceData.id} to slot ${key}. Source: ${pieceData.sourceSlot}`);
 
-                const [r, c] = key.split('_').map(Number);
-                if (addPiece(r, c, pieceData.type, pieceData.name, pieceData.id)) {
+                const [rNum, cNum] = key.split('_').map(Number);
+                // Pass text through when adding
+                if (addPiece(rNum, cNum, pieceData.type, pieceData.name, pieceData.id, pieceData.text)) {
                     if (pieceData.sourceSlot) removePiece(pieceData.sourceSlot);
 
-                    // Remove tray copy
+                    // Remove tray copy if present
                     const trayPiece = document.querySelector(`.draggable-piece[data-piece-id="${pieceData.id}"]`);
                     if (trayPiece) trayPiece.remove();
 
-                    // Check if the puzzle state function exists before calling
-                    if (window.checkPuzzleState) {
-                        window.checkPuzzleState();
-                    } else {
-                        console.log("[Renderer] checkPuzzleState not defined. Not updating puzzle state."); // LOG
-                    }
+                    if (window.checkPuzzleState) window.checkPuzzleState();
+                    else console.log("[Renderer] checkPuzzleState not defined. Not updating puzzle state.");
                 }
             });
 
             container.appendChild(slot);
 
             // Add vertical indicator only once per row (first column only)
-if (c === 1) {
-  const rowIndicator = document.createElement('div');
-  rowIndicator.classList.add('row-indicator');
+            if (c === 1) {
+                const rowIndicator = document.createElement('div');
+                rowIndicator.classList.add('row-indicator');
 
-  // Choose color based on row
-  if (r >= 1) {
-    rowIndicator.style.background = 'linear-gradient(to bottom, #fff 50%, #000 50%)';
-  } else if (r === 0) {
-    rowIndicator.style.background = 'linear-gradient(to bottom, #0F9ED5 50%, #4EA72E 50%)';
-  } else {
-    rowIndicator.style.background = 'linear-gradient(to bottom,  #FFC000 50%, #FAFAB7 50%)';
-  }
+                if (r >= 1) {
+                    rowIndicator.style.background = 'linear-gradient(to bottom, #fff 50%, #000 50%)';
+                } else if (r === 0) {
+                    rowIndicator.style.background = 'linear-gradient(to bottom, #0F9ED5 50%, #4EA72E 50%)';
+                } else {
+                    rowIndicator.style.background = 'linear-gradient(to bottom,  #FFC000 50%, #FAFAB7 50%)';
+                }
 
-  rowIndicator.style.gridRow = idx + 1;
-  rowIndicator.style.gridColumn = 1; // aligns to leftmost column
-  container.appendChild(rowIndicator);
-}
+                rowIndicator.style.gridRow = idx + 1;
+                rowIndicator.style.gridColumn = 1;
+                container.appendChild(rowIndicator);
+            }
         });
     }
     refreshSlotHighlights();
 }
 
 // ---------------------- Add / Remove Piece ----------------------
-export function addPiece(r, c, type, name, id) {
+//
+// NOTE: addPiece now accepts a `text` arg and stores it on internal `pieces` map.
+// This ensures renderArrows and other logic can access full piece data.
+export function addPiece(r, c, type, name, id, text = '') {
+
+      console.log(`[addPiece] Called with r=${r}, c=${c}, type=${type}, name="${name}", id=${id}, text="${text}"`);
+
+      
     const key = `${r}_${c}`;
     const slot = document.getElementById(key);
     if (!slot || slot.querySelector('.flow-piece')) return false;
 
-    pieces[key] = { r, c, type, name, id };
+    // Store piece with text
+    pieces[key] = { r, c, type, name, id, text };
 
-    const el = createPieceElement({ type, name, id, slot: key });
+    const el = createPieceElement({ type, name, id, text, slot: key });
     slot.appendChild(el);
 
     // Highlight updates
     refreshSlotHighlights();
+
+    // Re-render arrows if needed
+    const svgEl = document.getElementById('flow-svg');
+    if (svgEl) renderArrows(svgEl);
+
     return true;
 }
 
@@ -173,7 +202,7 @@ export function removePiece(key) {
 
     pieceEl.remove();
     delete pieces[key];
-    console.log(`[Renderer] Piece removed from internal state: ${key}. Remaining pieces: ${Object.keys(pieces).length}`); // LOG
+    console.log(`[Renderer] Piece removed from internal state: ${key}. Remaining pieces: ${Object.keys(pieces).length}`);
 
     // Remove related connections
     connections = connections.filter(conn => conn.start !== key && conn.end !== key);
@@ -206,7 +235,12 @@ export function renderAvailablePieces(container, piecesList) {
             if (!pieceData?.id) return;
             if (pieceData.sourceSlot) {
                 removePiece(pieceData.sourceSlot);
-                const el = createPieceElement(pieceData);
+                const el = createPieceElement({
+                    id: pieceData.id,
+                    type: pieceData.type,
+                    name: pieceData.name,
+                    text: pieceData.text || ''
+                });
                 trayInner.appendChild(el);
                 if (window.checkPuzzleState) window.checkPuzzleState();
             }
@@ -215,16 +249,14 @@ export function renderAvailablePieces(container, piecesList) {
     }
 
     piecesList.forEach(p => {
-        const el = createPieceElement({ type: p.type, name: p.name, id: p.id });
+        // Pass the p.text if present; otherwise empty string
+        console.log(`[Renderer] Creating piece: id=${p.id}, type=${p.type}, name="${p.name}", text="${p.text || ''}"`);
+        const el = createPieceElement({ type: p.type, name: p.name, id: p.id, text: p.text || '' });
         trayInner.appendChild(el);
     });
 
-    // ✅ Call tray-zoom recalculation AFTER pieces are added
     if (window.applyTrayZoom) window.applyTrayZoom();
 }
-
-
-
 
 // ---------------------- Drag Listeners for tray ----------------------
 function setupDragListeners() {
@@ -252,8 +284,7 @@ function getAnchorFromDOM(r, c, segment, svgEl) {
     const key = `${r}_${c}`;
     const slot = document.getElementById(key);
     const el = slot?.querySelector('.flow-piece');
-    
-    // LOG: Check if element is found for anchor calculation
+
     if (!slot || !el) {
         console.warn(`[Renderer:Arrows] Could not find piece element for slot ${key}. Returning (0,0).`);
         return { x: 0, y: 0 };
@@ -286,8 +317,8 @@ export function renderArrows(svgEl) {
     const maxCol = pieceValues.length ? Math.max(...pieceValues.map(p => p.c)) : 0;
     const colsToUse = Math.max(maxCol + 1, 6);
     const rows = GRID_ROWS.length;
-    
-    console.log(`[Renderer:Arrows] Drawing ${connections.length} connections.`); // LOG
+
+    console.log(`[Renderer:Arrows] Drawing ${connections.length} connections.`);
 
     svgEl.setAttribute('viewBox', `0 0 ${colsToUse*SLOT_W} ${rows*SLOT_H}`);
     svgEl.style.width = `${colsToUse*SLOT_W}px`;
@@ -296,17 +327,15 @@ export function renderArrows(svgEl) {
     connections.forEach(conn => {
         const [r1,c1] = conn.start.split('_').map(Number);
         const [r2,c2] = conn.end.split('_').map(Number);
-        
-        // Log connection details for debugging
-        console.log(`[Renderer:Arrows] Connection: ${conn.start} -> ${conn.end}`); // LOG
+
+        console.log(`[Renderer:Arrows] Connection: ${conn.start} -> ${conn.end}`);
 
         const a = getAnchorFromDOM(r1,c1,conn.startSegment||'bottom',svgEl);
         const b = getAnchorFromDOM(r2,c2,conn.endSegment||'top',svgEl);
-        
-        // Check for invalid coordinates
+
         if (a.x === 0 && a.y === 0 && b.x === 0 && b.y === 0) {
-            console.warn(`[Renderer:Arrows] Skipping connection ${conn.start} -> ${conn.end} due to zero coordinates.`); // LOG
-            return; 
+            console.warn(`[Renderer:Arrows] Skipping connection ${conn.start} -> ${conn.end} due to zero coordinates.`);
+            return;
         }
 
         const path = document.createElementNS('http://www.w3.org/2000/svg','path');
@@ -340,6 +369,20 @@ function refreshSlotHighlights() {
             slot.classList.add('drag-hover');
         } else {
             slot.classList.remove('drag-hover');
+        }
+    });
+}
+
+// ---------------------- Helper: Load parsed DSL elements onto grid -------------
+// Call this with the parsed output from your parseDSL(...) function:
+// loadParsedItems(parsedResult.items)
+export function loadParsedItems(parsedItems) {
+    parsedItems.forEach(e => {
+        // Only add if coordinates are valid and slot exists
+        try {
+            addPiece(e.r, e.c, e.type, e.name, e.id, e.text || '');
+        } catch (err) {
+            console.warn('[Renderer] Failed to add parsed item', e, err);
         }
     });
 }

@@ -10,34 +10,20 @@
 <body>
 
   <div id="header"></div>
-  <div id="nav"></div>
 
   <main>
     <section id="intro">
     <h1>CQRS - Projection - En cours de construction</h1>
-    </section>
+    <p>Il s'agit des projections: comment représenter l'état du système sans avoir à rejouer les évènements à chaque fois?</p>
+    <br>Sans doute, le premier point est que les projections sont asyncrhones normalement pour des raisons de performance.
+    <br>Mais rien ne vous empêche de les faire de manière synchrone: vous ajoutez un évènement et mettez à jour vos tables de projection dans la même transaction.  
+    <br>Faire un "append" dans la base d'event sourcing puis un "insert/update/delete" dans la base de projection (souvant la même table) est tout à fait acceptable si cela remplit vos exigemces: toutes les applications ne sont pas des Netflix.
+  </section>
   </main>
 
-  <footer>
-    &copy; Embracing Simplicity with Event Modeling
-  </footer>
 
-    <script>
-          // Load header
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("header").innerHTML = data);
-
-    // Load nav
-    fetch("nav.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("nav").innerHTML = data);
-
-    // Load footer
-    fetch("footer.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("footer").innerHTML = data);
-  </script>
+    <div id="footer"></div>
+  <script src="/js/script.js"></script>
 
 </body>
 </html>

@@ -19,7 +19,7 @@
         La gestion de projet avec Event Modeling va devenir bien plus simple: l'unité de mesure devient la slice.
         Par design, une slice est petite, livrable, testable et elle apporte de la valeur métier. Une estimation d'effort est entre 1 et 2 days, qualité production.
       </p>
-      <img src="images/GestionDeProjet.jpg" alt="Gestion de Projet" class="hero-image">
+      <img src="images/GestionDeProjet.jpg" alt="Gestion de Projet" class="zoomable">
     </section>
 
     <section id="methode">
@@ -55,26 +55,9 @@
     </section>
   </main>
 
-  <footer>
-    &copy; Embracing Simplicity with Event Modeling
-  </footer>
+  <div id="footer"></div>
 
-    <script>
-          // Load header
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("header").innerHTML = data);
-
-    // Load nav
-    fetch("nav.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("nav").innerHTML = data);
-
-    // Load footer
-    fetch("footer.html")
-      .then(res => res.text())
-      .then(data => document.getElementById("footer").innerHTML = data);
-  </script>
+   <script src="/js/script.js"></script>
 
 </body>
 </html>

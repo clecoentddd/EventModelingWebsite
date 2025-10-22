@@ -17,6 +17,9 @@ createGrid(GRID_CONTAINER, cols);
 
 // --- Core Function to Load and Render the Flow ---
 function loadAndRenderFlow() {
+
+    resetState(); // clears pieces[], connections[], and resets slots
+
     const dslContent = DSL_INPUT.value;
     
     // FIX: Correctly destructure and pass rawFlows
@@ -35,7 +38,7 @@ function loadAndRenderFlow() {
     createGrid(GRID_CONTAINER, maxCol + 1);
     
     // 4. Add pieces to DOM
-    Object.values(pieces).forEach(p => addPiece(p.r, p.c, p.type, p.name, p.line));
+    Object.values(pieces).forEach(p => addPiece(p.r, p.c, p.type, p.name, p.line, p.text));
     
     // 5. Render connections (Arrows should now be visible)
     setConnections(connections);
@@ -58,20 +61,6 @@ CLEAR_BTN.addEventListener('click', clearFlow); // Added clear flow listener
 // Load the default DSL when the page first loads
 document.addEventListener('DOMContentLoaded', loadAndRenderFlow);
 
-
-ADD_COL.addEventListener('click', ()=>{ 
-    cols++; 
-    createGrid(GRID_CONTAINER, cols); 
-    renderArrows(SVG); 
-});
-
-EXPORT_JSON.addEventListener('click', ()=>{
-    alert('Export is not implemented in this demo.');
-});
-
-DOWNLOAD_PROJECT.addEventListener('click', ()=>{
-    alert('In this environment the Download button is a placeholder. Use the zip link provided by the assistant.');
-});
 
 // small: re-render on resize
 window.addEventListener('resize', ()=>renderArrows(SVG));

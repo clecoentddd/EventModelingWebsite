@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Site français dédié à Event Modeling - Event Sourcing (CQRS) - Vertical Slice Architecture
+  </title>
+  <link rel="stylesheet" href="/global.css">
+  <link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/projetIntro.css">
+  <link rel="stylesheet" href="/ptt.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+
+<body>
+  <!-- ✅ Unified header (logo + title + nav) -->
+  <div id="header"></div>
+
+  <main>
+    <div class="main-with-cards">
+      <!-- ========================= -->
+      <!-- Main content -->
+      <!-- ========================= -->
+      <div class="main-content">
+        <section id="Home" class="home-section">
+          <h1>Domain Storytelling</h1>
+          <h2>Pour modéliser les interactions entre personnes et systèmes</h2>
+
+          <h3><strong>Domain Storytelling : un processus est défini à travers des échanges :</strong></h3>
+          <ul class="em-bullets">
+            <li><strong>Information</strong> entre <strong>Personne</strong> et <strong>Personne</strong></li>
+            <li><strong>Information</strong> entre <strong>Personne</strong> et <strong>Système</strong></li>
+            <li><strong>Information</strong> entre <strong>Système</strong> et <strong>Système</strong></li>
+          </ul>
+
+          <h2 class="pptTitle">Prenons l'exemple d'un retrait d'argent</h2>
+          <img src="images/RetraitArgent.svg" alt="Step 20" class="zoomable center-img">
+          <br>
+          <h3>Il s'agit donc de parcourir une histoire - comme pour Event Modeling - une seule histoire et que ce soit un exemple: qui sont les personnes? Soyez précis</h3>
+          <br>
+          <h2>Champs d'application</h2>
+          <h3><strong>Dès qu'il y a des échanges</strong></h3>
+           <ul class="em-bullets">
+            <li><strong>Architecture d'entreprise</strong>: pour découvrir l'architecture qui sont des échanges entre personnes et systèmes. Mapper, Décvourer avec Domain Storytelling puis documenter formellement dans l'outil de l'AE (archimate, C4)</li>
+            <li><strong>Développement logiciel</strong>: c'est le but initial de l'outil, dans le cadre du Domaine Driven Design (DDD) donc la capture des besoins</li>
+            <li><strong>Phase amont</strong>: vous voulez comprendre comment les métiers travaillent, l'outil est parfait</li>
+          </ul>
+      <h2>Comment ça marche?</h2>
+          <h3><strong>Attrapper une histoire avec un métier</strong></h3>
+           <ul class="em-bullets">
+            <li><strong>participants</strong>: En fonction du contexte, les personnes qui ont les conaissances métier et les personnes qui ont besoin d'acqurir ces connaissances</li>
+            <li><strong>Les premières minutes</strong>: demander d'expliquer au métier - une personne qui sera votre pilote - leur(s) domaine(s) métier, dans le but de partir sur un processus - 3 à 5 minutes</li>
+            <li><strong>Dès que vous avez identifié un processus avec eux</strong>: Vous commencez à dérouler ce processus à la volée grâce à l'outil egon.io ou stickers sur le mur - Les discussions sont entre vous et la personne métier</li>
+            <li><strong>Rejouer le processus</strong>: rejouer le processus pour vous assurez de votre compréhension</li>
+          </ul>
+          <h2>Les dangers?</h2>
+          <h3><strong>2 types de disruption</strong></h3>
+           <ul class="em-bullets">
+            <li><strong>Les participants</strong>: demander d'expliquer au métier - une personne qui sera votre pilote - leur(s) domaine(s) métier, dans le but de partir sur un processus - 3 à 5 minutes</li>
+            <li><strong>Dès que vous avez identifié un processus avec eux</strong>: Vous commencez à dérouler ce processus à la volée grâce à l'outil egon.io ou stickers sur le mur - Les discussions sont entre vous et la personne métier</li>
+            <li><strong>Rejouer le processus</strong>: rejouer le processus pour vous assurez de votre compréhension</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- ========================= -->
+      <!-- Sidebar cards -->
+      <!-- ========================= -->
+      <section class="vertical-cards">
+        <div class="card highlight">
+          <h2>Références</h2>
+          <ul>
+            <li><a href="https://egon.io/">L'outil de modélisation de référence egon.io</a></li>
+            <li><a href="https://domainstorytelling.org/book">Le livre</a></li>
+            <li><a href="https://domainstorytelling.org">Le site</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

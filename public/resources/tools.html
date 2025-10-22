@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outils - Event Modeling</title>
+  <link rel="stylesheet" href="../global.css">
+  <link rel="stylesheet" href="resources.css">
+  <link rel="icon" type="image/png" href="../favicon.png">
+</head>
+<body>
+  <div id="header"></div>
+
+  <main>
+    <h2>Event Modeling Related Tools</h2>
+    <div class="references-container">
+      <div class="reference-card">
+        <h4>Miro avec Event Modeling Extension by Martin Dilger</h4>
+        <p>Version gratuite limitée mais permet de construire vos modèles collaboratifs.</p>
+        <a href="https://www.miro.com/" target="_blank" rel="noopener noreferrer">Visiter Miro</a>
+      </div>
+      <div class="reference-card">
+        <h4>prooph board</h4>
+        <p>Outil web – peut-être plus orienté développeurs.</p>
+        <a href="https://prooph-board.com/" target="_blank" rel="noopener noreferrer">Visiter prooph-board</a>
+      </div>
+      <div class="reference-card">
+        <h4>Auto</h4>
+        <p>"Le bazouka" – startup basée aux USA proposant une approche radicale d’Event Modeling.</p>
+        <a href="https://on.auto/event-modeling" target="_blank" rel="noopener noreferrer">Visiter Auto</a>
+      </div>
+      <div class="reference-card">
+        <h4>event-modelling-canvas</h4>
+        <p>Tout nouveau</p>
+        <a href="https://event-modelling-canvas.com/" target="_blank" rel="noopener noreferrer">Visiter event-modelling-canvas</a>
+      </div>
+    </div>
+
+    <h2>Event Store DB & Équivalents</h2>
+    <div class="references-container">
+      <div class="reference-card">
+        <h4>Kurrent.io</h4>
+        <p>Outil SaaS dédié à l’Event Modeling, très orienté pratique et collaboration.</p>
+        <a href="https://kurrent.io/" target="_blank" rel="noopener noreferrer">Visiter Kurrent.io</a>
+      </div>
+      <div class="reference-card">
+        <h4>Marten</h4>
+        <p>Event Store basé sur PostgreSQL – simple et puissant pour .NET.</p>
+        <a href="https://martendb.io/" target="_blank" rel="noopener noreferrer">Visiter Marten</a>
+      </div>
+      <div class="reference-card">
+        <h4>Kafka</h4>
+        <p>Système distribué de streaming d’événements – souvent utilisé comme Event Store.</p>
+        <a href="https://kafka.apache.org/" target="_blank" rel="noopener noreferrer">Visiter Kafka</a>
+      </div>
+    </div>
+
+    <h2>Frameworks et Infrastructure</h2>
+    <div class="references-container">
+      <div class="reference-card">
+        <h4>Axon Server</h4>
+        <p>Plateforme complète pour CQRS/ES avec support d’Event Sourcing et message bus.</p>
+        <a href="https://axoniq.io/" target="_blank" rel="noopener noreferrer">Visiter AxonIQ</a>
+      </div>
+      <div class="reference-card">
+        <h4>NEventStore</h4>
+        <p>Framework .NET historique pour Event Sourcing.</p>
+        <a href="https://github.com/NEventStore/NEventStore" target="_blank" rel="noopener noreferrer">Voir sur GitHub</a>
+      </div>
+      <div class="reference-card">
+        <h4>Akka</h4>
+        <p>Toolkit pour la programmation réactive avec persistance événementielle.</p>
+        <a href="https://akka.io/" target="_blank" rel="noopener noreferrer">Visiter Akka</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("../header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+        const menuToggle = document.getElementById("menuToggle");
+        const navMenu = document.getElementById("navMenu");
+        if(menuToggle && navMenu){
+          menuToggle.addEventListener("click", () => navMenu.classList.toggle("show"));
+          navMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navMenu.classList.remove("show")));
+        }
+      });
+    fetch("../footer.html").then(res => res.text()).then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+</body>
+</html>

@@ -13,25 +13,35 @@
 
 .pptTitle {
   margin-top: 2rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  font-family: "Segoe UI", Arial, sans-serif;
-  color: #335e6f;
+  font-size: 1.2rem !important;; 
+  font-weight: bold !important;;
+  font-family: "Segoe UI", Arial, sans-serif !important;;
+  color: #0F9ED5 !important;
   letter-spacing: 1px;        /* optional for modern look */
 }
 
+/* Base zoomable style */
 .zoomable {
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: zoom-in;
   border-radius: 8px;
-  z-index: 0; /* base layer */
+  z-index: 0;
 }
 
+/* Hover effect */
 .zoomable:hover {
   transform: scale(1.25);
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  position: relative; /* ensures it creates a stacking context */
-  z-index: 9999;      /* above everything */
+  z-index: 9999;
 }
+
+/* Click effect (active state) */
+.zoomable.active {
+  transform: scale(1.75);       /* bigger than hover */
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+  z-index: 9999;
+  cursor: zoom-out;             /* indicates it can be clicked again */
+}
+
 

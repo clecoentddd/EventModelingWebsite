@@ -10,7 +10,6 @@
 <body>
 
     <div id="header"></div>
-    <div id="nav"></div>
 
   <main>
     <section>
@@ -43,18 +42,10 @@
     </section>
   </main>
 
-  <footer>
-    &copy; Embracing Simplicity with Event Modeling
-  </footer>
+  <div id="footer"></div>
 
-  <script>
-  ["header","nav"].forEach(id => {
-    fetch(id + ".html")
-      .then(res => res.text())
-      .then(data => document.getElementById(id).innerHTML = data)
-      .catch(err => console.error(`Could not load ${id}.html:`, err));
-  });
-</script>
+   <script src="/js/script.js"></script>
+
 
 </body>
 </html>

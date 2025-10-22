@@ -126,7 +126,7 @@
 /* --- Call to Action Button --- */
 .cta-button {
   display: inline-block;
-  background: #111;
+  background: #0F9ED5;
   color: #fff;
   padding: 0.9rem 2rem;
   border-radius: 999px;
@@ -137,14 +137,14 @@
 }
 
 .cta-button:hover {
-  background: #0057b7;
+  background: #0F9ED5;
   color: #fff;
 }
 
 /* --- Optional: Dark Mode --- */
 @media (prefers-color-scheme: dark) {
   .gamification-banner {
-    background: #1a1a1a;
+    background: #0F9ED5;
     color: #f0f0f0;
     border-color: #333;
   }
@@ -163,7 +163,64 @@
   }
 
   .cta-button:hover {
-    background: #0057b7;
+    background: #0F9ED5;
     color: #fff;
   }
 }
+
+/* MAIN CONTENT WRAPPER */
+.main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  line-height: 1.6;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+}
+
+/* H1 — main page title */
+.main-content h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #0F9ED5;
+  text-align: center; /* optional: center main heading */
+}
+
+/* H2 — section/subtitle headings */
+.main-content h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* H3 — subsection headings / descriptive text */
+.main-content h3 {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Paragraphs */
+.main-content p {
+  font-size: 1em;
+  color: #444;
+  margin-bottom: 16px;
+}
+
+/* Optional: center specific sections */
+.main-content .center-text {
+  text-align: center;
+}
+
+/* Spacing between sections */
+.main-content section {
+  margin-bottom: 40px;
+}
+

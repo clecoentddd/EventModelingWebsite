@@ -28,14 +28,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-  // Load header, nav, and footer
-  ["header","nav","footer"].forEach(id => {
-    fetch(id + ".html")
-      .then(res => res.text())
-      .then(data => document.getElementById(id).innerHTML = data)
-      .catch(err => console.error(`Could not load ${id}.html:`, err));
-  });
-
   // Load Markdown FAQ
   fetch("faq.md")
     .then(res => res.text())
@@ -80,6 +72,7 @@
       console.error("Error loading faq.md:", err);
     });
 </script>
+ <script src="/js/script.js"></script>
 
 </body>
 </html>
