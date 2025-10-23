@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patterns</title>
+  <link rel="stylesheet" href="/global.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <style>
+    main {
+      display: flex;
+      justify-content: space-between;
+      width: 95%;
+      margin-top: 20px;
+      gap: 20px;
+    }
+    .column {
+      flex: 1;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 16px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    h3 { margin-top: 0; text-align: center; }
+
+  #center {
+    flex: 0 0 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border: 3px solid green;
+  }
+
+  #left, #right {
+    border: 3px solid orange;
+  }
+    .sticky {
+      background: #FFC000;
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin: 6px 0;
+      color: #222;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 0.9em;
+    }
+    th, td {
+      border-bottom: 1px solid #ddd;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    tr:last-child td { border-bottom: none; }
+    td.status-todo { color: #d35400; font-weight: 600; }
+    td.status-do { color: #4EA72E; font-weight: 600; }
+    td.empty { color: #bbb; font-style: italic; }
+    .led {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #999;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .led.active {
+      background: #4EA72E;
+      box-shadow: 0 0 12px rgba(0,255,0,0.6);
+    }
+    .status {
+      text-align: center;
+      font-weight: 600;
+      color: #333;
+    }
+    button {
+      background: #0F9ED5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 4px;
+      transition: background 0.2s;
+    }
+    button:hover { background: #00b7ff; }
+    .controls {
+      display: flex; justify-content: center; align-items: center;
+      gap: 8px; margin: 12px 0; flex-wrap: wrap;
+    }
+    label { font-size: 0.9em; display: flex; align-items: center; gap: 4px; }
+
+    /* Only these buttons black */
+    #todoControls button {
+      background: #000;
+      color: #fff;
+    }
+    #todoControls button:hover {
+      background: #333;
+    }
+    #todoControls {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Reusable parts -->
+  <div id="header"></div>
+
+  <h1>Event Sourcing – Automation Demo</h1>
+
+<h2>Instructions:</h2>
+<ul>
+  <li>Générer des nouveaux clients</li>
+  <li>La ToDo réagit directement à un nouvel évènement si Pub/Sub est sélectionné</li>
+  <li>La ToDo vérifie les todo à faire toutes les 5 secondes</li>
+  <li>Si l'automate s'aperçoit que la todo n'est pas à jour par rapport à de nouveaux évènements, il la reconstruit</li>
+</ul>
+<br>
+
+  <div class="controls">
+    <button id="generateClient">➕ Générer Client</button>
+    <label><input type="checkbox" id="usePolling" checked> Polling (5 s)</label>
+    <label><input type="checkbox" id="usePubSub"> Pub/Sub</label>
+    <button id="toggleProcessor">⏹️ Stop Automation</button>
+    <button id="restartAll">🔄 Restart</button>
+  </div>
+
+  <main>
+    <div class="column" id="left">
+      <h3>📥 Événements Client Créé</h3>
+      <div id="events"></div>
+    </div>
+
+    <div class="column" id="center">
+      <h3>🤖 Automation</h3>
+      <div class="led" id="led"></div>
+      <div class="status" id="statusMsg">En attente...</div>
+      <table id="todoTable">
+        <thead>
+          <tr><th>Client ID</th><th>État</th></tr>
+        </thead>
+        <tbody id="todoBody"></tbody>
+      </table>
+      <div id="todoControls">
+        <button id="emptyTodo">🧾 Empty Todo</button>
+        <button id="rebuildTodo">🔁 Rebuild Todo</button>
+      </div>
+    </div>
+
+    <div class="column" id="right">
+      <h3>📤 Événements Compte Créé</h3>
+      <div id="outEvents"></div>
+    </div>
+  </main>
+
+<script>
+(() => {
+  const eventsDiv = document.getElementById('events');
+  const outDiv = document.getElementById('outEvents');
+  const todoBody = document.getElementById('todoBody');
+  const usePubSub = document.getElementById('usePubSub');
+  const usePolling = document.getElementById('usePolling');
+  const led = document.getElementById('led');
+  const statusMsg = document.getElementById('statusMsg');
+  const toggleBtn = document.getElementById('toggleProcessor');
+  const restartBtn = document.getElementById('restartAll');
+  const emptyBtn = document.getElementById('emptyTodo');
+  const rebuildBtn = document.getElementById('rebuildTodo');
+
+  let eventStore = [];
+  let todoView = [];
+  let lastProcessedTs = null;
+  let processorRunning = true;
+  let processing = false;
+
+  function genId(){return Math.random().toString(36).substring(2,8).toUpperCase();}
+
+  document.getElementById('generateClient').addEventListener('click', () => {
+    const id = genId();
+    const evt = { type:'ClientCréé', clientId:id, ts:new Date() };
+    eventStore.push(evt);
+    renderSticky(eventsDiv, evt);
+    if (usePubSub.checked) {
+      rebuildTodoFromEvents();
+      runProcessor();
+    }
+  });
+
+  function renderSticky(container, evt) {
+    const div=document.createElement('div');
+    div.className='sticky';
+    div.textContent=`${evt.type} – ${evt.clientId}`;
+    container.prepend(div);
+  }
+
+  function renderTodoFromView() {
+    todoBody.innerHTML='';
+    if (todoView.length === 0) {
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td class="empty" colspan="2">(vide)</td>`;
+      todoBody.appendChild(tr);
+    } else {
+      for (const t of todoView) {
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${t.clientId}</td><td class="status-todo">${t.status}</td>`;
+        todoBody.appendChild(tr);
+      }
+    }
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="empty" colspan="2">(nouvel élément ici)</td>`;
+    todoBody.appendChild(tr);
+  }
+
+  function rebuildTodoFromEvents() {
+    const newEvents = lastProcessedTs
+      ? eventStore.filter(e => e.ts > lastProcessedTs)
+      : [...eventStore];
+    todoView = newEvents.map(e => ({ clientId: e.clientId, ts: e.ts, status: 'todo' }));
+    renderTodoFromView();
+    statusMsg.textContent = `Todo reconstruit (${todoView.length} éléments)`;
+  }
+
+  async function runProcessor() {
+    if (!processorRunning || processing) return;
+
+    const batch = todoView.slice(); // copy
+    if (batch.length === 0) {
+      led.classList.add('active');
+      await sleep(400);
+      led.classList.remove('active');
+      return;
+    }
+
+    processing = true;
+    led.classList.add('active');
+    statusMsg.textContent = `Traitement des ToDos ${batch.length} élément(s)...`;
+
+    for (let i=0;i<batch.length;i++) {
+      batch[i].status = 'do';
+      updateRowStatusInDOM(i, 'do');
+      await sleep(1000);
+      const evtOut = { type:'CompteCréé', clientId:batch[i].clientId, ts:new Date() };
+      renderSticky(outDiv, evtOut);
+    }
+
+    const processedIds = batch.map(b => b.clientId);
+    eventStore = eventStore.filter(e => !processedIds.includes(e.clientId));
+    lastProcessedTs = batch[batch.length-1].ts;
+    todoView = [];
+    renderTodoFromView();
+
+    led.classList.remove('active');
+    statusMsg.textContent = `ToDo Traités (${batch.length} élément(s) traités)`;
+    processing = false;
+  }
+
+  function updateRowStatusInDOM(index, status) {
+    const row = todoBody.children[index];
+    if (row && row.children[1]) {
+      row.children[1].textContent = status;
+      row.children[1].className = status === 'do' ? 'status-do' : 'status-todo';
+    }
+  }
+
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+  setInterval(()=>{
+    if(processorRunning && usePolling.checked) {
+      if (todoView.length === 0) rebuildTodoFromEvents();
+      runProcessor();
+    }
+  },5000);
+
+  toggleBtn.addEventListener('click',()=>{
+    processorRunning=!processorRunning;
+    toggleBtn.textContent = processorRunning ? "⏹️ Stop Automation" : "▶️ Start Automation";
+    led.classList.remove('active');
+    led.style.background = '#999';
+    statusMsg.textContent = processorRunning ? "Automation active." : "Automation arrêtée";
+  });
+
+  restartBtn.addEventListener('click',()=>{
+    eventStore = [];
+    todoView = [];
+    eventsDiv.innerHTML='';
+    outDiv.innerHTML='';
+    renderTodoFromView();
+    statusMsg.textContent="Réinitialisé.";
+  });
+
+  emptyBtn.addEventListener('click',()=>{
+    todoView = [];
+    renderTodoFromView();
+    statusMsg.textContent="Todo vidé manuellement.";
+  });
+
+  rebuildBtn.addEventListener('click',()=>{
+    rebuildTodoFromEvents();
+    statusMsg.textContent="Todo reconstruit depuis les événements.";
+  });
+
+  renderTodoFromView();
+})();
+</script>
+
+  <div id="footer"></div>
+
+   <script src="/js/script.js"></script>
+
+</body>
+</html>

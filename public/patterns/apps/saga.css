@@ -1,0 +1,37 @@
+/* Main layout */
+main { display:flex; justify-content:space-between; width:95%; margin-top:20px; gap:12px; align-items:flex-start; }
+.column { flex:1; background:#fff; border-radius:14px; box-shadow:0 4px 10px rgba(0,0,0,0.1); padding:12px; min-height:350px; display:flex; flex-direction:column; gap:8px; }
+
+/* ToDo Workflow */
+#todoWorkflow { border:3px solid grey; background:#f0f0f0; margin:0 30px 20px 30px; border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px; }
+#todoWorkflow table { width:100%; table-layout:fixed; border-collapse:collapse; font-size:1em; }
+#todoWorkflow th, #todoWorkflow td { padding:6px 4px; text-align:center; border-bottom:1px solid #ddd; font-weight:600; }
+#todoWorkflow tr:last-child td { border-bottom:none; }
+#todoWorkflow td.todo { color:#FFC000; font-weight:600; font-size:1em; }
+#todoWorkflow td.done { color:#4EA72E; font-weight:600; font-size:1em; }
+
+/* Headings */
+h3 { margin-top:0; text-align:center; font-size:1em; }
+
+/* Sticky events log */
+.sticky { background:#FFC000; border-radius:8px; padding:6px 10px; margin:4px 0; color:#222; font-weight:600; box-shadow:0 2px 4px rgba(0,0,0,0.15); font-size:0.95em; }
+
+/* LED */
+.led { width:24px; height:24px; border-radius:50%; background:#999; box-shadow:0 0 6px rgba(0,0,0,0.2); transition:background 0.3s,box-shadow 0.3s; margin:0 auto; }
+.led.active { background:#4EA72E; box-shadow:0 0 10px rgba(0,255,0,0.6); }
+
+/* Status */
+.status { text-align:center; font-weight:600; color:#333; font-size:0.95em; }
+
+/* Buttons */
+button { background:#0F9ED5; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-weight:600; margin:3px; font-size:0.9em; transition:background 0.2s; }
+button:hover { background:#00b7ff; }
+.controls { display:flex; justify-content:center; align-items:center; gap:6px; margin:10px 0; flex-wrap:wrap; }
+label { font-size:0.9em; display:flex; align-items:center; gap:4px; }
+#todoControls button { background:#000; color:#fff; font-size:0.85em; }
+#todoControls button:hover { background:#333; }
+#todoControls { display:flex; justify-content:center; gap:6px; margin-top:6px; flex-wrap:wrap; }
+
+/* Blink effect for automates */
+.column.active { animation:blink 2s; }
+@keyframes blink { 0%,100% { box-shadow:0 0 6px rgba(0,255,0,0.6); } 50% { box-shadow:0 0 16px rgba(0,255,0,1); } }

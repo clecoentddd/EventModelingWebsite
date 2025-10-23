@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Sourcing Workflow</title>
+<link rel="stylesheet" href="/global.css">
+<link rel="stylesheet" href="saga.css">
+</head>
+
+<body>
+<div id="header"></div>
+
+<h1>Event Sourcing – Automation Demo</h1>
+<h2>Instructions:</h2>
+<ul>
+  <li>Générer des nouveaux clients</li>
+  <li>La ToDo Workflow montre le status</li>
+  <li>Les automates fonctionnent en séquence : Créer Compte → Ajouter Bonus</li>
+</ul>
+
+<div class="controls">
+  <button id="generateClient">➕ Générer Client</button>
+  <button id="toggleProcessor">⏹️ Stop Automations</button>
+  <button id="emptyTodo">🧾 Empty Todo</button>
+  <button id="rebuildTodo">🔁 Rebuild Todo</button>
+</div>
+
+<main></main>
+
+<script>
+(() => {
+  /***********************
+   * EVENT BUS (Pub/Sub)
+   ***********************/
+  const eventBus = {
+    subs: {},
+    subscribe(event, handler) {
+      this.subs[event] = this.subs[event] || [];
+      this.subs[event].push(handler);
+    },
+    unsubscribe(event, handler) {
+      if (!this.subs[event]) return;
+      this.subs[event] = this.subs[event].filter(h => h !== handler);
+    },
+    emit(event, payload) {
+      (this.subs[event] || []).forEach(h => h(payload));
+    }
+  };
+
+  /***********************
+   * INITIAL SETUP
+   ***********************/
+  const main = document.querySelector('main');
+
+  // Top ToDo Workflow
+  const workflowCol = document.createElement('div');
+  workflowCol.className = 'column';
+  workflowCol.id = 'todoWorkflow';
+  workflowCol.innerHTML = `
+    <h3>📋 ToDo Workflow</h3>
+    <table>
+      <thead>
+        <tr><th>Client ID</th><th>Créer Compte</th><th>Ajouter Bonus</th></tr>
+      </thead>
+      <tbody id="todoBody"></tbody>
+    </table>
+  `;
+  main.parentNode.insertBefore(workflowCol, main);
+
+  // Bottom columns
+  const columns = [
+    {title:'📥 ClientCréé Events', id:'clientEvents', color:'#FFC000'},
+    {title:'🤖 Automate Créer Compte', id:'autoCompte', color:'#4EA72E'},
+    {title:'📤 CompteCréé Events', id:'compteEvents', color:'#FFC000'},
+    {title:'🤖 Automate Ajouter Bonus', id:'autoBonus', color:'#4EA72E'},
+    {title:'📤 BonusAjouté Events', id:'bonusEvents', color:'#FFC000'}
+  ];
+
+  columns.forEach(col => {
+    const div = document.createElement('div');
+    div.className = 'column';
+    div.id = col.id;
+    div.style.border = `3px solid ${col.color}`;
+    const ledHtml = (col.id === 'autoCompte' || col.id === 'autoBonus')
+      ? '<div class="led"></div>'
+      : '';
+    div.innerHTML = `<h3>${col.title}</h3>${ledHtml}<div class="status"></div>`;
+    main.appendChild(div);
+  });
+
+  const todoBody = document.getElementById('todoBody');
+  const clientEventsDiv = document.getElementById('clientEvents');
+  const compteEventsDiv = document.getElementById('compteEvents');
+  const bonusEventsDiv = document.getElementById('bonusEvents');
+  const autoCompteDiv = document.getElementById('autoCompte');
+  const autoBonusDiv = document.getElementById('autoBonus');
+
+  // Add controls for automates
+  const compteControls = document.createElement('div');
+  compteControls.style.marginTop = '10px';
+  compteControls.innerHTML = `
+    <label><input type="checkbox" id="usePollingCompte" checked> Polling</label><br>
+    <label><input type="checkbox" id="usePubSubCompte" checked> Pub/Sub</label>
+  `;
+  autoCompteDiv.appendChild(compteControls);
+
+  const bonusControls = document.createElement('div');
+  bonusControls.style.marginTop = '10px';
+  bonusControls.innerHTML = `
+    <label><input type="checkbox" id="usePollingBonus" checked> Polling</label><br>
+    <label><input type="checkbox" id="usePubSubBonus" checked> Pub/Sub</label>
+  `;
+  autoBonusDiv.appendChild(bonusControls);
+
+  /***********************
+   * STATE
+   ***********************/
+  let todoView = [];
+  let processorRunning = true;
+  let clientCounter = 0;
+  let compteProcessing = false;
+  let bonusProcessing = false;
+
+  /***********************
+   * HELPERS
+   ***********************/
+  function genId() { clientCounter++; return "C" + clientCounter; }
+
+  function renderSticky(container, clientId, eventType) {
+    const div = document.createElement('div');
+    div.className = 'sticky';
+    div.textContent = `${clientId} – ${eventType}`;
+    container.prepend(div);
+    eventBus.emit(eventType, { clientId });
+  }
+
+  function renderTodo() {
+    todoBody.innerHTML = '';
+    if (todoView.length === 0) {
+      todoBody.innerHTML = `<tr><td colspan="3">(vide)</td></tr>`;
+      return;
+    }
+    for (const item of todoView) {
+      const { clientId, steps } = item;
+      const bonusState = steps.bonusAjouté;
+      const bonusLabel = bonusState === 'todo'
+        ? 'todo'
+        : bonusState === 'pending'
+          ? 'En attente'
+          : 'Fait';
+      todoBody.innerHTML += `
+        <tr>
+          <td>${clientId}</td>
+          <td class="${steps.compteCréé === 'todo' ? 'todo' : 'done'}">
+            ${steps.compteCréé === 'todo' ? 'todo' : 'Fait'}
+          </td>
+          <td class="${bonusState}">
+            ${bonusLabel}
+          </td>
+        </tr>`;
+    }
+  }
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  function blinkLED(ledDiv, automateDiv) {
+    ledDiv.classList.add('active');
+    automateDiv.classList.add('active');
+    setTimeout(() => {
+      ledDiv.classList.remove('active');
+      automateDiv.classList.remove('active');
+    }, 1000);
+  }
+
+  /***********************
+   * AUTOMATES
+   ***********************/
+  async function runCompteFor(clientId) {
+    if (!processorRunning || compteProcessing) return;
+    const item = todoView.find(t => t.clientId === clientId && t.steps.compteCréé === 'todo');
+    if (!item) return;
+
+    compteProcessing = true;
+    autoCompteDiv.classList.add('active');
+    autoCompteDiv.querySelector('.status').textContent = 'Processing...';
+
+    await sleep(2000);
+    item.steps.compteCréé = 'done';
+    if (item.steps.bonusAjouté === 'pending') item.steps.bonusAjouté = 'todo';
+    renderSticky(compteEventsDiv, clientId, 'CompteCréé');
+    renderTodo();
+
+    autoCompteDiv.classList.remove('active');
+    autoCompteDiv.querySelector('.status').textContent = '';
+    compteProcessing = false;
+  }
+
+  async function runBonusFor(clientId) {
+    if (!processorRunning || bonusProcessing) return;
+    const item = todoView.find(t => t.clientId === clientId && t.steps.bonusAjouté === 'todo');
+    if (!item) return;
+
+    bonusProcessing = true;
+    autoBonusDiv.classList.add('active');
+    autoBonusDiv.querySelector('.status').textContent = 'Processing...';
+
+    await sleep(2000);
+    item.steps.bonusAjouté = 'done';
+    renderSticky(bonusEventsDiv, clientId, 'BonusAjouté');
+    renderTodo();
+
+    autoBonusDiv.classList.remove('active');
+    autoBonusDiv.querySelector('.status').textContent = '';
+    bonusProcessing = false;
+  }
+
+  async function runComptePolling() {
+    const items = todoView.filter(t => t.steps.compteCréé === 'todo');
+    for (const item of items) await runCompteFor(item.clientId);
+  }
+
+  async function runBonusPolling() {
+    const items = todoView.filter(t => t.steps.bonusAjouté === 'todo');
+    for (const item of items) await runBonusFor(item.clientId);
+  }
+
+  /***********************
+   * BUTTON HANDLERS
+   ***********************/
+  function addNewClient() {
+    const id = genId();
+    todoView.push({ clientId: id, steps: { compteCréé: 'todo', bonusAjouté: 'pending' } });
+    renderTodo();
+    renderSticky(clientEventsDiv, id, 'ClientCréé');
+  }
+
+  document.getElementById('generateClient').addEventListener('click', addNewClient);
+
+  document.getElementById('toggleProcessor').addEventListener('click', () => {
+    processorRunning = !processorRunning;
+    document.getElementById('toggleProcessor').textContent = processorRunning
+      ? "⏹️ Stop Automations"
+      : "▶️ Start Automations";
+  });
+
+  document.getElementById('emptyTodo').addEventListener('click', () => {
+    todoView = [];
+    renderTodo();
+  });
+
+  document.getElementById('rebuildTodo').addEventListener('click', () => {
+    todoView = [];
+    const clientStickies = Array.from(clientEventsDiv.querySelectorAll('.sticky')).reverse();
+    clientStickies.forEach(sticky => {
+      const id = sticky.textContent.split(' – ')[0];
+      todoView.push({ clientId: id, steps: { compteCréé: 'todo', bonusAjouté: 'pending' } });
+    });
+    const compteStickies = Array.from(compteEventsDiv.querySelectorAll('.sticky')).reverse();
+    compteStickies.forEach(sticky => {
+      const id = sticky.textContent.split(' – ')[0];
+      const item = todoView.find(t => t.clientId === id);
+      if (item) {
+        item.steps.compteCréé = 'done';
+        if (item.steps.bonusAjouté === 'pending') item.steps.bonusAjouté = 'todo';
+      }
+    });
+    const bonusStickies = Array.from(bonusEventsDiv.querySelectorAll('.sticky')).reverse();
+    bonusStickies.forEach(sticky => {
+      const id = sticky.textContent.split(' – ')[0];
+      const item = todoView.find(t => t.clientId === id);
+      if (item) item.steps.bonusAjouté = 'done';
+    });
+    renderTodo();
+  });
+
+  /***********************
+   * PUB/SUB WIRING
+   ***********************/
+  const usePubSubCompte = document.getElementById('usePubSubCompte');
+  const usePubSubBonus = document.getElementById('usePubSubBonus');
+
+  const compteHandler = ({ clientId }) => runCompteFor(clientId);
+  const bonusHandler = ({ clientId }) => runBonusFor(clientId);
+
+  usePubSubCompte.addEventListener('change', e => {
+    if (e.target.checked) eventBus.subscribe('ClientCréé', compteHandler);
+    else eventBus.unsubscribe('ClientCréé', compteHandler);
+  });
+  usePubSubBonus.addEventListener('change', e => {
+    if (e.target.checked) eventBus.subscribe('CompteCréé', bonusHandler);
+    else eventBus.unsubscribe('CompteCréé', bonusHandler);
+  });
+
+  eventBus.subscribe('ClientCréé', compteHandler);
+  eventBus.subscribe('CompteCréé', bonusHandler);
+
+  /***********************
+   * POLLING + BLINK LOOP
+   ***********************/
+  const ledCompte = autoCompteDiv.querySelector('.led');
+  const ledBonus = autoBonusDiv.querySelector('.led');
+
+  setInterval(() => {
+    if (document.getElementById('usePollingCompte').checked) {
+      blinkLED(ledCompte, autoCompteDiv);
+      runComptePolling();
+    }
+  }, 5000);
+
+  setInterval(() => {
+    if (document.getElementById('usePollingBonus').checked) {
+      blinkLED(ledBonus, autoBonusDiv);
+      runBonusPolling();
+    }
+  }, 5000);
+
+  renderTodo();
+})();
+</script>
+
+<div id="footer"></div>
+<script src="/js/script.js"></script>
+</body>
+</html>
