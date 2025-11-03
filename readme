@@ -9,4 +9,4 @@ pwd: s....1
 
 to start testing locally: 
 cd path/to/public
-http-server -p 3000
+http-server -p 4001

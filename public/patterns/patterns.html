@@ -81,8 +81,41 @@
       <p>
         Le <strong>Git Pattern</strong> est exactement comme git, excepté au lieu de versionner du code, vous versionnez des données comme des revenus/dépenses dans le cadre de prestations sociales, de taxation, de devis, de factures etc
       </p>
-      <a href="apps/git/index.html">Cliquez pour lancer la démo</a>
+      <a href="/apps/git/index.html">Cliquez pour lancer la démo</a>
   </section>
+
+    <section id="Versioning">
+    <h2>versioning</h2>
+      <p>
+        Le <strong>Versioning</strong> est sans doute le premier sujet abordé en Event Sourcing. Greg Young a écrit un livre sur le versioning avec plusieurs options pour gérer le versioning.
+        Avec Event Modeling, l'idée est de créer une nouvelle èvénement, une nouvelle slice,
+      </p>
+      <a href="https://www.youtube.com/watch?v=W7mpfjW7nhw">Voir le podcast Adam & Martin</a>
+      <br>
+      <p>J'ai pu discuté avec Martin sur Discord, voici un résumé: plutôt que d’utiliser un upcaster pour transformer automatiquement les anciens événements (par exemple en ajoutant
+        un champ e-mail à <code>CustomerRegistered</code>), il est préférable de créer un nouvel événement métier explicite,
+        comme <strong>CustomerRegisteredWithEmail</strong>.
+        <br>
+        Cette approche rend l’évolution du domaine visible et compréhensible, au lieu de cacher les changements derrière une
+        logique d’upcasting invisible. L’histoire du système reste fidèle à ce qui s’est réellement produit.  
+      </p>
+      <p>
+        En procédant ainsi :
+      </p>
+
+      <ul>
+        <li>on évite de “magiquement” modifier le passé via du code d’upcasting ;</li>
+        <li>on rend explicite la nouvelle logique métier introduite par les nouveaux besoins ;</li>
+        <li>les projections peuvent écouter plusieurs types d’événements (<code>CustomerRegistered</code>,
+            <code>CustomerRegisteredWithEmail</code>, etc.) sans perte de clarté ;</li>
+        <li>et on réduit le risque de casser des comportements cachés ou difficiles à déboguer.</li>
+      </ul>
+
+      <p>
+        L’idée est que chaque nouveau besoin doit se traduire par un nouvel événement,
+        plutôt que par une version “V2” du précédent. Cela garde le domaine expressif et transparent.
+      </p>
+        </section>
 
     <section id="notifications">
     <h2>Notification Pattern</h2>

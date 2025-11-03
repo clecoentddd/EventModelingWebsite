@@ -76,6 +76,120 @@ function parseTextBlock(raw, line, errors) {
 }
 
 // ---------------------------------------------------------------------------
+// ALGORITHM POSITION VALIDATION
+// ---------------------------------------------------------------------------
+
+export function validateAlgorithmPositioning(elements, rawFlows, errors) {
+  // Build flow map for command -> events relationships
+  const flowMap = {};
+  rawFlows.forEach(flow => {
+    if (!flowMap[flow.startId]) flowMap[flow.startId] = [];
+    flowMap[flow.startId].push(flow.endId);
+  });
+
+  // Group elements by type for analysis
+  const elementById = {};
+  elements.forEach(el => elementById[el.id] = el);
+
+  elements.forEach(element => {
+    const { id, type, r, c, line, raw } = element;
+    let expectedRow = null;
+    let reason = '';
+
+    switch (type.toUpperCase()) {
+      case 'UI':
+      case 'SCREEN':
+        if (r < 1) {
+          expectedRow = 1;
+          reason = 'Screens should be at row 1 or higher';
+        }
+        break;
+
+      case 'COMMAND':
+        if (r !== 0) {
+          expectedRow = 0;
+          reason = 'Commands should be at row 0';
+        }
+        break;
+
+      case 'EVENT':
+        if (r >= 0) {
+          expectedRow = -1;
+          reason = 'Events should be at row -1 or lower';
+        }
+        break;
+
+      case 'EXTERNALEVENT':
+      case 'EXTERNAL_EVENT':
+        // External events should be at the lowest level
+        const allEventRows = elements
+          .filter(el => el.type.toUpperCase().includes('EVENT'))
+          .map(el => el.r);
+        const lowestRow = Math.min(...allEventRows);
+        
+        if (r > lowestRow || r >= -1) {
+          expectedRow = Math.min(lowestRow, -2);
+          reason = 'External Events should be at the lowest level (typically -2 or lower)';
+        }
+        break;
+
+      case 'AUTOMATION':
+        if (r < 1) {
+          expectedRow = 1;
+          reason = 'Automations should be at row 1 or higher';
+        }
+        break;
+
+      case 'READMODEL':
+        if (r !== 0) {
+          expectedRow = 0;
+          reason = 'ReadModels should be at row 0';
+        }
+        break;
+    }
+
+    // Check multi-event branching from commands
+    if (type.toUpperCase() === 'COMMAND' && flowMap[id]) {
+      const connectedEvents = flowMap[id]
+        .map(targetId => elementById[targetId])
+        .filter(el => el && el.type.toUpperCase() === 'EVENT');
+
+      if (connectedEvents.length > 1) {
+        // Check if events are in consecutive columns
+        const eventColumns = connectedEvents.map(e => e.c).sort((a, b) => a - b);
+        let hasColumnGaps = false;
+        for (let i = 1; i < eventColumns.length; i++) {
+          if (eventColumns[i] - eventColumns[i-1] > 1) {
+            hasColumnGaps = true;
+            break;
+          }
+        }
+
+        if (hasColumnGaps) {
+          connectedEvents.forEach(event => {
+            errors.push({
+              line: event.line,
+              raw: event.raw,
+              reason: `Element "${event.name}" should be positioned in consecutive columns with other events from command ${id}`,
+              type: 'positioning'
+            });
+          });
+        }
+      }
+    }
+
+    if (expectedRow !== null) {
+      errors.push({
+        line,
+        raw,
+        reason: `Element "${element.name}" should be positioned at row ${expectedRow}, but is at row ${r}. ${reason}`,
+        type: 'positioning'
+      });
+    }
+  });
+}
+
+// ---------------------------------------------------------------------------
 // SLICE RULE VALIDATION
 // ---------------------------------------------------------------------------
 
@@ -243,6 +357,7 @@ export function parseDSL(text) {
   }
 
   validateSliceRules(slices, elements, errors);
+  validateAlgorithmPositioning(elements, rawFlows, errors);
 
   console.groupEnd();
   return { items: elements, rawFlows, slices, errors, description, level };
