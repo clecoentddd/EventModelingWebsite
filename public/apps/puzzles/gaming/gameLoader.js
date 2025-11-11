@@ -29,6 +29,7 @@ const AVAILABLE_GAMES = [
   { fileName: 'automation.dsl', description: 'Automation' },
   { fileName: 'translation.dsl', description: 'Translation' },
   { fileName: 'cappuccino.dsl', description: 'Cappuccino Puzzle' },
+  { fileName: 'vacances.dsl', description: 'Prende des vacances' },
   { fileName: 'espresso_with_alert.dsl', description: 'Espresso with an alert' },
   { fileName: 'notification1.dsl', description: 'Implicit Notification' },
   { fileName: 'notification2.dsl', description: 'Explicit Notification' },
@@ -153,6 +154,7 @@ function structureGameConfig(dslContent) {
     id: `p${index}`,
     type: item.type,
     name: item.name,
+    text: item.text || ''
   }));
 
   const solutionMap = {};

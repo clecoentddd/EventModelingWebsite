@@ -80,6 +80,26 @@ function parseTextBlock(raw, line, errors) {
 // ---------------------------------------------------------------------------
 
 export function validateAlgorithmPositioning(elements, rawFlows, errors) {
+  // Check for duplicate positions (same c, r)
+  const positionMap = {};
+  elements.forEach(el => {
+    const key = `${el.c},${el.r}`;
+    if (!positionMap[key]) positionMap[key] = [];
+    positionMap[key].push(el);
+  });
+  Object.entries(positionMap).forEach(([key, els]) => {
+    if (els.length > 1) {
+      const names = els.map(e => `"${e.name}"`).join(', ');
+      els.forEach(e => {
+        errors.push({
+          line: e.line,
+          raw: e.raw,
+          reason: `Multiple elements share the same position (${key}): ${names}`,
+          type: 'positioning'
+        });
+      });
+    }
+  });
   // Build flow map for command -> events relationships
   const flowMap = {};
   rawFlows.forEach(flow => {
