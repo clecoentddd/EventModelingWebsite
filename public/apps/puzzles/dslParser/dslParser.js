@@ -87,6 +87,39 @@ export function validateAlgorithmPositioning(elements, rawFlows, errors) {
     flowMap[flow.startId].push(flow.endId);
   });
 
+  // Strict flow direction validation
+  rawFlows.forEach(flow => {
+    const from = elements.find(e => e.id === flow.startId);
+    const to = elements.find(e => e.id === flow.endId);
+    if (!(from && to && from.type && to.type)) return;
+    const fromType = from.type.toUpperCase();
+    const toType = to.type.toUpperCase();
+    const allowed = [
+      ["SCREEN", "COMMAND"],
+      ["COMMAND", "EVENT"],
+      ["EVENT", "READMODEL"],
+      ["AUTOMATION", "COMMAND"],
+      ["AUTOMATION", "EVENT"],
+      ["SCREEN", "AUTOMATION"],
+      ["COMMAND", "AUTOMATION"],
+      ["READMODEL", "SCREEN"], // allow readmodel to screen for view flows
+      ["READMODEL", "AUTOMATION"], // allow readmodel to automation
+      ["EXTERNALEVENT", "AUTOMATION"],
+      ["EXTERNAL_EVENT", "AUTOMATION"]
+    ];
+    const isAllowed = allowed.some(([a, b]) => fromType === a && toType === b);
+    if (!isAllowed) {
+      const warn = {
+        line: flow.line, // Always use the FLOW line number
+        raw: `${fromType} -> ${toType}`,
+        reason: `Invalid FLOW: Not allowed from ${fromType} to ${toType} (from "${from.name}" to "${to.name}")`,
+        type: 'flow-type'
+      };
+      errors.push(warn);
+    }
+  });
+  console.log('[DSLParser] Errors after SCREEN->EVENT flow check:', errors);
+
   // Group elements by type for analysis
   const elementById = {};
   elements.forEach(el => elementById[el.id] = el);
@@ -97,7 +130,6 @@ export function validateAlgorithmPositioning(elements, rawFlows, errors) {
     let reason = '';
 
     switch (type.toUpperCase()) {
-      case 'UI':
       case 'SCREEN':
         if (r < 1) {
           expectedRow = 1;
@@ -239,7 +271,8 @@ export function validateSliceRules(slices, elements, errors) {
 // ---------------------------------------------------------------------------
 
 export function parseDSL(text) {
-  const lines = text.split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
+
+  const lines = text.split('\n');
   const elements = [];
   const rawFlows = [];
   const slices = [];
@@ -255,26 +288,32 @@ export function parseDSL(text) {
   for (let i = 0; i < lines.length; i++) {
     const raw = lines[i];
     const lineNumber = i + 1;
+    const trimmed = raw.trim();
+
+    if (!trimmed || trimmed.startsWith('#')) {
+      // Still count as a line, but skip processing
+      continue;
+    }
 
     // --- DESCRIPTION ---
-    if (raw.startsWith('DESCRIPTION')) {
-      const match = raw.match(/DESCRIPTION\s*:?\s*"(.+)"$/);
+    if (trimmed.startsWith('DESCRIPTION')) {
+      const match = trimmed.match(/DESCRIPTION\s*:?\s*"(.+)"$/);
       if (match) description = match[1];
       else errors.push({ line: lineNumber, raw, reason: 'Invalid DESCRIPTION format (use quotes)' });
       continue;
     }
 
     // --- LEVEL ---
-    if (raw.startsWith('LEVEL')) {
-      const match = raw.match(/LEVEL\s*:?\s*(\d+)/);
+    if (trimmed.startsWith('LEVEL')) {
+      const match = trimmed.match(/LEVEL\s*:?\s*(\d+)/);
       if (match) level = parseInt(match[1]);
       else errors.push({ line: lineNumber, raw, reason: 'Invalid LEVEL (must be numeric)' });
       continue;
     }
 
     // --- ELEMENT ---
-    if (raw.startsWith('ELEMENT:')) {
-      const parts = splitCsv(raw.substring(8));
+    if (trimmed.startsWith('ELEMENT:')) {
+      const parts = splitCsv(trimmed.substring(8));
       if (parts.length < 4) {
         errors.push({ line: lineNumber, raw, reason: 'Too few parts in ELEMENT:' });
         continue;
@@ -287,7 +326,8 @@ export function parseDSL(text) {
       }
 
       let type = parts[1].trim();
-      if (type.toLowerCase() === 'screen') type = 'UI';
+      // Use 'SCREEN' as the official keyword, do not convert to 'UI'
+      if (type.toLowerCase() === 'screen') type = 'SCREEN';
       const name = parts[2].replace(/^"|"$/g, '').trim();
 
       const { c, r } = parseCoords(parts[3], lineNumber, errors);
@@ -300,25 +340,25 @@ export function parseDSL(text) {
     }
 
     // --- TEXT ---
-    if (raw.startsWith('TEXT:')) {
-    const textRaw = raw.substring(5).trim();
-    const text = textRaw
+    if (trimmed.startsWith('TEXT:')) {
+      const textRaw = trimmed.substring(5).trim();
+      const text = textRaw
         .split(';')          // split by semicolon
         .map(s => s.trim())  // trim spaces before/after
         .join('\n');         // join with new line
-    if (lastElement) {
+      if (lastElement) {
         lastElement.text = text;
         console.log(`[DSL Parser] Attached TEXT to element ID=${lastElement.id}:`, text);
-    } else {
-        errors.push({ line: i+1, raw, reason: 'TEXT without preceding ELEMENT' });
+      } else {
+        errors.push({ line: lineNumber, raw, reason: 'TEXT without preceding ELEMENT' });
         console.warn(`[DSL Parser] TEXT ignored, no previous ELEMENT`);
+      }
+      continue;
     }
-    continue;
-}
 
     // --- SLICE ---
-    if (raw.startsWith('SLICE:')) {
-      const parts = splitCsv(raw.substring(6));
+    if (trimmed.startsWith('SLICE:')) {
+      const parts = splitCsv(trimmed.substring(6));
       if (parts.length < 3) {
         errors.push({ line: lineNumber, raw, reason: 'Too few parts in SLICE:' });
         continue;
@@ -335,8 +375,8 @@ export function parseDSL(text) {
     }
 
     // --- FLOW ---
-    if (raw.startsWith('FLOW:')) {
-      const match = raw.match(/FLOW:\s*(\d+)\s+to\s+(\d+)/);
+    if (trimmed.startsWith('FLOW:')) {
+      const match = trimmed.match(/FLOW:\s*(\d+)\s+to\s+(\d+)/);
       if (match)
         rawFlows.push({ startId: +match[1], endId: +match[2], line: lineNumber, raw, style: 'solid' });
       else errors.push({ line: lineNumber, raw, reason: 'Invalid FLOW syntax' });
@@ -344,8 +384,8 @@ export function parseDSL(text) {
     }
 
     // --- BACK_FLOW ---
-    if (raw.startsWith('BACK_FLOW:')) {
-      const match = raw.match(/BACK_FLOW:\s*(\d+)\s+to\s+(\d+)/);
+    if (trimmed.startsWith('BACK_FLOW:')) {
+      const match = trimmed.match(/BACK_FLOW:\s*(\d+)\s+to\s+(\d+)/);
       if (match)
         rawFlows.push({ startId: +match[1], endId: +match[2], line: lineNumber, raw, style: 'back' });
       else errors.push({ line: lineNumber, raw, reason: 'Invalid BACK_FLOW syntax' });

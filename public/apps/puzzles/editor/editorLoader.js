@@ -48,19 +48,18 @@ function displayVisualErrors(errors) {
     const existingErrorLines = LINE_NUMBERS.querySelectorAll('.error-line-number');
     existingErrorLines.forEach(el => el.classList.remove('error-line-number'));
     
-    const positioningErrors = errors.filter(err => err.type === 'positioning');
-    console.log('Positioning errors:', positioningErrors);
-    
+    const visualErrors = errors.filter(err => err.type === 'positioning' || err.type === 'flow-type');
+    console.log('Visual errors:', visualErrors);
     // Mark line numbers with errors in red
-    positioningErrors.forEach(error => {
-        console.log(`Marking line ${error.line} as error`);
+    visualErrors.forEach(error => {
+        const lineIdx = error.line - 1;
+        console.log(`Marking line ${error.line} (index ${lineIdx}) as error`);
         const lineNumberDivs = LINE_NUMBERS.querySelectorAll('div');
         console.log('Total line number divs:', lineNumberDivs.length);
-        
-        if (lineNumberDivs[error.line - 1]) {
-            lineNumberDivs[error.line - 1].classList.add('error-line-number');
-            lineNumberDivs[error.line - 1].title = error.reason;
-            lineNumberDivs[error.line - 1].style.color = 'red'; // Force red color as backup
+        if (lineNumberDivs[lineIdx]) {
+            lineNumberDivs[lineIdx].classList.add('error-line-number');
+            lineNumberDivs[lineIdx].title = `Line ${error.line}: ${error.reason}`;
+            lineNumberDivs[lineIdx].style.color = 'red'; // Force red color as backup
             console.log(`Applied error styling to line ${error.line}`);
         } else {
             console.error(`Line number div not found for line ${error.line}`);
@@ -96,20 +95,17 @@ function hideErrorTooltip() {
 
 // --- Function to Display Positioning Errors ---
 function displayPositioningErrors(errors) {
-    const positioningErrors = errors.filter(err => err.type === 'positioning');
-    
-    if (positioningErrors.length === 0) {
+    const visualErrors = errors.filter(err => err.type === 'positioning' || err.type === 'flow-type');
+    if (visualErrors.length === 0) {
         if (ERROR_DISPLAY) ERROR_DISPLAY.style.display = 'none';
         return;
     }
-    
     if (ERROR_DISPLAY && ERROR_LIST) {
         ERROR_DISPLAY.style.display = 'block';
         ERROR_LIST.innerHTML = '';
-        
-        positioningErrors.forEach(error => {
+        visualErrors.forEach(error => {
             const li = document.createElement('li');
-            li.textContent = error.reason;
+            li.textContent = `Line ${error.line}: ${error.reason}`;
             ERROR_LIST.appendChild(li);
         });
     }

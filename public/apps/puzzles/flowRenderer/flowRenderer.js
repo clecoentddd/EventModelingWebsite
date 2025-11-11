@@ -10,7 +10,7 @@ const PIECE_COLORS = {
     Event: '#FFC000',
     ReadModel: '#4EA72E',
     Automation: '#ffffff',
-    UI: '#ffffff',
+    SCREEN: '#ffffff',
     ExternalEvent: '#FFFFCC'
 };
 

@@ -72,8 +72,8 @@
 }
 
 /* --- Black Border ONLY for the 'UI' Element --- */
-.flow-piece.piece-UI {
-    border: 1px solid black; 
+.flow-piece.piece-SCREEN {
+    border: 1px solid black;
 }
 
 .piece-name-editable {
