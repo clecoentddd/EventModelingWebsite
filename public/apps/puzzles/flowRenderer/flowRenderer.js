@@ -218,9 +218,11 @@ export function removePiece(key) {
 
 // ---------------------- Tray / Available Pieces ----------------------
 export function renderAvailablePieces(container, piecesList) {
+
     const trayInner = container.querySelector('#tray-inner');
     if (!trayInner) return;
 
+    console.log(`[Tray] Loading ${piecesList.length} cards into tray for this game/DSL.`);
     trayInner.innerHTML = '';
     trayInner.style.display = 'flex';
     trayInner.style.flexWrap = 'wrap';
@@ -255,7 +257,16 @@ export function renderAvailablePieces(container, piecesList) {
         trayInner.appendChild(el);
     });
 
-    if (window.applyTrayZoom) window.applyTrayZoom();
+    // Force tray zoom recalculation after DOM and layout updates
+    if (window.applyTrayZoom) {
+        setTimeout(() => {
+            window.applyTrayZoom(true);
+            setTimeout(() => {
+                window.applyTrayZoom(true);
+                requestAnimationFrame(() => window.applyTrayZoom(true));
+            }, 0);
+        }, 0);
+    }
 }
 
 // ---------------------- Drag Listeners for tray ----------------------

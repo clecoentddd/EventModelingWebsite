@@ -144,6 +144,9 @@ function loadAndRenderFlow() {
     // 5. Render connections (Arrows should now be visible)
     setConnections(connections);
     renderArrows(SVG);
+
+    // Ensure tray zoom is recalculated after tray content changes
+    if (window.applyTrayZoom) window.applyTrayZoom();
 }
 
 // --- Utility: Clear Flow ---

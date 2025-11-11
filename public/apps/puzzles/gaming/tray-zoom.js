@@ -57,7 +57,11 @@
         console.log(`[Tray Zoom] Initialized Base Content Width: ${initialWidth}px`);
     }
 
-    function applyTrayZoom() {
+    function applyTrayZoom(forceRecalc) {
+        // If forceRecalc is true, always re-read initial dimensions
+        if (forceRecalc) {
+            getInitialDimensions();
+        }
         if (initialWidth === 0) {
             console.warn("[WARNING] applyTrayZoom called before initialization. Running getInitialDimensions.");
             getInitialDimensions();
@@ -105,11 +109,16 @@
     window.initializeTrayZoom = () => {
         initialWidth = 0; 
         initialUnscaledHeight = 0; 
-        
         // Give time for pieces to render fully
         console.log("[INFO] Scheduling initial zoom calculation after 50ms delay.");
-
+        setTimeout(() => {
+            getInitialDimensions();
+            applyTrayZoom();
+        }, 50);
     };
+
+    // Expose applyTrayZoom globally for use by flowRenderer.js
+    window.applyTrayZoom = applyTrayZoom;
 
     // Attach event listeners (All listeners are correctly inside the IIFE)
     if (trayZoomIn) {
