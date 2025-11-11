@@ -1,3 +1,15 @@
+.piece-name-editable {
+    /* ...existing code... */
+    line-clamp: 2;
+}
+.piece-subtext {
+    /* ...existing code... */
+    line-clamp: 3;
+}
+.flow-piece {
+    box-sizing: border-box;
+    overflow: hidden;
+}
 /* ----------------------------------------------------------- */
 /* --- GRID SLOT & PIECE STYLES ---                          */
 /* ----------------------------------------------------------- */
@@ -22,19 +34,29 @@
 }
 
 /* --- CORE PIECE STYLE (Used for both Grid and Tray) --- */
+
+:root {
+    --piece-width: 180px;
+    --piece-height: 140px;
+}
+
 .flow-piece {
-    width: 180px;
-    height: 140px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;           /* ← stretch full width, so text-align works */
-    justify-content: flex-start;
-    padding: 8px;
-    font-weight: 900;
-    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
-    color: #1e293b;
-    cursor: grab;
+        width: 100%;
+        height: 100%;
+        min-width: var(--piece-width);
+        min-height: var(--piece-height);
+        max-width: var(--piece-width);
+        max-height: var(--piece-height);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;           /* ← stretch full width, so text-align works */
+        justify-content: flex-start;
+        padding: 8px;
+        font-weight: 900;
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+        color: #1e293b;
+        cursor: grab;
 }
 
 
@@ -58,6 +80,12 @@
     opacity: 0.95;
     cursor: grab; 
     transition: transform 0.15s;
+    width: var(--piece-width);
+    height: var(--piece-height);
+    min-width: var(--piece-width);
+    min-height: var(--piece-height);
+    max-width: var(--piece-width);
+    max-height: var(--piece-height);
 }
 
 .draggable-piece:active {
@@ -66,8 +94,12 @@
 
 /* --- Grid Piece Specific Styling (Larger size) --- */
 .grid-slot > .flow-piece {
-    width: 88%;
-    height: 120px;
+    width: var(--piece-width);
+    height: var(--piece-height);
+    min-width: var(--piece-width);
+    min-height: var(--piece-height);
+    max-width: var(--piece-width);
+    max-height: var(--piece-height);
     cursor: pointer; 
 }
 
@@ -82,6 +114,10 @@
     text-align: center;
     width: 100%;
     padding-left: 4px;
+    line-height: 1.2;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    white-space: pre-line;
 }
 
 /* --- Styles for the Automation Icon --- */
@@ -100,7 +136,7 @@
 }
 
 .piece-subtext {
-    font-size: 12px;
+    font-size: 14px;
     color: #333;
     text-align: left;
     margin-top: 4px;
@@ -108,6 +144,8 @@
     line-height: 1.3;
     word-break: break-word;
     opacity: 0.8;
-    white-space: pre-wrap; 
+    white-space: pre-line;
     font-weight: 400;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
 }
