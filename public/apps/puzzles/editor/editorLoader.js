@@ -3,12 +3,13 @@ import { parseDSL, resolveConnections } from '../dslParser/dslParser.js';
 import { createGrid, addPiece, setConnections, renderArrows, resetState } from '../flowRenderer/flowRenderer.js';
 const GRID_CONTAINER = document.getElementById('grid-container');
 const SVG = document.getElementById('flow-svg');
+
 const DSL_INPUT = document.getElementById('dsl-input');
+const LINE_NUMBERS = document.getElementById('line-numbers');
 const LOAD_BTN = document.getElementById('load-dsl');
-const CLEAR_BTN = document.getElementById('clear-flow'); // Added clear button reference
+const CLEAR_BTN = document.getElementById('clear-flow');
 const ERROR_DISPLAY = document.getElementById('error-display');
 const ERROR_LIST = document.getElementById('error-list');
-const LINE_NUMBERS = document.getElementById('line-numbers');
 const ADD_COL = document.getElementById('add-col');
 const EXPORT_JSON = document.getElementById('export-json');
 const DOWNLOAD_PROJECT = document.getElementById('download-project');
@@ -17,54 +18,17 @@ let cols = 6;
 // Initial rendering of the grid
 createGrid(GRID_CONTAINER, cols);
 
-// --- Function to Update Line Numbers ---
-function updateLineNumbers() {
-    if (!LINE_NUMBERS) {
-        console.error('LINE_NUMBERS element not found!');
-        return;
-    }
-    
+// --- Function to Render Code Rows ---
+function updateLineNumbers(errors = []) {
+    if (!LINE_NUMBERS || !DSL_INPUT) return;
     const lines = DSL_INPUT.value.split('\n');
-    
-    // Calculate exact line height from textarea
-    const computedStyle = window.getComputedStyle(DSL_INPUT);
-    const lineHeight = parseFloat(computedStyle.lineHeight);
-    const fontSize = parseFloat(computedStyle.fontSize);
-    const actualLineHeight = lineHeight || fontSize * 1.4;
-    
-    const lineNumbersHtml = lines.map((_, index) => 
-        `<div style="height: ${actualLineHeight}px; line-height: ${actualLineHeight}px;">${index + 1}</div>`
-    ).join('');
-    
-    LINE_NUMBERS.innerHTML = lineNumbersHtml;
-    console.log('Line numbers updated:', lines.length, 'lines, line height:', actualLineHeight);
+    const errorLines = new Set(errors.filter(e => e.line).map(e => e.line - 1));
+    LINE_NUMBERS.innerHTML = lines.map((_, idx) => `<div class="${errorLines.has(idx) ? 'error-line-number' : ''}">${idx + 1}</div>`).join('');
 }
 
 // --- Function to Display Visual Error Highlights ---
 function displayVisualErrors(errors) {
-    console.log('displayVisualErrors called with errors:', errors);
-    
-    // Clear previous error line numbers
-    const existingErrorLines = LINE_NUMBERS.querySelectorAll('.error-line-number');
-    existingErrorLines.forEach(el => el.classList.remove('error-line-number'));
-    
-    const visualErrors = errors.filter(err => err.type === 'positioning' || err.type === 'flow-type');
-    console.log('Visual errors:', visualErrors);
-    // Mark line numbers with errors in red
-    visualErrors.forEach(error => {
-        const lineIdx = error.line - 1;
-        console.log(`Marking line ${error.line} (index ${lineIdx}) as error`);
-        const lineNumberDivs = LINE_NUMBERS.querySelectorAll('div');
-        console.log('Total line number divs:', lineNumberDivs.length);
-        if (lineNumberDivs[lineIdx]) {
-            lineNumberDivs[lineIdx].classList.add('error-line-number');
-            lineNumberDivs[lineIdx].title = `Line ${error.line}: ${error.reason}`;
-            lineNumberDivs[lineIdx].style.color = 'red'; // Force red color as backup
-            console.log(`Applied error styling to line ${error.line}`);
-        } else {
-            console.error(`Line number div not found for line ${error.line}`);
-        }
-    });
+    updateLineNumbers(errors);
 }
 
 // --- Error Tooltip Functions ---
@@ -115,37 +79,19 @@ function displayPositioningErrors(errors) {
 // --- Core Function to Load and Render the Flow ---
 function loadAndRenderFlow() {
 
-    resetState(); // clears pieces[], connections[], and resets slots
-
+    resetState();
     const dslContent = DSL_INPUT.value;
-    
-    // FIX: Correctly destructure and pass rawFlows
     const { items, rawFlows, errors } = parseDSL(dslContent);
-    
     if (errors.length) console.warn('DSL errors', errors);
-    
-    // Display positioning errors in the UI
     displayPositioningErrors(errors);
     displayVisualErrors(errors);
-    
-    // FIX: Pass rawFlows to the connection resolver
     const { pieces, connections } = resolveConnections(items, rawFlows);
-
-    // 3. Reset and prepare canvas
     resetState();
-    
-    // Calculate required grid size
     const maxCol = Object.values(pieces).reduce((max, p) => Math.max(max, p.c), cols - 1);
     createGrid(GRID_CONTAINER, maxCol + 1);
-    
-    // 4. Add pieces to DOM
     Object.values(pieces).forEach(p => addPiece(p.r, p.c, p.type, p.name, p.line, p.text));
-    
-    // 5. Render connections (Arrows should now be visible)
     setConnections(connections);
     renderArrows(SVG);
-
-    // Ensure tray zoom is recalculated after tray content changes
     if (window.applyTrayZoom) window.applyTrayZoom();
 }
 
@@ -190,7 +136,6 @@ DSL_INPUT.addEventListener('wheel', () => {
 
 // Load the default DSL when the page first loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Set DSL content via JavaScript for complete control
     const defaultDSL = `ELEMENT: 1, Screen, "Select Espresso", 1;1
 ELEMENT: 2, Command, "Order Espresso", 1;0
 ELEMENT: 3, Event, "Espresso Ordered", 1;-1
@@ -217,17 +162,23 @@ BACK_FLOW: 7 to 4
 FLOW: 10 to 11
 FLOW: 11 to 12
 FLOW: 12 to 13`;
-
     DSL_INPUT.value = defaultDSL;
-    
-    console.log('Set DSL content via JS');
-    console.log('First char code:', defaultDSL.charCodeAt(0));
-    console.log('Lines count:', defaultDSL.split('\n').length);
-    console.log('First line:', defaultDSL.split('\n')[0]);
-    
     updateLineNumbers();
     loadAndRenderFlow();
 });
+
+// Sync line numbers on input
+if (DSL_INPUT) {
+    DSL_INPUT.addEventListener('input', () => {
+        updateLineNumbers();
+        loadAndRenderFlow();
+    });
+    DSL_INPUT.addEventListener('scroll', () => {
+        if (LINE_NUMBERS) {
+            LINE_NUMBERS.scrollTop = DSL_INPUT.scrollTop;
+        }
+    });
+}
 
 
 // small: re-render on resize
