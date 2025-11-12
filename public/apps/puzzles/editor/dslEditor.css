@@ -1,12 +1,12 @@
 /* DSL Editor Container */
-.dsl-editor-container {
+.dsl-editor-container.unified-scroll {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 100%;
+    height: 400px;
     background: #181818;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: auto;
     font-family: 'Fira Mono', 'Consolas', monospace;
     font-size: 1.1em;
     position: relative;
@@ -20,20 +20,17 @@
     color: #888;
     background: #222;
     text-align: right;
-    padding: 0.3em 0.5em 0.3em 0.2em;
+    padding: 0.15em 0.5em 0.3em 0.2em;
     user-select: none;
     border-right: 1px solid #232323;
     font-variant-numeric: tabular-nums;
-    font-size: 1.1em;
-    line-height: 1.3em;
+    font-size: 1.3em;
+    line-height: 1.4em;
     height: 100%;
-    overflow-y: auto;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    overflow: hidden;
+    position: static;
     z-index: 2;
-    pointer-events: none;
+    box-sizing: border-box;
 }
 
 /* Hide scrollbar on line numbers */
@@ -44,12 +41,10 @@
     scrollbar-width: none;
 }
 
-.line-numbers div {
-    height: 1.3em;
+.line-numbers span {
+    display: block;
+    height: 1.23em;
     line-height: 1.3em;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
     padding-right: 0.6em;
     user-select: none;
 }
@@ -66,12 +61,11 @@
     font-family: inherit;
     font-size: inherit;
     line-height: 1.3em;
-    padding: 0.3em 0.5em 0.3em 4em;
+    padding: 0.3em 0.5em 0.3em 0.2em;
     box-sizing: border-box;
-    position: relative;
+    position: static;
     z-index: 1;
-    overflow-y: auto;
-    overflow-x: auto;
+    overflow: hidden;
     white-space: pre;
     caret-color: #eee;
 }
@@ -85,24 +79,7 @@
 }
 
 /* Match expanded font size for line numbers */
-.app-layout.expanded .line-numbers {
-    font-size: 1.2rem;
-}
 
-.app-layout.expanded .line-numbers div {
-    height: 1.5em; /* Adjusted for larger font */
-    line-height: 1.5em;
-}
-
-.app-layout.expanded .dsl-input {
-    font-size: 1.2rem;
-    line-height: 1.5em;
-}
-
-.app-layout.expanded .dsl-highlight {
-    font-size: 1.2rem;
-    line-height: 1.5em;
-}
 
 /* When expanded: only the container grows taller */
 .app-layout.expanded .dsl-editor-container {

@@ -19,10 +19,9 @@
     <h1 class="text-2xl font-bold">Event Flow Builder</h1>
     <button id="toggle-sidebar" class="enlarge-btn" title="Enlarge / Shrink sidebar">⤢</button>
   </div>
-      <p class="text-sm text-slate-500">Visual editor for event modeling flows. Edit DSL & Load to see the results</p>
-    <div class="dsl-editor-container">
-      <div id="line-numbers" class="line-numbers"></div>
-      <div id="dsl-editor" contenteditable="true" spellcheck="false" class="dsl-editor"></div>
+    <div class="dsl-editor-container unified-scroll">
+      <pre id="line-numbers" class="line-numbers" aria-hidden="true"></pre>
+      <pre id="dsl-editor" contenteditable="true" spellcheck="false" class="dsl-editor"></pre>
     </div>
       <div class="button-group">
         <button id="load-dsl" class="button-load-dsl">Load DSL</button>

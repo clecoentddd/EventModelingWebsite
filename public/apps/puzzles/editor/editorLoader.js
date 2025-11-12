@@ -48,7 +48,7 @@ function updateLineNumbers(errors = []) {
     if (!LINE_NUMBERS || !DSL_EDITOR) return;
     const lines = DSL_EDITOR.textContent.split('\n');
     const errorLines = new Set(errors.filter(e => e.line).map(e => e.line - 1));
-    LINE_NUMBERS.innerHTML = lines.map((_, idx) => `<div class="${errorLines.has(idx) ? 'error-line-number' : ''}">${idx + 1}</div>`).join('');
+    LINE_NUMBERS.innerHTML = lines.map((_, idx) => `<span class=\"${errorLines.has(idx) ? 'error-line-number' : ''}\">${idx + 1}</span>`).join('');
 }
 
 function highlightDSL(text) {
@@ -220,11 +220,7 @@ if (DSL_EDITOR) {
         updateLineNumbers();
         loadAndRenderFlow();
     });
-    DSL_EDITOR.addEventListener('scroll', () => {
-        if (LINE_NUMBERS) {
-            LINE_NUMBERS.scrollTop = DSL_EDITOR.scrollTop;
-        }
-    });
+    // No scroll sync needed: both are in a single scrollable container
 }
 
 
