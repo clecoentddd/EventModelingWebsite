@@ -5,7 +5,7 @@ export const GRID_ROWS = [1, 0, -1, -2];
 const SLOT_W = 200, SLOT_H = 200;
 let pieces = {}, connections = [];
 
-const PIECE_COLORS = {
+export const PIECE_COLORS = {
     Command: '#0F9ED5',
     Event: '#FFC000',
     ReadModel: '#4EA72E',
@@ -34,6 +34,7 @@ function createPieceElement({ type, name, id, text = '', slot = null }) {
     el.dataset.name = name;
     el.dataset.pieceId = id;
     el.style.backgroundColor = PIECE_COLORS[type] || '#999';
+    el.style.color = (PIECE_COLORS[type] === '#ffffff' || PIECE_COLORS[type] === '#FFFFCC') ? 'black' : 'white';
 
     // Name node
     const nameDiv = document.createElement('div');

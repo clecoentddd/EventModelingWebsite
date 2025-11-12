@@ -1,10 +1,10 @@
 import { parseDSL, resolveConnections } from '../dslParser/dslParser.js';
 // FIX: Removed the non-existent 'resetDragAndDrop' from imports
-import { createGrid, addPiece, setConnections, renderArrows, resetState } from '../flowRenderer/flowRenderer.js';
+import { createGrid, addPiece, setConnections, renderArrows, resetState, PIECE_COLORS } from '../flowRenderer/flowRenderer.js';
 const GRID_CONTAINER = document.getElementById('grid-container');
 const SVG = document.getElementById('flow-svg');
 
-const DSL_INPUT = document.getElementById('dsl-input');
+const DSL_EDITOR = document.getElementById('dsl-editor');
 const LINE_NUMBERS = document.getElementById('line-numbers');
 const LOAD_BTN = document.getElementById('load-dsl');
 const CLEAR_BTN = document.getElementById('clear-flow');
@@ -19,11 +19,73 @@ let cols = 6;
 createGrid(GRID_CONTAINER, cols);
 
 // --- Function to Render Code Rows ---
+function saveSelection() {
+    const sel = window.getSelection();
+    if (sel.rangeCount > 0) {
+        const range = sel.getRangeAt(0);
+        return {
+            startContainer: range.startContainer,
+            startOffset: range.startOffset,
+            endContainer: range.endContainer,
+            endOffset: range.endOffset
+        };
+    }
+    return null;
+}
+
+function restoreSelection(savedSel) {
+    if (savedSel) {
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        const range = document.createRange();
+        range.setStart(savedSel.startContainer, savedSel.startOffset);
+        range.setEnd(savedSel.endContainer, savedSel.endOffset);
+        sel.addRange(range);
+    }
+}
+
 function updateLineNumbers(errors = []) {
-    if (!LINE_NUMBERS || !DSL_INPUT) return;
-    const lines = DSL_INPUT.value.split('\n');
+    if (!LINE_NUMBERS || !DSL_EDITOR) return;
+    const lines = DSL_EDITOR.textContent.split('\n');
     const errorLines = new Set(errors.filter(e => e.line).map(e => e.line - 1));
     LINE_NUMBERS.innerHTML = lines.map((_, idx) => `<div class="${errorLines.has(idx) ? 'error-line-number' : ''}">${idx + 1}</div>`).join('');
+}
+
+function highlightDSL(text) {
+    const lines = text.split('\n');
+    const textColors = {
+        Command: '#0F9ED5',      // blue
+        Event: '#FFC000',        // amber/yellow
+        ReadModel: '#4EA72E',    // green
+        Automation: '#000000',   // black text
+        SCREEN: '#000000',       // black text
+        ExternalEvent: '#FFFFCC' // light yellow
+    };
+    const highlighted = lines.map(line => {
+        if (line.trim().startsWith('ELEMENT:')) {
+            // Use regex to find and replace the type while preserving spacing
+            const match = line.match(/(ELEMENT:\s*\d+,\s*)([^,]+)(,.*)/);
+            if (match) {
+                const before = match[1];
+                const type = match[2].trim();
+                const after = match[3];
+                const color = textColors[type] || textColors[type.toUpperCase()] || '#ffffff';
+                let style = '';
+                if (type === 'Command' || type === 'Event' || type === 'ReadModel') {
+                    style = `background-color: ${color}; color: white`;
+                } else if (type === 'ExternalEvent') {
+                    style = `background-color: ${color}; color: black`;
+                } else if (type === 'Automation' || type === 'Screen' || type.toUpperCase() === 'SCREEN') {
+                    style = `background-color: white; color: black`;
+                } else {
+                    style = `color: ${color}`;
+                }
+                return before + `<span style="${style}">${type}</span>` + after;
+            }
+        }
+        return line;
+    }).join('\n');
+    return highlighted;
 }
 
 // --- Function to Display Visual Error Highlights ---
@@ -76,11 +138,9 @@ function displayPositioningErrors(errors) {
 }
 
 
-// --- Core Function to Load and Render the Flow ---
+// --- Core Function to Load and Render Flow ---
 function loadAndRenderFlow() {
-
-    resetState();
-    const dslContent = DSL_INPUT.value;
+    const dslContent = DSL_EDITOR.textContent;
     const { items, rawFlows, errors } = parseDSL(dslContent);
     if (errors.length) console.warn('DSL errors', errors);
     displayPositioningErrors(errors);
@@ -89,7 +149,7 @@ function loadAndRenderFlow() {
     resetState();
     const maxCol = Object.values(pieces).reduce((max, p) => Math.max(max, p.c), cols - 1);
     createGrid(GRID_CONTAINER, maxCol + 1);
-    Object.values(pieces).forEach(p => addPiece(p.r, p.c, p.type, p.name, p.line, p.text));
+    Object.values(pieces).forEach(p => addPiece(p.r, p.c, p.type, p.name, p.id, p.text));
     setConnections(connections);
     renderArrows(SVG);
     if (window.applyTrayZoom) window.applyTrayZoom();
@@ -97,7 +157,8 @@ function loadAndRenderFlow() {
 
 // --- Utility: Clear Flow ---
 function clearFlow() {
-    DSL_INPUT.value = '';
+    DSL_EDITOR.textContent = '';
+    DSL_EDITOR.innerHTML = '';
     resetState();
     createGrid(GRID_CONTAINER, 6);
     setConnections([]);
@@ -114,25 +175,6 @@ function clearFlow() {
 // --- Event Listeners ---
 LOAD_BTN.addEventListener('click', loadAndRenderFlow);
 CLEAR_BTN.addEventListener('click', clearFlow); // Added clear flow listener
-
-// Update line numbers when typing
-DSL_INPUT.addEventListener('input', updateLineNumbers);
-
-// Improved scroll synchronization
-DSL_INPUT.addEventListener('scroll', () => {
-    if (LINE_NUMBERS) {
-        LINE_NUMBERS.scrollTop = DSL_INPUT.scrollTop;
-    }
-}, { passive: true });
-
-// Also sync on wheel events for immediate response
-DSL_INPUT.addEventListener('wheel', () => {
-    requestAnimationFrame(() => {
-        if (LINE_NUMBERS) {
-            LINE_NUMBERS.scrollTop = DSL_INPUT.scrollTop;
-        }
-    });
-}, { passive: true });
 
 // Load the default DSL when the page first loads
 document.addEventListener('DOMContentLoaded', () => {
@@ -162,20 +204,25 @@ BACK_FLOW: 7 to 4
 FLOW: 10 to 11
 FLOW: 11 to 12
 FLOW: 12 to 13`;
-    DSL_INPUT.value = defaultDSL;
+    DSL_EDITOR.textContent = defaultDSL;
+    DSL_EDITOR.innerHTML = highlightDSL(defaultDSL);
     updateLineNumbers();
     loadAndRenderFlow();
 });
 
 // Sync line numbers on input
-if (DSL_INPUT) {
-    DSL_INPUT.addEventListener('input', () => {
+if (DSL_EDITOR) {
+    DSL_EDITOR.addEventListener('input', () => {
+        const savedSel = saveSelection();
+        const text = DSL_EDITOR.textContent;
+        DSL_EDITOR.innerHTML = highlightDSL(text);
+        restoreSelection(savedSel);
         updateLineNumbers();
         loadAndRenderFlow();
     });
-    DSL_INPUT.addEventListener('scroll', () => {
+    DSL_EDITOR.addEventListener('scroll', () => {
         if (LINE_NUMBERS) {
-            LINE_NUMBERS.scrollTop = DSL_INPUT.scrollTop;
+            LINE_NUMBERS.scrollTop = DSL_EDITOR.scrollTop;
         }
     });
 }

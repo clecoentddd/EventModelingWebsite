@@ -301,6 +301,8 @@ export function parseDSL(text) {
   let description = '';
   let level = null;
   let lastElement = null;
+  let currentTextLines = [];
+  let inTextBlock = false;
 
   console.groupCollapsed('--- DSL Parsing Start ---');
   console.log(`[Parse] Total lines: ${lines.length}`);
@@ -313,6 +315,23 @@ export function parseDSL(text) {
     if (!trimmed || trimmed.startsWith('#')) {
       // Still count as a line, but skip processing
       continue;
+    }
+
+    // Handle ongoing TEXT block
+    if (inTextBlock) {
+      if (trimmed && (trimmed.startsWith('DESCRIPTION') || trimmed.startsWith('LEVEL') || trimmed.startsWith('ELEMENT') || trimmed.startsWith('SLICE') || trimmed.startsWith('FLOW') || trimmed.startsWith('BACK_FLOW') || trimmed.startsWith('TEXT'))) {
+        // End of text block, attach to lastElement
+        if (lastElement) {
+          lastElement.text = currentTextLines.join('\n').trim();
+          console.log(`[DSL Parser] Attached TEXT to element ID=${lastElement.id}:`, lastElement.text);
+        }
+        currentTextLines = [];
+        inTextBlock = false;
+        // Fall through to process this line
+      } else {
+        currentTextLines.push(raw);
+        continue;
+      }
     }
 
     // --- DESCRIPTION ---
@@ -361,18 +380,7 @@ export function parseDSL(text) {
 
     // --- TEXT ---
     if (trimmed.startsWith('TEXT:')) {
-      const textRaw = trimmed.substring(5).trim();
-      const text = textRaw
-        .split(';')          // split by semicolon
-        .map(s => s.trim())  // trim spaces before/after
-        .join('\n');         // join with new line
-      if (lastElement) {
-        lastElement.text = text;
-        console.log(`[DSL Parser] Attached TEXT to element ID=${lastElement.id}:`, text);
-      } else {
-        errors.push({ line: lineNumber, raw, reason: 'TEXT without preceding ELEMENT' });
-        console.warn(`[DSL Parser] TEXT ignored, no previous ELEMENT`);
-      }
+      inTextBlock = true;
       continue;
     }
 
@@ -418,6 +426,12 @@ export function parseDSL(text) {
 
   validateSliceRules(slices, elements, errors);
   validateAlgorithmPositioning(elements, rawFlows, errors);
+
+  // Handle TEXT block at end of file
+  if (inTextBlock && lastElement) {
+    lastElement.text = currentTextLines.join('\n').trim();
+    console.log(`[DSL Parser] Attached final TEXT to element ID=${lastElement.id}:`, lastElement.text);
+  }
 
   console.groupEnd();
   return { items: elements, rawFlows, slices, errors, description, level };
