@@ -70,6 +70,7 @@
     overflow: hidden;
     white-space: pre;
     caret-color: #eee;
+    margin-top: 0em;
 }
 
 /* Hide scrollbar on editor */
