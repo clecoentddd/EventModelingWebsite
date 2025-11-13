@@ -14,6 +14,7 @@
 
 /* Line Numbers */
 .line-numbers {
+    margin-top: 0em;
     width: 3em;
     min-width: 3em;
     max-width: 3em;
@@ -47,12 +48,13 @@
     line-height: 1.3em;
     padding-right: 0.6em;
     user-select: none;
+    padding-top: 0px;
 }
 
 /* DSL ContentEditable Editor */
 .dsl-editor {
     width: 100%;
-    height: 100%;
+    height: fit-content;
     background: transparent;
     color: #eee;
     border: none;

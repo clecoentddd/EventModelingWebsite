@@ -213,10 +213,6 @@ FLOW: 12 to 13`;
 // Sync line numbers on input
 if (DSL_EDITOR) {
     DSL_EDITOR.addEventListener('input', () => {
-        const savedSel = saveSelection();
-        const text = DSL_EDITOR.textContent;
-        DSL_EDITOR.innerHTML = highlightDSL(text);
-        restoreSelection(savedSel);
         updateLineNumbers();
         loadAndRenderFlow();
     });
