@@ -1,15 +1,16 @@
 /* DSL Editor Container */
+/* DSL Editor Container */
 .dsl-editor-container.unified-scroll {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 400px;
     background: #181818;
     border-radius: 8px;
     overflow: auto;
     font-family: 'Fira Mono', 'Consolas', monospace;
     font-size: 1.1em;
     position: relative;
+    height: fit-content !important;
 }
 
 /* Line Numbers */
@@ -27,7 +28,7 @@
     font-variant-numeric: tabular-nums;
     font-size: 1.3em;
     line-height: 1.4em;
-    height: 100%;
+    height: fit-content;
     overflow: hidden;
     position: static;
     z-index: 2;
