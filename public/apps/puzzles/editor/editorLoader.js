@@ -190,8 +190,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Sync line numbers on input
 if (DSL_EDITOR) {
+
+    // Helper to get caret character offset within a node
+    function getCaretCharacterOffsetWithin(element) {
+        let caretOffset = 0;
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            caretOffset = preCaretRange.toString().length;
+        }
+        return caretOffset;
+    }
+
+    // Helper to set caret character offset within a node
+    function setCaretPosition(element, offset) {
+        let currentOffset = 0;
+        let found = false;
+        function traverse(node) {
+            if (found) return;
+            if (node.nodeType === 3) { // text node
+                const nextOffset = currentOffset + node.length;
+                if (offset <= nextOffset) {
+                    const sel = window.getSelection();
+                    const range = document.createRange();
+                    range.setStart(node, offset - currentOffset);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                    found = true;
+                } else {
+                    currentOffset = nextOffset;
+                }
+            } else if (node.nodeType === 1) { // element node
+                for (let i = 0; i < node.childNodes.length; i++) {
+                    traverse(node.childNodes[i]);
+                    if (found) break;
+                }
+            }
+        }
+        traverse(element);
+    }
+
     DSL_EDITOR.addEventListener('input', () => {
-        // On edit, revert to plain text for editing reliability
+        // Save caret position as character offset
+        const caretOffset = getCaretCharacterOffsetWithin(DSL_EDITOR);
+        // Get plain text
+        const text = DSL_EDITOR.innerText;
+        // Highlight keywords
+        DSL_EDITOR.innerHTML = highlightDSL(text);
+        // Restore caret position
+        setCaretPosition(DSL_EDITOR, caretOffset);
         updateLineNumbers();
         loadAndRenderFlow();
     });
