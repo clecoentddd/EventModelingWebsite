@@ -114,13 +114,22 @@ export function validateAlgorithmPositioning(elements, rawFlows, errors) {
     if (!(from && to && from.type && to.type)) return;
     const fromType = from.type.toUpperCase();
     const toType = to.type.toUpperCase();
+    // Enforce: SCREEN cannot be linked to AUTOMATION
+    if (fromType === 'SCREEN' && toType === 'AUTOMATION') {
+      errors.push({
+        line: flow.line,
+        raw: `${fromType} -> ${toType}`,
+        reason: `Invalid FLOW: SCREEN cannot be linked to AUTOMATION (from "${from.name}" to "${to.name}")`,
+        type: 'flow-type'
+      });
+      return;
+    }
     const allowed = [
       ["SCREEN", "COMMAND"],
       ["COMMAND", "EVENT"],
       ["EVENT", "READMODEL"],
       ["AUTOMATION", "COMMAND"],
       ["AUTOMATION", "EVENT"],
-      ["SCREEN", "AUTOMATION"],
       ["COMMAND", "AUTOMATION"],
       ["READMODEL", "SCREEN"], // allow readmodel to screen for view flows
       ["READMODEL", "AUTOMATION"], // allow readmodel to automation

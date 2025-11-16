@@ -1,7 +1,7 @@
 // grid-renderer.js
 // Updated to show piece.text under piece name (smaller, left-aligned, margin)
 
-export const GRID_ROWS = [1, 0, -1, -2];
+export const GRID_ROWS = [2, 1, 0, -1, -2];
 const SLOT_W = 200, SLOT_H = 200;
 let pieces = {}, connections = [];
 
