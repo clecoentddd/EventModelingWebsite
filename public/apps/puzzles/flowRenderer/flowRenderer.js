@@ -99,18 +99,20 @@ function createPieceElement({ type, name, id, text = '', slot = null }) {
 }
 
 // ---------------------- Grid ----------------------
-export function createGrid(container, cols) {
+export function createGrid(container, cols, minRow = -2, maxRow = 2, minCol = 1) {
     container.innerHTML = '';
     container.style.gridTemplateColumns = `repeat(${cols}, ${SLOT_W}px)`;
+    const rowCount = maxRow - minRow + 1;
 
-    for (let c = 1; c <= cols; c++) {
-        GRID_ROWS.forEach((r, idx) => {
+    for (let c = minCol; c < minCol + cols; c++) {
+        let idx = 0;
+        for (let r = maxRow; r >= minRow; r--, idx++) {
             const slot = document.createElement('div');
             const key = `${r}_${c}`;
             slot.id = key;
             slot.className = 'grid-slot';
             slot.style.gridRow = idx + 1;
-            slot.style.gridColumn = c;
+            slot.style.gridColumn = c - minCol + 1;
 
             slot.addEventListener('dragover', (e) => {
                 e.preventDefault();
@@ -144,7 +146,7 @@ export function createGrid(container, cols) {
             container.appendChild(slot);
 
             // Add vertical indicator only once per row (first column only)
-            if (c === 1) {
+            if (c === minCol) {
                 const rowIndicator = document.createElement('div');
                 rowIndicator.classList.add('row-indicator');
 
@@ -160,7 +162,7 @@ export function createGrid(container, cols) {
                 rowIndicator.style.gridColumn = 1;
                 container.appendChild(rowIndicator);
             }
-        });
+        }
     }
     refreshSlotHighlights();
 }

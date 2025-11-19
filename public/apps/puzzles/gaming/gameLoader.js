@@ -148,7 +148,14 @@ async function loadGame(dslFileName) {
     lastCorrectElementId = 0;
     clearAllHighlights();
 
-    Renderer.createGrid(gridContainer, gameConfig.columns);
+    // Use min/max row/col for grid sizing
+    Renderer.createGrid(
+      gridContainer,
+      gameConfig.maxCol - gameConfig.minCol + 1,
+      gameConfig.minRow,
+      gameConfig.maxRow,
+      gameConfig.minCol
+    );
     const pieceTray = document.getElementById('piece-tray');
 
     if (cachedState && cachedState.board && cachedState.tray) {
@@ -187,8 +194,18 @@ function structureGameConfig(dslContent) {
   const { items, rawFlows, errors, description, level } = DslParser.parseDSL(dslContent);
   const { connections } = DslParser.resolveConnections(items, rawFlows);
 
-  let maxColumn = 0;
-  items.forEach((item) => { if (item.c > maxColumn) maxColumn = item.c; });
+  // Compute min/max row/col for grid sizing
+  let maxColumn = 0, minColumn = Infinity, minRow = Infinity, maxRow = -Infinity;
+  items.forEach((item) => {
+    if (item.c > maxColumn) maxColumn = item.c;
+    if (item.c < minColumn) minColumn = item.c;
+    if (item.r > maxRow) maxRow = item.r;
+    if (item.r < minRow) minRow = item.r;
+  });
+  if (!isFinite(minColumn)) minColumn = 1;
+  if (!isFinite(maxColumn)) maxColumn = 1;
+  if (!isFinite(minRow)) minRow = 0;
+  if (!isFinite(maxRow)) maxRow = 0;
 
   const availablePieces = items.map((item, index) => ({
     id: `p${index}`,
@@ -208,6 +225,10 @@ function structureGameConfig(dslContent) {
 
   return {
     columns: maxColumn > 0 ? maxColumn : 1,
+    minRow,
+    maxRow,
+    minCol: minColumn,
+    maxCol: maxColumn,
     availablePieces,
     solutionConnections: connections,
     solutionMap,
