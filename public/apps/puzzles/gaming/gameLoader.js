@@ -75,15 +75,23 @@ if (window.currentGameConfig && window.currentGameConfig.description) {
       .then(dsl => {
         const { level, description } = DslParser.parseDSL(dsl);
 
-        // Color by level
-        let bgColor = '#0078ff'; // default blue
-        if (level === 2) bgColor = '#28a745'; // green
-        else if (level === 3) bgColor = '#ffc107'; // yellow
-        else if (level >= 4) bgColor = '#6f42c1'; // purple
+        // Remove any previous level class
+        card.classList.remove('level-1','level-2','level-3','level-4','level-5');
+        // Add level class for pastel background
+        if (level >= 1 && level <= 5) {
+          card.classList.add(`level-${level}`);
+        }
+        card.style.color = '#222';
+        card.title = description || '';
 
-        card.style.backgroundColor = bgColor;
-        card.style.color = 'white';
-        card.title = description || ''; // show description on hover
+        // Add a badge for the level
+        let badge = card.querySelector('.level-badge');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'level-badge';
+          card.appendChild(badge);
+        }
+        badge.textContent = `Level ${level || 1}`;
       })
       .catch(err => console.warn('[GameLoader] Failed to parse DSL for card tooltip', err));
 

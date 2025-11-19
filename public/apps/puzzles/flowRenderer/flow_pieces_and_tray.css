@@ -161,3 +161,43 @@
     box-sizing: border-box;
     overflow-wrap: break-word;
 }
+
+/* Ensure Help button icon is always blue and not crossed */
+#help-btn {
+  background: #a5d6a7 !important; /* Light green */
+  color: #222 !important;
+}
+#help-btn.active {
+  background: #66bb6a !important; /* Slightly darker green when active */
+}
+
+/*
+Level color classes (pastel, distinct from card colors)
+*/
+.level-1 {
+  background: #b3e5fc !important; /* pastel blue */
+}
+.level-2 {
+  background: #ffe082 !important; /* pastel yellow */
+}
+.level-3 {
+  background: #d1c4e9 !important; /* pastel purple */
+}
+.level-4 {
+  background: #ffccbc !important; /* pastel orange */
+}
+.level-5 {
+  background: #c8e6c9 !important; /* pastel green */
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 0.2em 0.7em;
+  border-radius: 1em;
+  font-size: 0.95em;
+  font-weight: bold;
+  margin-left: 0.5em;
+  color: #333;
+  background: rgba(255,255,255,0.5);
+  border: 1.5px solid #bbb;
+}
