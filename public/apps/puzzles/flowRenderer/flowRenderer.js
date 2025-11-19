@@ -109,6 +109,7 @@ export function createGrid(container, cols, minRow = -2, maxRow = 2, minCol = 1)
 
     console.log('[Grid] createGrid called with minRow:', minRow, 'maxRow:', maxRow, 'minCol:', minCol, 'cols:', cols);
 
+
     for (let c = minCol; c < minCol + cols; c++) {
         let idx = 0;
         for (let r = maxRow; r >= minRow; r--, idx++) {

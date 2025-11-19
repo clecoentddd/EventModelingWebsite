@@ -1,3 +1,20 @@
+/* Row indicator for colored lines on the left of the grid */
+.row-indicator {
+  width: 22px;
+  height: var(--piece-height);
+  margin: auto 16px auto -18px;
+  display: flex;
+  align-items: center;
+  border-radius: 0px;
+  box-shadow: 0 2px 12px 2px rgba(0,0,0,0.10);
+  z-index: 10;
+  position: relative;
+  display: block;
+  grid-column: 1;
+  /* grid-row is set inline by JS */
+  pointer-events: none;
+  background: transparent;
+}
 .misplaced-piece {
     border: 3px solid #e53935 !important;
     box-shadow: 0 0 0 2px #e53935, 0 4px 10px rgba(15, 23, 42, 0.1);
@@ -136,16 +153,16 @@
 }
 
 .flow-piece .Automation-icon {
-    position: absolute;
-    top: -18px;
-    left: -18px;
-    width: 38px;
-    height: 38px;
-    z-index: 3;
-    pointer-events: none;
+  position: absolute;
+  top: -18px;
+  left: -18px;
+  width: 38px;
+  height: 38px;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px 2px rgba(0,0,0,0.10);
 }
-
-
 
 .piece-subtext {
     font-size: 12px;
