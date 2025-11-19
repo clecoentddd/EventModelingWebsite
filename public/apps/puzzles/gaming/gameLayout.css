@@ -1,3 +1,80 @@
+.piece-header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.2em;
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+.piece-header-title {
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #222;
+    white-space: nowrap;
+    max-width: 10em;
+    flex: 0 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Piece tray header row: title and description on same line */
+.piece-header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5em;
+    width: 100%;
+    margin-bottom: 0.5em;
+    justify-content: flex-start;
+}
+
+.piece-header-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #222;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+.game-description {
+    color: #555;
+    font-size: 1.05em;
+    font-weight: 400;
+    white-space: nowrap;
+    margin-left: 0.7em;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.puzzle-controls-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5em;
+    width: 100%;
+    margin-left: 0.5em;
+}
+
+.puzzle-controls-title {
+    margin: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.puzzle-controls-howto {
+    font-weight: 400;
+    font-size: 1em;
+    color: #444;
+    line-height: 1.4;
+    white-space: nowrap;
+
+}
 /* ==================================== */
 /* 1. Global/Base Reset                 */
 /* ==================================== */

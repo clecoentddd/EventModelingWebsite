@@ -23,30 +23,31 @@
         <a href="/" class="home-link">
             <img src="/favicon.png" alt="Accueil" class="home-logo">
         </a>
-        <h3 class="controls-title">Select Puzzle</h3>
+        <div class="puzzle-controls-row">
+            <h3 class="controls-title puzzle-controls-title">Select Puzzle</h3>
+            <div class="how-to-play puzzle-controls-howto">
+                How to play: <span>Start with <b>Events (orange)</b>, then add <b>Screens</b> and <b>Automation</b>, then <b>Commands (blue)</b> and <b>Readmodels (green)</b> to complete the flow.</span>
+            </div>
+        </div>
     </div>
 
     <div id="game-cards" class="game-cards" role="list"></div>
-
-    <div class="hint-container">
-        <span class="hint-icon">?</span>
-        <span class="hint-text">
-            Start with Events, then customer journey: UI/Screens/Automation.
-            Arrows will appear when two connected pieces are correctly placed.
-        </span>
-    </div>
 </header>
 
 
 <div id="app" class="app-layout">
     <main class="main-content">
         <section id="piece-tray" class="piece-tray-styles">
-            <h2>Available Pieces</h2>
+            <div class="piece-header-row">
+                <h2 class="piece-header-title">Available Pieces</h2>
+                <div id="game-description" class="game-description"></div>
+            </div>
             <div id="tray-canvas" class="tray-canvas-wrapper">
                 <div class="zoom-controls" id="tray-zoom-controls">
                     <button id="tray-zoom-out">−</button>
                     <button id="tray-zoom-reset">⟳</button>
                     <button id="tray-zoom-in">+</button>
+                    <button id="bin-btn" title="Clear this game's progress" style="font-size:1.2em;padding:0 0.6em;">🗑️</button>
                 </div>
                 <div id="tray-inner"></div>
             </div>
@@ -75,13 +76,11 @@
 <script src="./tray-zoom.js"></script>
 
 <script>
-(() => {
+(function() {
     const flowInner = document.getElementById('flow-inner');
     const zoomIn = document.getElementById('zoom-in');
     const zoomOut = document.getElementById('zoom-out');
     const zoomReset = document.getElementById('zoom-reset');
-    
-    // Duplicated variables removed - use constants defined here
     const minZoom = 0.5;
     const maxZoom = 2.0;
     const step = 0.1;
@@ -106,7 +105,6 @@
         applyZoom();
     });
 
-    // Optional: wheel zoom on Ctrl + scroll only inside flow-area
     document.getElementById('flow-area').addEventListener('wheel', (e) => {
         if (!e.ctrlKey) return;
         e.preventDefault();
@@ -114,8 +112,15 @@
         zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
         applyZoom();
     }, { passive: false });
-    
-    // Initial application of zoom level
+
+    // Bin button logic
+    const binBtn = document.getElementById('bin-btn');
+    binBtn?.addEventListener('click', () => {
+        if (typeof window.resetCurrentGameBoard === 'function') {
+            window.resetCurrentGameBoard();
+        }
+    });
+
     applyZoom();
 })();
 </script>

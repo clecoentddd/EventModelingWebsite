@@ -1,3 +1,16 @@
+// Expose a global reset function for the Bin button
+window.resetCurrentGameBoard = function() {
+  if (window.currentPuzzleFileName) {
+    console.log('[BIN] Clearing localStorage for', window.currentPuzzleFileName);
+    localStorage.removeItem('puzzleState:' + window.currentPuzzleFileName);
+    if (typeof loadGame === 'function') {
+      console.log('[BIN] Calling loadGame for', window.currentPuzzleFileName);
+      loadGame(window.currentPuzzleFileName);
+    }
+  } else {
+    alert('No game selected.');
+  }
+};
 // public/apps/puzzles/js/gameLoader.js - CARD SELECTOR VERSION
 
 import * as Renderer from '../flowRenderer/flowRenderer.js';
@@ -12,6 +25,7 @@ const gameInfo = document.getElementById('game-info');
 window.currentGameConfig = null;
 let lastCorrectElementId = 0;
 let currentPuzzleDSL = '';
+window.currentPuzzleFileName = '';
 
 // ------------------- UTILS -------------------
 function shuffleArray(array) {
@@ -91,8 +105,13 @@ function isTestMode() {
 }
 
 async function loadGame(dslFileName) {
+  window.currentPuzzleFileName = dslFileName;
   if (!dslFileName) return;
   console.log(`[GameLoader] Attempting to load DSL: ${dslFileName}`);
+
+  // Clear previous description
+  const descElem = document.getElementById('game-description');
+  if (descElem) descElem.textContent = '';
 
   try {
     const dslPath = `../games/${dslFileName}`;
@@ -110,19 +129,40 @@ async function loadGame(dslFileName) {
     }
 
     window.currentGameConfig = gameConfig;
+    // Set game description if available
+    if (descElem && gameConfig.description) {
+      descElem.textContent = gameConfig.description;
+    }
     console.log(
       `[GameLoader] Game config loaded successfully. Columns: ${gameConfig.columns}, Pieces: ${gameConfig.availablePieces.length}`
     );
+
+    // --- Restore state from cache if available ---
+  let cached = localStorage.getItem('puzzleState:' + dslFileName);
+    let cachedState = null;
+    if (cached) {
+      try { cachedState = JSON.parse(cached); } catch (e) { cachedState = null; }
+    }
 
     Renderer.resetState();
     lastCorrectElementId = 0;
     clearAllHighlights();
 
     Renderer.createGrid(gridContainer, gameConfig.columns);
-
     const pieceTray = document.getElementById('piece-tray');
-    const shuffledPieces = shuffleArray([...gameConfig.availablePieces]);
-    Renderer.renderAvailablePieces(pieceTray, shuffledPieces);
+
+    if (cachedState && cachedState.board && cachedState.tray) {
+      // Restore board
+      Object.values(cachedState.board).forEach(p => {
+        Renderer.addPiece(p.r, p.c, p.type, p.name, p.id, p.text);
+      });
+      // Restore tray
+      Renderer.renderAvailablePieces(pieceTray, cachedState.tray);
+    } else {
+      // Default: shuffled tray, empty board
+      const shuffledPieces = shuffleArray([...gameConfig.availablePieces]);
+      Renderer.renderAvailablePieces(pieceTray, shuffledPieces);
+    }
 
     if (isTestMode()) {
       Renderer.setConnections(gameConfig.solutionConnections);
@@ -188,6 +228,24 @@ function structureGameConfig(dslContent) {
 
 // ------------------- STATE CHECK -------------------
 window.checkPuzzleState = function () {
+    // --- Save state to cache on every move ---
+    if (window.currentGameConfig && currentPuzzleFileName) {
+      // Get board state
+      const board = Renderer.getPieces ? Renderer.getPieces() : {};
+      // Get tray state
+      const trayInner = document.getElementById('tray-inner');
+      let tray = [];
+      if (trayInner) {
+        tray = Array.from(trayInner.children).map(el => ({
+          id: el.dataset.pieceId,
+          type: el.dataset.type,
+          name: el.dataset.name,
+          text: el.querySelector('.piece-subtext')?.textContent || ''
+        }));
+      }
+      // Save to localStorage
+      localStorage.setItem('puzzleState:' + currentPuzzleFileName, JSON.stringify({ board, tray }));
+    }
     const currentPieces = Renderer.getPieces();
     if (!window.currentGameConfig) return;
 
