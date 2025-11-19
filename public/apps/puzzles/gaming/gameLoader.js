@@ -166,6 +166,7 @@ async function loadGame(dslFileName) {
     );
     const pieceTray = document.getElementById('piece-tray');
 
+    let restoredArrows = false;
     if (cachedState && cachedState.board && cachedState.tray) {
       // Restore board
       Object.values(cachedState.board).forEach(p => {
@@ -173,6 +174,35 @@ async function loadGame(dslFileName) {
       });
       // Restore tray
       Renderer.renderAvailablePieces(pieceTray, cachedState.tray);
+      // Recompute arrows/connections for restored board using DSL rules
+      setTimeout(() => {
+        const currentPieces = Renderer.getPieces();
+        const solutionMap = gameConfig.solutionMap;
+        const rawFlows = gameConfig.rawFlows;
+        const itemsForParser = [];
+        for (const key in solutionMap) {
+          const requiredPiece = solutionMap[key];
+          const placedPiece = currentPieces[key];
+          if (placedPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
+            const [r, c] = key.split('_').map(Number);
+            itemsForParser.push({
+              id: requiredPiece.dslId,
+              type: placedPiece.type,
+              name: placedPiece.name,
+              c,
+              r,
+              conn: null,
+            });
+          }
+        }
+        console.log('[Restore] itemsForParser:', itemsForParser);
+        console.log('[Restore] rawFlows:', rawFlows);
+        const resolvedConnections = DslParser.resolveConnections(itemsForParser, rawFlows);
+        console.log('[Restore] resolvedConnections:', resolvedConnections);
+        Renderer.setConnections(resolvedConnections.connections);
+        const svgElement = document.getElementById('flow-svg');
+        if (svgElement) Renderer.renderArrows(svgElement);
+      }, 0);
     } else {
       // Default: shuffled tray, empty board
       const shuffledPieces = shuffleArray([...gameConfig.availablePieces]);
@@ -181,7 +211,7 @@ async function loadGame(dslFileName) {
 
     if (isTestMode()) {
       Renderer.setConnections(gameConfig.solutionConnections);
-    } else {
+    } else if (!restoredArrows) {
       Renderer.setConnections([]);
     }
 
@@ -272,8 +302,10 @@ window.checkPuzzleState = function () {
           text: el.querySelector('.piece-subtext')?.textContent || ''
         }));
       }
+      // Get arrows/connections
+      const arrows = Renderer.getConnections ? Renderer.getConnections() : [];
       // Save to localStorage
-      localStorage.setItem('puzzleState:' + currentPuzzleFileName, JSON.stringify({ board, tray }));
+      localStorage.setItem('puzzleState:' + currentPuzzleFileName, JSON.stringify({ board, tray, arrows }));
     }
     const currentPieces = Renderer.getPieces();
     if (!window.currentGameConfig) return;

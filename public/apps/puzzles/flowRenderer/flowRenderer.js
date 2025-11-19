@@ -294,6 +294,10 @@ function setupDragListeners() {
 // ---------------------- Connections / Arrows ----------------------
 export function setConnections(conns) { connections = conns; }
 
+export function getConnections() {
+    return connections;
+}
+
 function getAnchorFromDOM(r, c, segment, svgEl) {
     const key = `${r}_${c}`;
     const slot = document.getElementById(key);
