@@ -103,6 +103,11 @@ export function createGrid(container, cols, minRow = -2, maxRow = 2, minCol = 1)
     container.innerHTML = '';
     container.style.gridTemplateColumns = `repeat(${cols}, ${SLOT_W}px)`;
     const rowCount = maxRow - minRow + 1;
+    // Remove any margin/offset
+    container.style.marginTop = '0px';
+    container.style.marginLeft = '0px';
+
+    console.log('[Grid] createGrid called with minRow:', minRow, 'maxRow:', maxRow, 'minCol:', minCol, 'cols:', cols);
 
     for (let c = minCol; c < minCol + cols; c++) {
         let idx = 0;
@@ -111,8 +116,12 @@ export function createGrid(container, cols, minRow = -2, maxRow = 2, minCol = 1)
             const key = `${r}_${c}`;
             slot.id = key;
             slot.className = 'grid-slot';
-            slot.style.gridRow = idx + 1;
-            slot.style.gridColumn = c - minCol + 1;
+            // Place logical (maxRow, minCol) at grid (1,1)
+            slot.style.gridRow = (maxRow - r + 1);
+            slot.style.gridColumn = (c - minCol + 1);
+            if (r === maxRow && c === minCol) {
+                console.log('[Grid] Top-left slot:', key, 'placed at gridRow 1, gridColumn 1');
+            }
 
             slot.addEventListener('dragover', (e) => {
                 e.preventDefault();

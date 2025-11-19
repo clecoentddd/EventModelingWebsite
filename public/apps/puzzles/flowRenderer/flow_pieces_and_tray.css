@@ -201,3 +201,30 @@ Level color classes (pastel, distinct from card colors)
   background: rgba(255,255,255,0.5);
   border: 1.5px solid #bbb;
 }
+
+/* Ensure grid is always anchored top-left in its parent */
+#flow-canvas, .flow-canvas-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+#flow-inner {
+  display: block;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform-origin: top left !important;
+}
+#grid-container {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Ensure flow-inner scales from top-left and parent scrolls */
+#flow-canvas, .flow-canvas-wrapper {
+  overflow: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
