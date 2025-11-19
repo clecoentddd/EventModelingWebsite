@@ -1,4 +1,4 @@
-DESCRIPTION: "Rupture de stock d'articles que le client a déjà mis dans son panier"
+DESCRIPTION: "Rupture de stock d'articles: le client sélectioone un article dans son panier - c'est ajouté (le métier nous rappelle qu'il faudra gérer les adresses d'expédition). La rupture de stock arrive ensuite."
 LEVEL: 3
 
 ELEMENT: 1, Screen, "Sélectionner article et quantité", 1;1

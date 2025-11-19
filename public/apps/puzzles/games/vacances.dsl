@@ -1,4 +1,4 @@
-DESCRIPTION: "Prendre des vacances"
+DESCRIPTION: "Prendre des vacances : la finalité est de produire un rapport RH des vacances prises par les employé(e)"
 LEVEL: 2
 
 ELEMENT: 1, Screen, "Vacances 2025", 1;1

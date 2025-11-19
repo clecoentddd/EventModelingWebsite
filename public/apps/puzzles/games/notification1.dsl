@@ -1,4 +1,4 @@
-DESCRIPTION: "How to handle a notification using an external API: we make it implicit here"
+DESCRIPTION: "How to handle a email notification using an external API: we make it implicit here as we do not map the action of sending an email by another system."
 LEVEL: 2
 
 ELEMENT: 1, Screen, "Confirm your Email toto@zozo.com", 1;1
