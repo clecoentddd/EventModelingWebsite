@@ -340,5 +340,56 @@ window.checkPuzzleState = function () {
 
 // ------------------- INIT -------------------
 document.addEventListener('DOMContentLoaded', () => {
+  // --- HELP BUTTON LOGIC ---
+  const helpBtn = document.getElementById('help-btn');
+  let helpActive = false;
+  function clearMisplacedHighlights() {
+    document.querySelectorAll('.flow-piece.misplaced-piece').forEach(el => el.classList.remove('misplaced-piece'));
+  }
+  function highlightMisplacedCards() {
+    if (!window.currentGameConfig) return;
+    const board = Renderer.getPieces ? Renderer.getPieces() : {};
+    const solutionMap = window.currentGameConfig.solutionMap;
+    for (const key in board) {
+      const placed = board[key];
+      const required = solutionMap[key];
+      const slot = document.getElementById(key);
+      if (!slot) continue;
+      const pieceEl = slot.querySelector('.flow-piece');
+      if (!pieceEl) continue;
+      // Highlight if type or name does not match
+      if (!required || placed.type !== required.type || placed.name !== required.name) {
+        pieceEl.classList.add('misplaced-piece');
+      } else {
+        pieceEl.classList.remove('misplaced-piece');
+      }
+    }
+  }
+  if (helpBtn) {
+    helpBtn.addEventListener('click', () => {
+      helpActive = !helpActive;
+      if (helpActive) {
+        highlightMisplacedCards();
+        helpBtn.classList.add('active');
+      } else {
+        clearMisplacedHighlights();
+        helpBtn.classList.remove('active');
+      }
+    });
+    helpBtn.addEventListener('mouseleave', () => {
+      if (helpActive) {
+        clearMisplacedHighlights();
+        helpBtn.classList.remove('active');
+        helpActive = false;
+      }
+    });
+  }
+  // Clear highlights on board change or new game
+  const origCheckPuzzleState = window.checkPuzzleState;
+  window.checkPuzzleState = function(...args) {
+    if (helpActive) highlightMisplacedCards();
+    else clearMisplacedHighlights();
+    return origCheckPuzzleState.apply(this, args);
+  };
   renderGameCards();
 });

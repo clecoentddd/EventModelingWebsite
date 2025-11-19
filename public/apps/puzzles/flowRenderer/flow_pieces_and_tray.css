@@ -1,3 +1,7 @@
+.misplaced-piece {
+    border: 3px solid #e53935 !important;
+    box-shadow: 0 0 0 2px #e53935, 0 4px 10px rgba(15, 23, 42, 0.1);
+}
 .piece-name-editable {
     /* ...existing code... */
     line-clamp: 2;
