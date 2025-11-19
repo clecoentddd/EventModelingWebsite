@@ -48,7 +48,7 @@
     display: flex;
     gap: 6px;
     z-index: 100; /* High Z-index to ensure visibility */
-    margin-top: -30px
+    margin-top: -55px
 }
 
 .zoom-controls button,

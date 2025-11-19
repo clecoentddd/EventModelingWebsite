@@ -39,18 +39,17 @@
     <main class="main-content">
         <section id="piece-tray" class="piece-tray-styles">
             <div class="piece-header-row">
-                <h2 class="piece-header-title">Available Pieces</h2>
-                <div id="game-description" class="game-description"></div>
+                <h2 class="piece-header-title"><span id="available-pieces-label" style="font-weight: bold;">Available Pieces:</span> <span id="game-description" style="font-weight: normal;"></span></h2>
             </div>
             <div id="tray-canvas" class="tray-canvas-wrapper">
-                <div class="zoom-controls" id="tray-zoom-controls">
-                                        <button id="tray-zoom-out">−</button>
-                                        <button id="tray-zoom-reset">⟳</button>
-                                        <button id="tray-zoom-in">+</button>
-                                        <button id="help-btn" title="Show misplaced cards" style="font-size:1.2em;padding:0 0.6em;color:#222;border-radius:6px;border:none;display:flex;align-items:center;gap:0.3em;">
-                                            Help
-                                        </button>
-                                        <button id="bin-btn" title="Clear this game's progress" style="font-size:1.2em;padding:0 0.6em;">🗑️</button>
+                <div class="tray-controls-wrapper" style="position: relative; top: -15px;">
+                    <div class="zoom-controls" id="tray-zoom-controls">
+                        <button id="tray-zoom-out">−</button>
+                        <button id="tray-zoom-reset">⟳</button>
+                        <button id="tray-zoom-in">+</button>
+                        <button id="help-btn" title="Show misplaced cards">Help</button>
+                        <button id="bin-btn" title="Clear this game's progress">🗑️</button>
+                    </div>
                 </div>
                 <div id="tray-inner"></div>
             </div>
