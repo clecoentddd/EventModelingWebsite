@@ -7,55 +7,68 @@
     --slot-h: 200px; 
 }
 
+/* Make flow-canvas horizontally scrollable */
 #flow-canvas {
     height: 900px;
     background: linear-gradient(180deg, #fff, #fbfbfd);
-    padding: 0; 
-    overflow: auto; 
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: auto;
+    -ms-overflow-style: auto;
+    scrollbar-width: auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* Show scrollbars for usability */
 #flow-canvas::-webkit-scrollbar {
-    display: none;
+    display: block;
 }
 
 #flow-inner {
     position: relative;
-    width: max-content; 
+    width: max-content;
+    min-width: 100%;
     height: max-content;
-    /* Increased left padding to push the entire grid and indicators to the right */
-    padding: 40px 16px 16px 0px; /* <--- Increased 20px to 35px */
+    padding: 40px 16px 16px 0px;
+    box-sizing: border-box;
 }
 
 /* ----------------------------------------------------------- */
 /* --- GRID & SVG Positioning (Absolute Overlay) ---           */
 /* ----------------------------------------------------------- */
 
+#flow-content {
+    position: relative;
+    width: max-content;
+    height: max-content;
+    min-height: 100%;
+}
+
 #grid-container {
     display: grid;
     grid-auto-flow: column;
-
-    /* Make columns same as rows */
-    grid-auto-columns: var(--slot-h); /* <-- use slot height instead of width */
+    grid-auto-columns: var(--slot-h);
     grid-template-rows: repeat(4, var(--slot-h));
-
     gap: 14px;
     position: absolute;
     top: 5px;
     left: 0px;
-
-    /* Ensure pieces fill the grid cell */
+    width: 100%;
+    height: 100%;
     justify-items: stretch;
     align-items: stretch;
+    z-index: 1;
 }
-
 
 #flow-svg {
     position: absolute;
     top: 0;
     left: 0;
-    pointer-events: none; 
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
 }
 
 /* Flow Area Styles (Structural Container) */

@@ -8,7 +8,7 @@
 }
 .flow-piece {
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: visible;
 }
 /* ----------------------------------------------------------- */
 /* --- GRID SLOT & PIECE STYLES ---                          */
@@ -23,6 +23,7 @@
     justify-content: center;
     padding: 12px;
     background: #fff;
+    overflow: visible;
 }
 
 .row-label {
@@ -125,18 +126,25 @@
     justify-content: space-between; 
 }
 
-.flow-piece.draggable-piece.piece-Automation .Automation-icon {
-    width: 50px; 
-    height: 50px; 
+
+.flow-piece.piece-Automation {
+    position: relative;
 }
 
-.grid-slot > .flow-piece.piece-Automation .Automation-icon {
-    width: 70px; 
-    height: 70px; 
+.flow-piece .Automation-icon {
+    position: absolute;
+    top: -18px;
+    left: -18px;
+    width: 38px;
+    height: 38px;
+    z-index: 3;
+    pointer-events: none;
 }
+
+
 
 .piece-subtext {
-    font-size: 14px;
+    font-size: 12px;
     color: #333;
     text-align: left;
     margin-top: 4px;

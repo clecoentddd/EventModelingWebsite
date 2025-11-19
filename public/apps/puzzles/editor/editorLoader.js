@@ -1,5 +1,13 @@
+// (Clear button logic removed)
 // Ensure initial DSL loads on page load
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Flow Renderer Mouse Wheel Zoom ---
+    let zoomLevel = 1;
+    const MIN_ZOOM = 0.2;
+    const MAX_ZOOM = 2.5;
+    const ZOOM_STEP = 0.1;
+    const flowCanvas = document.querySelector('#flow-canvas');
+    // Zoom feature removed; no mouse wheel zoom applied
     fetch('example.dsl')
         .then(response => response.text())
         .then(exampleDSL => {
@@ -16,7 +24,7 @@ const SVG = document.getElementById('flow-svg');
 const DSL_EDITOR = document.getElementById('dsl-editor');
 const LINE_NUMBERS = document.getElementById('line-numbers');
 const LOAD_BTN = document.getElementById('load-dsl');
-const CLEAR_BTN = document.getElementById('clear-flow');
+// (CLEAR_BTN removed)
 const ERROR_DISPLAY = document.getElementById('error-display');
 const ERROR_LIST = document.getElementById('error-list');
 const ADD_COL = document.getElementById('add-col');

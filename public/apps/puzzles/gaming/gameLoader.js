@@ -196,34 +196,30 @@ window.checkPuzzleState = function () {
 
     console.log('--- checkPuzzleState START ---');
 
-    // 1. Determine which pieces are correctly placed
-    const itemsForParser = [];
-    const placedDslIds = new Set();
-    
-    // LOG: Check how many pieces are considered correctly placed
-    console.log(`[GameLoader:State] Checking ${Object.keys(currentPieces).length} placed pieces.`);
-    let correctPieceCount = 0;
-
-    for (const key in solutionMap) {
-        const requiredPiece = solutionMap[key];
-        const placedPiece = currentPieces[key];
-
-        if (placedPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
-            placedDslIds.add(requiredPiece.dslId);
-            correctPieceCount++; // INCREMENT LOG
-
-            const [r, c] = key.split('_').map(Number);
-            itemsForParser.push({
-                id: requiredPiece.dslId,
-                type: placedPiece.type,
-                name: placedPiece.name,
-                c,
-                r,
-                conn: null,
-            });
-        }
+  // 1. Determine which pieces are correctly placed
+  const itemsForParser = [];
+  const placedDslIds = new Set();
+  let correctPieceCount = 0;
+  let totalPieceCount = 0;
+  for (const key in solutionMap) {
+    const requiredPiece = solutionMap[key];
+    const placedPiece = currentPieces[key];
+    if (placedPiece) totalPieceCount++;
+    if (placedPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
+      placedDslIds.add(requiredPiece.dslId);
+      correctPieceCount++;
+      const [r, c] = key.split('_').map(Number);
+      itemsForParser.push({
+        id: requiredPiece.dslId,
+        type: placedPiece.type,
+        name: placedPiece.name,
+        c,
+        r,
+        conn: null,
+      });
     }
-    console.log(`[GameLoader:State] Found ${correctPieceCount} correctly placed pieces.`); // LOG
+  }
+  console.log(`[GameLoader:State] Found ${correctPieceCount} correctly placed pieces out of ${Object.keys(solutionMap).length}.`);
 
     // 2. Resolve connections (including dashed/back-flows)
     const resolvedConnections = DslParser.resolveConnections(itemsForParser, rawFlows);
@@ -252,15 +248,10 @@ window.checkPuzzleState = function () {
     const allDslIds = Object.values(solutionMap).map(p => p.dslId).sort((a, b) => a - b);
     const missingDslIds = allDslIds.filter(id => !placedDslIds.has(id));
 
-    if (missingDslIds.length > 0) {
-        // highlight first missing piece
-        highlightNextSlot(window.currentGameConfig.dslContent, missingDslIds[0]);
-    } else {
-        // all pieces placed
+    if (correctPieceCount === Object.keys(solutionMap).length) {
+        // All pieces are correctly placed: WIN!
         clearAllHighlights();
         console.log('PUZZLE SOLVED! 🎉');
-       console.log('PUZZLE SOLVED! 🎉');
-
         setTimeout(() => {
           const div = document.createElement('div');
           div.innerHTML = `
@@ -272,12 +263,17 @@ window.checkPuzzleState = function () {
             </div>
           `;
           document.body.appendChild(div);
-
           document.getElementById('ok-btn').addEventListener('click', () => {
             div.remove();
           });
         }, 100);
-
+    } else if (missingDslIds.length > 0) {
+        // highlight first missing piece
+        highlightNextSlot(window.currentGameConfig.dslContent, missingDslIds[0]);
+    } else {
+        // All slots are filled but not correct: allow continued play, no popup
+        clearAllHighlights();
+        console.log('All slots filled, but not correct. Keep trying!');
     }
 
     console.log('--- checkPuzzleState END ---');
