@@ -263,11 +263,27 @@ export function renderAvailablePieces(container, piecesList) {
         trayInner.dataset.listenersSetup = 'true';
     }
 
+
     piecesList.forEach(p => {
         // Pass the p.text if present; otherwise empty string
         console.log(`[Renderer] Creating piece: id=${p.id}, type=${p.type}, name="${p.name}", text="${p.text || ''}"`);
         const el = createPieceElement({ type: p.type, name: p.name, id: p.id, text: p.text || '' });
         trayInner.appendChild(el);
+        // --- Zoom on hover after 0.5s ---
+        let zoomTimeout = null;
+        el.addEventListener('mouseenter', () => {
+            zoomTimeout = setTimeout(() => {
+                el.classList.add('tray-zoom-hover');
+            }, 500);
+        });
+        el.addEventListener('mouseleave', () => {
+            clearTimeout(zoomTimeout);
+            el.classList.remove('tray-zoom-hover');
+        });
+        el.addEventListener('dragstart', () => {
+            clearTimeout(zoomTimeout);
+            el.classList.remove('tray-zoom-hover');
+        });
     });
 
     // Force tray zoom recalculation after DOM and layout updates

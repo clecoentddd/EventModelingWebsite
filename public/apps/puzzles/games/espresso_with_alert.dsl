@@ -1,4 +1,4 @@
-DESCRIPTION: "Make an espresso: once the espresso is prepared, an alert is raised signaling no more coffeee left in the coffe grinder. That signal needs translating into an event in your system. NB: you just have an event to remind you to model later the case on the espresson maker failing."
+DESCRIPTION: "Make an espresso: once the espresso is prepared, an alert is raised signaling no more coffeee left in the coffe grinder. That signal needs translating into an event in your system. NB: There is an event to remind you to later model the case on the espresso maker failing."
 LEVEL: 2
 
 ELEMENT: 1, Screen, "Select Espresso", 1;1

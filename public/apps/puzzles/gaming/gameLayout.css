@@ -1,12 +1,13 @@
 /* Ensure game description wraps and stays within tray */
 #game-description {
     display: inline-block;
-    max-width: 40vw;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: 60vw;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
     vertical-align: middle;
     cursor: pointer;
+    word-break: break-word;
 }
 /* Piece tray header row: title and description on same line */
 .piece-header-row {

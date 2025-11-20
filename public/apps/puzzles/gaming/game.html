@@ -25,18 +25,19 @@
         <a href="/" class="home-link">
             <img src="/favicon.png" alt="Accueil" class="home-logo">
         </a>
-        <div class="puzzle-controls-row">
-            <h3 class="controls-title puzzle-controls-title">Select Puzzle</h3>
-            <div class="how-to-play puzzle-controls-howto">
-                How to play: <span>Start with <b>Events (orange)</b>, then add <b>Screens</b> and <b>Automation</b>, then <b>Commands (blue)</b> and <b>Readmodels (green)</b> to complete the flow.</span>
+        <div style="display: flex; flex-direction: column; gap: 0.2em; width: 100%;">
+                    <div class="puzzle-controls-row" style="flex-direction: row; align-items: center; gap: 0.7em; margin-bottom: 0.2em; margin-left: 2.2em;">
+                        <span style="font-weight: bold; font-size: 1.13em; color: #222;">Puzzle:</span>
+                        <span style="font-size: 1em; color: #444; font-weight: 400;">
+                            Start with <b style="color: orange;">Events (orange)</b>, then add <b>Screens</b> and <b>Automation</b>, then <b style="color: #0F9ED5;">Commands (blue)</b> and <b style="color: #388e3c;">Readmodels (green)</b> to complete the flow.
+                        </span>
+                    </div>
+            <div class="game-cards-dropdown-row" style="margin-left:2.2em;">
+                <label for="custom-game-dropdown" style="font-weight:600;margin-right:0.5em;">Games</label>
+                <div id="custom-game-dropdown" class="custom-dropdown" tabindex="0"></div>
             </div>
         </div>
     </div>
-
-        <div class="game-cards-dropdown-row">
-            <label for="custom-game-dropdown" style="font-weight:600;margin-right:0.5em;">Choose Puzzle:</label>
-            <div id="custom-game-dropdown" class="custom-dropdown" tabindex="0"></div>
-        </div>
 </header>
 
 
@@ -44,7 +45,7 @@
     <main class="main-content">
         <section id="piece-tray" class="piece-tray-styles">
             <div class="piece-header-row">
-                <h2 class="piece-header-title"><span id="available-pieces-label" style="font-weight: bold;">Available Pieces:</span> <span id="game-description" style="font-weight: normal;"></span></h2>
+                <h2 class="piece-header-title"><span id="available-pieces-label" style="font-weight: bold;">The Game is : </span> <span id="game-description" style="font-weight: normal;"></span></h2>
             </div>
             <div id="tray-canvas" class="tray-canvas-wrapper">
                 <div class="tray-controls-wrapper" style="position: relative; top: -15px;">
