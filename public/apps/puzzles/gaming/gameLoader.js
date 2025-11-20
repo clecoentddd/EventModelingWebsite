@@ -86,6 +86,10 @@ async function renderGameCardsDropdown() {
   selectedDiv.textContent = 'Select a Puzzle';
   customGameDropdown.appendChild(selectedDiv);
 
+  // Set initial tray label to empty
+  const labelElem = document.getElementById('available-pieces-label');
+  if (labelElem) labelElem.textContent = '';
+
   const listDiv = document.createElement('div');
   listDiv.className = 'custom-dropdown-list';
   listDiv.style.display = 'none';
@@ -119,6 +123,9 @@ async function renderGameCardsDropdown() {
       itemDiv.addEventListener('click', () => {
         selectedValue = game.fileName;
         selectedDiv.textContent = gameName;
+        // Set the game name in the tray header
+        const labelElem = document.getElementById('available-pieces-label');
+        if (labelElem) labelElem.textContent = gameName;
         listDiv.style.display = 'none';
         customGameDropdown.classList.remove('open');
         loadGame(game.fileName);
@@ -170,7 +177,9 @@ async function loadGame(dslFileName) {
   if (!dslFileName) return;
   console.log(`[GameLoader] Attempting to load DSL: ${dslFileName}`);
 
-  // Clear previous description
+  // Clear previous game name and description
+  const labelElem = document.getElementById('available-pieces-label');
+  if (labelElem) labelElem.textContent = '';
   const descElem = document.getElementById('game-description');
   if (descElem) {
     descElem.textContent = '';

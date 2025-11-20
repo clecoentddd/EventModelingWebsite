@@ -287,3 +287,6 @@ Level color classes (pastel, distinct from card colors)
   padding: 0 !important;
   margin: 0 !important;
 }
+#game-description {
+  max-width: 70%;
+}
