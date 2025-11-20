@@ -1,9 +1,19 @@
+/* Ensure game description wraps and stays within tray */
+#game-description {
+    display: inline-block;
+    max-width: 40vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    cursor: pointer;
+}
 /* Piece tray header row: title and description on same line */
 .piece-header-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1.5em;
+    gap: 0.5em;
     width: auto;
     max-width: 100%;
     margin-bottom: 0.5em;

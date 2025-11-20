@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="../flowRenderer/flow_canvas.css">
     <link rel="stylesheet" href="./game_controls.css">
     <link rel="stylesheet" href="./gameLayout.css">
+
     <link rel="stylesheet" href="./gameFlowRenderer.css">
     <link rel="stylesheet" href="./zoom.css">
     <link rel="stylesheet" href="./toast.css">
+    <link rel="stylesheet" href="./customDropdown.css">
 
     <link rel="icon" type="image/png" href="/favicon.png">
 </head>
@@ -31,7 +33,10 @@
         </div>
     </div>
 
-    <div id="game-cards" class="game-cards" role="list"></div>
+        <div class="game-cards-dropdown-row">
+            <label for="custom-game-dropdown" style="font-weight:600;margin-right:0.5em;">Choose Puzzle:</label>
+            <div id="custom-game-dropdown" class="custom-dropdown" tabindex="0"></div>
+        </div>
 </header>
 
 

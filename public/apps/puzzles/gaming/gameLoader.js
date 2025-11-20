@@ -19,7 +19,7 @@ import { highlightNextSlot, clearAllHighlights } from './puzzleGuide.js';
 
 // ------------------- DOM ELEMENTS -------------------
 const gridContainer = document.getElementById('grid-container');
-const gameCardsContainer = document.getElementById('game-cards'); // new container for cards
+const customGameDropdown = document.getElementById('custom-game-dropdown');
 const gameInfo = document.getElementById('game-info');
 
 window.currentGameConfig = null;
@@ -51,57 +51,110 @@ const AVAILABLE_GAMES = [
 ];
 
 // ------------------- BUILD CARD UI -------------------
-function renderGameCards() {
-  if (!gameCardsContainer) return;
-  gameCardsContainer.innerHTML = '';
 
-  AVAILABLE_GAMES.forEach((game) => {
-    const card = document.createElement('button');
-    card.className = 'game-card';
-    card.type = 'button';
-    card.textContent = game.description;
-    card.dataset.fileName = game.fileName;
 
-        // --- Add tooltip with description if available ---
-if (window.currentGameConfig && window.currentGameConfig.description) {
-  card.title = window.currentGameConfig.description;
-} else {
-  card.title = ''; // fallback
-}
+// --- Custom Dropdown Implementation ---
+async function renderGameCardsDropdown() {
+  if (!customGameDropdown) return;
+  customGameDropdown.innerHTML = '';
 
-    // Fetch DSL to get level & description
-    fetch(`../games/${game.fileName}`)
-      .then(r => r.text())
-      .then(dsl => {
+  // Fetch all DSLs to get level and description
+  const gamesWithMeta = await Promise.all(
+    AVAILABLE_GAMES.map(async (game) => {
+      try {
+        const dsl = await fetch(`../games/${game.fileName}`).then(r => r.text());
         const { level, description } = DslParser.parseDSL(dsl);
+        return { ...game, level: level || 1, description: description || game.description };
+      } catch {
+        return { ...game, level: 1, description: game.description };
+      }
+    })
+  );
 
-        // Remove any previous level class
-        card.classList.remove('level-1','level-2','level-3','level-4','level-5');
-        // Add level class for pastel background
-        if (level >= 1 && level <= 5) {
-          card.classList.add(`level-${level}`);
-        }
-        card.style.color = '#222';
-        card.title = description || '';
+  // Group by level
+  const levels = {};
+  gamesWithMeta.forEach(g => {
+    if (!levels[g.level]) levels[g.level] = [];
+    levels[g.level].push(g);
+  });
 
-        // Add a badge for the level
-        let badge = card.querySelector('.level-badge');
-        if (!badge) {
-          badge = document.createElement('span');
-          badge.className = 'level-badge';
-          card.appendChild(badge);
-        }
-        badge.textContent = `Level ${level || 1}`;
-      })
-      .catch(err => console.warn('[GameLoader] Failed to parse DSL for card tooltip', err));
 
-    card.addEventListener('click', () => {
-      document.querySelectorAll('.game-card').forEach((c) => c.classList.remove('active'));
-      card.classList.add('active');
-      loadGame(game.fileName);
+  // Build custom dropdown structure
+  const selectedDiv = document.createElement('div');
+  selectedDiv.className = 'custom-dropdown-selected';
+  selectedDiv.tabIndex = 0;
+  selectedDiv.textContent = 'Select a Puzzle';
+  customGameDropdown.appendChild(selectedDiv);
+
+  const listDiv = document.createElement('div');
+  listDiv.className = 'custom-dropdown-list';
+  listDiv.style.display = 'none';
+
+  // For tracking selected
+  let selectedValue = null;
+
+  Object.keys(levels).sort((a,b)=>a-b).forEach(level => {
+    // Level title row
+    const levelRow = document.createElement('div');
+    levelRow.className = `custom-dropdown-group level-${level}`;
+    levelRow.textContent = `Level ${level}`;
+    listDiv.appendChild(levelRow);
+
+    // Tags row (flex wrap)
+    const tagsRow = document.createElement('div');
+    tagsRow.className = 'custom-dropdown-tags-row';
+    tagsRow.style.display = 'flex';
+    tagsRow.style.flexWrap = 'wrap';
+    tagsRow.style.gap = '0.3em';
+    tagsRow.style.margin = '0.2em 0 0.7em 0';
+
+    levels[level].forEach(game => {
+      let gameName = game.name || game.fileName.replace(/\.dsl$/i, '');
+      const itemDiv = document.createElement('button');
+      itemDiv.type = 'button';
+      itemDiv.className = `custom-dropdown-item tag-level-${level}`;
+      itemDiv.textContent = gameName;
+      itemDiv.dataset.value = game.fileName;
+      itemDiv.style.height = '2.2em';
+      itemDiv.addEventListener('click', () => {
+        selectedValue = game.fileName;
+        selectedDiv.textContent = gameName;
+        listDiv.style.display = 'none';
+        customGameDropdown.classList.remove('open');
+        loadGame(game.fileName);
+        // Mark selected
+        listDiv.querySelectorAll('.custom-dropdown-item').forEach(btn => btn.classList.remove('selected'));
+        itemDiv.classList.add('selected');
+      });
+      tagsRow.appendChild(itemDiv);
     });
+    listDiv.appendChild(tagsRow);
+  });
+  customGameDropdown.appendChild(listDiv);
 
-    gameCardsContainer.appendChild(card);
+  // Dropdown open/close logic
+  function openDropdown() {
+    listDiv.style.display = 'block';
+    customGameDropdown.classList.add('open');
+  }
+  function closeDropdown() {
+    listDiv.style.display = 'none';
+    customGameDropdown.classList.remove('open');
+  }
+  selectedDiv.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (listDiv.style.display === 'block') closeDropdown();
+    else openDropdown();
+  });
+  selectedDiv.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (listDiv.style.display === 'block') closeDropdown();
+      else openDropdown();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (!customGameDropdown.contains(e.target)) closeDropdown();
   });
 }
 
@@ -119,7 +172,10 @@ async function loadGame(dslFileName) {
 
   // Clear previous description
   const descElem = document.getElementById('game-description');
-  if (descElem) descElem.textContent = '';
+  if (descElem) {
+    descElem.textContent = '';
+    descElem.removeAttribute('title');
+  }
 
   try {
     const dslPath = `../games/${dslFileName}`;
@@ -140,6 +196,7 @@ async function loadGame(dslFileName) {
     // Set game description if available
     if (descElem && gameConfig.description) {
       descElem.textContent = gameConfig.description;
+      descElem.title = gameConfig.description;
     }
     console.log(
       `[GameLoader] Game config loaded successfully. Columns: ${gameConfig.columns}, Pieces: ${gameConfig.availablePieces.length}`
@@ -452,5 +509,5 @@ document.addEventListener('DOMContentLoaded', () => {
     else clearMisplacedHighlights();
     return origCheckPuzzleState.apply(this, args);
   };
-  renderGameCards();
+  renderGameCardsDropdown();
 });

@@ -192,19 +192,19 @@
 Level color classes (pastel, distinct from card colors)
 */
 .level-1 {
-  background: #b3e5fc !important; /* pastel blue */
+  background: none !important; /* pastel blue */
 }
 .level-2 {
-  background: #ffe082 !important; /* pastel yellow */
+  background: none !important; /* pastel yellow */
 }
 .level-3 {
-  background: #d1c4e9 !important; /* pastel purple */
+  background: none !important; /* pastel purple */
 }
 .level-4 {
-  background: #ffccbc !important; /* pastel orange */
+  background: none !important; /* pastel orange */
 }
 .level-5 {
-  background: #c8e6c9 !important; /* pastel green */
+  background: none !important; /* pastel green */
 }
 
 .level-badge {
