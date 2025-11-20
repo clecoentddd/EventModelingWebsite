@@ -502,6 +502,45 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // --- ARROW TOGGLE LOGIC ---
+  const toggleArrows = document.getElementById('toggle-arrows');
+  if (toggleArrows) {
+    toggleArrows.addEventListener('change', async function () {
+      const svgElement = document.getElementById('flow-svg');
+      if (!svgElement) return;
+      if (!window.currentGameConfig) return;
+      if (this.checked) {
+        // Recompute arrows from current board state and DSL
+        const board = Renderer.getPieces ? Renderer.getPieces() : {};
+        const solutionMap = window.currentGameConfig.solutionMap;
+        const rawFlows = window.currentGameConfig.rawFlows;
+        const itemsForParser = [];
+        for (const key in solutionMap) {
+          const requiredPiece = solutionMap[key];
+          const placedPiece = board[key];
+          if (placedPiece && placedPiece.type === requiredPiece.type && placedPiece.name === requiredPiece.name) {
+            const [r, c] = key.split('_').map(Number);
+            itemsForParser.push({
+              id: requiredPiece.dslId,
+              type: placedPiece.type,
+              name: placedPiece.name,
+              c,
+              r,
+              conn: null,
+            });
+          }
+        }
+        const resolvedConnections = DslParser.resolveConnections(itemsForParser, rawFlows);
+        Renderer.setConnections(resolvedConnections.connections);
+        Renderer.renderArrows(svgElement);
+      } else {
+        // Hide arrows: clear connections and re-render
+        Renderer.setConnections([]);
+        Renderer.renderArrows(svgElement);
+      }
+    });
+  }
   // Clear highlights on board change or new game
   const origCheckPuzzleState = window.checkPuzzleState;
   window.checkPuzzleState = function(...args) {
